@@ -1,9 +1,16 @@
-﻿namespace SpaceX.Models
+﻿using Newtonsoft.Json;
+
+namespace SpaceX.Models
 {
     public class LaunchSite
     {
-        public string site_id { get; }
+        [JsonProperty("site_id")]
+        public string SiteId { get; set; }
 
-        public string site_name { get; }
+        [JsonProperty("site_name")]
+        public string SiteName { get; set; }
+
+        [JsonProperty("site_name_string")]
+        public string SiteNamestring { get; set; }
     }
 }

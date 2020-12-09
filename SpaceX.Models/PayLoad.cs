@@ -1,19 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
 namespace SpaceX.Models
 {
-    public class PayLoad
+    public class Payload
     {
-        public string payload_id { get; }
+        [JsonProperty("payload_id")]
+        public string PayloadId { get; set; }
 
-        public ICollection<object> customers { get; }
+        [JsonProperty("norad_id")]
+        public object[] NoradId { get; set; }
 
-        public string payload_type { get; }
+        [JsonProperty("reused")]
+        public string Reused { get; set; }
 
-        public int payload_mass_kg { get; }
+        [JsonProperty("customers")]
+        public string[] Customers { get; set; }
 
-        public int payload_mass_lbs { get; }
+        [JsonProperty("nationality")]
+        public string Nationality { get; set; }
 
-        public string orbit { get; }
+        [JsonProperty("manufacturer")]
+        public string Manufacturer { get; set; }
+
+        [JsonProperty("payload_type")]
+        public string PayloadType { get; set; }
+
+        [JsonProperty("payload_mass_kg")]
+        public string PayloadMassKg { get; set; }
+
+        [JsonProperty("payload_mass_lbs")]
+        public string PayloadMassLbs { get; set; }
+
+        [JsonProperty("orbit")]
+        public string Orbit { get; set; }
+
+        [JsonProperty("orbit_params")]
+        public OrbitParams OrbitParams { get; set; }
     }
 }

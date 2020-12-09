@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using SpaceX.Models;
-using System;
+using SpaceX.Services.Contracts;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
@@ -12,14 +11,23 @@ namespace SpaceX.Web.Controllers
     {
         private readonly string getAllLaunchesUrl = "https://api.spacexdata.com/v3/launches";
 
-        public async Task<ICollection<LaunchPlanModel>> GetAll()
+        private readonly ICreateExcelFileService _createExcelFileService;
+
+        public LaunchController(ICreateExcelFileService createExcelFileService)
+        {
+            _createExcelFileService = createExcelFileService;
+        }
+
+        public async Task<ICollection<LaunchPlan>> GetAll()
         {
             var client = new RestClient($"{getAllLaunchesUrl}");
             var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);
 
             IRestResponse response = client.Execute(request);
 
-            var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlanModel>>(response.Content);
+            var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
+
+            //_createExcelFileService.ExportToExcel(launchList);
 
             return launchList;
         }
