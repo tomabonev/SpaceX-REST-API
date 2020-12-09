@@ -1,7 +1,10 @@
-﻿namespace SpaceX.Models
+﻿using Newtonsoft.Json;
+
+namespace SpaceX.Models
 {
     public class Telemetry
     {
-        public object flight_club { get; }
+        [JsonProperty("flight_club")]
+        public object FlightClub { get; set; }
     }
 }

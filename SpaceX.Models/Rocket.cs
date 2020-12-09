@@ -1,11 +1,25 @@
-﻿namespace SpaceX.Models
+﻿using Newtonsoft.Json;
+
+namespace SpaceX.Models
 {
     public class Rocket
     {
-        public string rocket_id { get; }
+        [JsonProperty("rocket_id")]
+        public string RocketId { get; set; }
 
-        public string rocket_name { get; }
+        [JsonProperty("rocket_name")]
+        public string RocketName { get; set; }
 
-        public string rocket_type { get; }
+        [JsonProperty("rocket_type")]
+        public string RocketType { get; set; }
+
+        [JsonProperty("first_stage")]
+        public FirstStage FirstStage { get; set; }
+
+        [JsonProperty("second_stage")]
+        public SecondStage SecondStage { get; set; }
+
+        [JsonProperty("fairings")]
+        public Fairings Fairings { get; set; }
     }
 }
