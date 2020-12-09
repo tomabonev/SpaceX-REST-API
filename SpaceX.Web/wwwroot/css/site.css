@@ -12,11 +12,24 @@ a {
   color: #0366d6;
 }
 
-.btn-primary {
+/*.btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}*/
+
+.btn {
+    background-color: #2B2B2B;
+    border-color: #2B2B2B;
+    color: white;
 }
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+        background-color: #2B2B2B !important;
+        border-color: #2B2B2B;
+}
+
+
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
