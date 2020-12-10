@@ -3,6 +3,7 @@ using RestSharp;
 using SpaceX.Models;
 using SpaceX.Services.Contracts;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
@@ -18,7 +19,7 @@ namespace SpaceX.Web.Controllers
             _createExcelFileService = createExcelFileService;
         }
 
-        public async Task<ICollection<LaunchPlan>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             var client = new RestClient($"{getAllLaunchesUrl}");
             var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);
@@ -27,9 +28,16 @@ namespace SpaceX.Web.Controllers
 
             var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
 
-            //_createExcelFileService.ExportToExcel(launchList);
-
-            return launchList;
+            using (var workbook = await _createExcelFileService.PopulateDataToExcel(launchList))
+            {
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "LaunchPlan.xlsx");
+                }
+            }
         }
     }
 }

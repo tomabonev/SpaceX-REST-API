@@ -12,8 +12,8 @@ namespace SpaceX.Models
         [JsonProperty("regime")]
         public string Regime { get; set; }
 
-        [JsonProperty("stringitude")]
-        public object stringitude { get; set; }
+        [JsonProperty("longitude")]
+        public object Longitude { get; set; }
 
         [JsonProperty("semi_major_axis_km")]
         public object SemiMajorAxisKm { get; set; }
