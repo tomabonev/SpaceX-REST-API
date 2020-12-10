@@ -1,13 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "SpaceX";
 }
 
-<h2 style="color:black">Welcome to SpaceX launching center </h2>
-<hr />
-
-<div>
-    <b>Download SpaceX launching plans: </b>
-    &nbsp;
-    <a asp-controller="Launch" asp-action="GetAll" class="btn btn-default">All Launches</a>
-    &nbsp;
+<div class="card mb-3">
+    <h3 class="card-header">Welcome to SpaceX Launching center</h3>
+    <img alt="Download SpaceX launching plans:" src="https://spacenews.com/wp-content/uploads/2020/10/demo2-launch-879x485.jpg">
+    <div class="card-body">
+        <h5 class="card-title">Download SpaceX launching plans</h5>
+        <p class="card-text">Please select a format:</p>
+        <a asp-action="GetAll" class="btn btn-default" asp-controller="Launch">in Excel</a>
+        <a asp-action="GetAll" class="btn btn-default" asp-controller="Launch">in PDF</a>
+    </div>
+    <div class="card-footer text-muted">
+        2 days ago
+    </div>
 </div>

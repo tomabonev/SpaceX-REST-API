@@ -70,7 +70,7 @@ namespace SpaceX.Web.Controllers
                 //worksheet.Cell(currentRow, 17).Value = "Fairing Recovery Attempt";
                 //worksheet.Cell(currentRow, 18).Value = "Fairing Recovered";
                 //worksheet.Cell(currentRow, 19).Value = "Fairing Ship";
-
+                
                 foreach (var item in launchList)
                 {
                     currentRow++;
@@ -112,8 +112,10 @@ namespace SpaceX.Web.Controllers
                    
                 }
 
+                worksheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+
                 using (var stream = new MemoryStream())
-                {
+                {             
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
                     return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
