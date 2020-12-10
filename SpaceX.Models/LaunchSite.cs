@@ -12,8 +12,8 @@ namespace SpaceX.Models
         [JsonProperty("site_name")]
         public string SiteName { get; set; }
 
-        [JsonProperty("site_name_string")]
-        public string SiteNamestring { get; set; }
+        [JsonProperty("site_name_long")]
+        public string SiteNameLong { get; set; }
 
         #endregion
     }
