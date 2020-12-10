@@ -2,29 +2,34 @@
 using SpaceX.Models;
 using SpaceX.Services.Contracts;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpaceX.Services
 {
     public class CreateExcelFileService : ICreateExcelFileService
     {
-        public bool ExportToExcel(List<LaunchPlan> launchPlans)
+        public async Task<XLWorkbook> PopulateDataToExcel(List<LaunchPlan> launchPlans)
         {
-            var workbook = new XLWorkbook();
-
-            IXLWorksheet worksheet = workbook.Worksheets.Add("Launch Plan");
-
-            worksheet.Cell(1, 1).Value = "flight_number";
-            worksheet.Cell(1, 2).Value = "landing_type";
-            worksheet.Cell(1, 3).Value = "landing_vehicle";
-
-            for (int index = 1; index <= launchPlans.Count; index++)
+            using (var workbook = new XLWorkbook())
             {
-                worksheet.Cell(index + 1, 1).Value = launchPlans[index - 1].FlightNumber;
-                worksheet.Cell(index + 1, 2).Value = launchPlans[index - 1].IsTentative;
-                worksheet.Cell(index + 1, 3).Value = launchPlans[index - 1].LaunchYear;
-            }
+                IXLWorksheet worksheet = workbook.Worksheets.Add("Launch Plan");
 
-            return true;
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "FlightNumber";
+                worksheet.Cell(currentRow, 2).Value = "MissionName";
+                worksheet.Cell(currentRow, 3).Value = "Upcoming";
+
+                foreach (var item in launchPlans)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.FlightNumber;
+                    worksheet.Cell(currentRow, 2).Value = item.MissionName;
+                    worksheet.Cell(currentRow, 3).Value = item.Upcoming;
+                }
+
+                return workbook;
+            }
         }
     }
 }
