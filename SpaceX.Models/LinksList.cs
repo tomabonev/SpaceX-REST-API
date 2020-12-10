@@ -3,8 +3,10 @@ using System;
 
 namespace SpaceX.Models
 {
-    public class Links
+    public class LinksList
     {
+        #region Links List Properties
+
         [JsonProperty("mission_patch")]
         public Uri MissionPatch { get; set; }
 
@@ -40,5 +42,7 @@ namespace SpaceX.Models
 
         [JsonProperty("flickr_images")]
         public object[] FlickrImages { get; set; }
+
+        #endregion
     }
 }

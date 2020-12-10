@@ -4,6 +4,8 @@ namespace SpaceX.Models
 {
     public class Rocket
     {
+        #region Rocket Properties
+
         [JsonProperty("rocket_id")]
         public string RocketId { get; set; }
 
@@ -20,6 +22,8 @@ namespace SpaceX.Models
         public SecondStage SecondStage { get; set; }
 
         [JsonProperty("fairings")]
-        public Fairings Fairings { get; set; }
+        public Fairing Fairings { get; set; }
+
+        #endregion
     }
 }

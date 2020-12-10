@@ -2,8 +2,10 @@
 
 namespace SpaceX.Models
 {
-    public partial class OrbitParams
+    public class OrbitParam
     {
+        #region Orbit Param Properties
+
         [JsonProperty("reference_system")]
         public string ReferenceSystem { get; set; }
 
@@ -48,5 +50,7 @@ namespace SpaceX.Models
 
         [JsonProperty("mean_anomaly")]
         public object MeanAnomaly { get; set; }
+
+        #endregion
     }
 }

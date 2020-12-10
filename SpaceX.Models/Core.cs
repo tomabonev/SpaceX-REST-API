@@ -2,8 +2,10 @@
 
 namespace SpaceX.Models
 {
-    public partial class Core
+    public class Core
     {
+        #region Core Properties
+
         [JsonProperty("core_serial")]
         public string CoreSerial { get; set; }
 
@@ -33,5 +35,7 @@ namespace SpaceX.Models
 
         [JsonProperty("landing_vehicle")]
         public object LandingVehicle { get; set; }
+
+        #endregion
     }
 }

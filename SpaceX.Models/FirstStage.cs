@@ -2,9 +2,13 @@
 
 namespace SpaceX.Models
 {
-    public partial class FirstStage
+    public class FirstStage
     {
+        #region First Stage Properties
+
         [JsonProperty("cores")]
         public Core[] Cores { get; set; }
+
+        #endregion
     }
 }

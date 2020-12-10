@@ -2,8 +2,10 @@
 
 namespace SpaceX.Models
 {
-    public class LaunchFailureDetails
+    public class LaunchFailureInfo
     {
+        #region Launch Failure Info Properties
+
         [JsonProperty("time")]
         public string Time { get; set; }
 
@@ -12,5 +14,7 @@ namespace SpaceX.Models
 
         [JsonProperty("reason")]
         public string Reason { get; set; }
+
+        #endregion
     }
 }
