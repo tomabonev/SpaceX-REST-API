@@ -25,8 +25,9 @@ a {
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
-        background-color: #2B2B2B !important;
-        border-color: #2B2B2B;
+    background-color: white !important;
+    border-color: #2B2B2B;
+    color: #2B2B2B;
 }
 
 
