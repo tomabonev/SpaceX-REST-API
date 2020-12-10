@@ -8,10 +8,10 @@ namespace SpaceX.Models
         #region Links List Properties
 
         [JsonProperty("mission_patch")]
-        public Uri MissionPatch { get; set; }
+        public string MissionPatch { get; set; }
 
         [JsonProperty("mission_patch_small")]
-        public Uri MissionPatchSmall { get; set; }
+        public string MissionPatchSmall { get; set; }
 
         [JsonProperty("reddit_campaign")]
         public object RedditCampaign { get; set; }
@@ -29,13 +29,13 @@ namespace SpaceX.Models
         public object Presskit { get; set; }
 
         [JsonProperty("article_link")]
-        public Uri ArticleLink { get; set; }
+        public string ArticleLink { get; set; }
 
         [JsonProperty("wikipedia")]
-        public Uri Wikipedia { get; set; }
+        public string Wikipedia { get; set; }
 
         [JsonProperty("video_link")]
-        public Uri VideoLink { get; set; }
+        public string VideoLink { get; set; }
 
         [JsonProperty("youtube_id")]
         public string YoutubeId { get; set; }

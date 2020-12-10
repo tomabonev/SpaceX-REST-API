@@ -10,7 +10,7 @@ namespace SpaceX.Models
         public string Time { get; set; }
 
         [JsonProperty("altitude")]
-        public object Altitude { get; set; }
+        public int? Altitude { get; set; }
 
         [JsonProperty("reason")]
         public string Reason { get; set; }
