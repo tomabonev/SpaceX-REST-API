@@ -2,8 +2,10 @@
 
 namespace SpaceX.Models
 {
-    public class Fairings
+    public class Fairing
     {
+        #region Fairing Properties
+
         [JsonProperty("reused")]
         public string Reused { get; set; }
 
@@ -15,5 +17,7 @@ namespace SpaceX.Models
 
         [JsonProperty("ship")]
         public object Ship { get; set; }
+
+        #endregion
     }
 }

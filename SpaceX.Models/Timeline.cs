@@ -2,9 +2,13 @@
 
 namespace SpaceX.Models
 {
-    public partial class Timeline
+    public class Timeline
     {
+        #region Timeline Properties
+
         [JsonProperty("webcast_liftoff")]
         public string WebcastLiftoff { get; set; }
+
+        #endregion
     }
 }

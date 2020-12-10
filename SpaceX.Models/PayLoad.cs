@@ -4,6 +4,8 @@ namespace SpaceX.Models
 {
     public class Payload
     {
+        #region Payload Properties
+
         [JsonProperty("payload_id")]
         public string PayloadId { get; set; }
 
@@ -35,6 +37,8 @@ namespace SpaceX.Models
         public string Orbit { get; set; }
 
         [JsonProperty("orbit_params")]
-        public OrbitParams OrbitParams { get; set; }
+        public OrbitParam OrbitParams { get; set; }
+
+        #endregion
     }
 }

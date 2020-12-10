@@ -3,8 +3,10 @@ using System;
 
 namespace SpaceX.Models
 {
-    public partial class LaunchPlan
+    public class LaunchPlan
     {
+        #region Launch Plan Properties
+
         [JsonProperty("flight_number")]
         public string FlightNumber { get; set; }
 
@@ -57,10 +59,10 @@ namespace SpaceX.Models
         public string LaunchSuccess { get; set; }
 
         [JsonProperty("launch_failure_details")]
-        public LaunchFailureDetails LaunchFailureDetails { get; set; }
+        public LaunchFailureInfo LaunchFailureDetails { get; set; }
 
         [JsonProperty("links")]
-        public Links Links { get; set; }
+        public LinksList Links { get; set; }
 
         [JsonProperty("details")]
         public string Details { get; set; }
@@ -73,5 +75,7 @@ namespace SpaceX.Models
 
         [JsonProperty("timeline")]
         public Timeline Timeline { get; set; }
+
+        #endregion
     }             
 }
