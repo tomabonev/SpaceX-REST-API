@@ -7,13 +7,13 @@ namespace SpaceX.Models
         #region Fairing Properties
 
         [JsonProperty("reused")]
-        public string Reused { get; set; }
+        public bool? Reused { get; set; }
 
         [JsonProperty("recovery_attempt")]
-        public string RecoveryAttempt { get; set; }
+        public bool? RecoveryAttempt { get; set; }
 
         [JsonProperty("recovered")]
-        public string Recovered { get; set; }
+        public bool? Recovered { get; set; }
 
         [JsonProperty("ship")]
         public object Ship { get; set; }

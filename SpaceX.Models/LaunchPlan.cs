@@ -59,7 +59,7 @@ namespace SpaceX.Models
         public string LaunchSuccess { get; set; }
 
         [JsonProperty("launch_failure_details")]
-        public LaunchFailureInfo LaunchFailureDetails { get; set; }
+        public LaunchFailureInfo LaunchFailureDetails { get; set; } = new LaunchFailureInfo();
 
         [JsonProperty("links")]
         public LinksList Links { get; set; }
