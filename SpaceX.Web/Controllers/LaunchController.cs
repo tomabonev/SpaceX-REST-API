@@ -14,10 +14,12 @@ namespace SpaceX.Web.Controllers
         private readonly string getAllLaunchesUrl = "https://api.spacexdata.com/v3/launches";
 
         private readonly ICreateExcelFileService _createExcelFileService;
+        private readonly ICreatePdfFileService _createPdfFileService;
 
-        public LaunchController(ICreateExcelFileService createExcelFileService)
+        public LaunchController(ICreateExcelFileService createExcelFileService, ICreatePdfFileService createPdfFileService)
         {
             _createExcelFileService = createExcelFileService;
+            _createPdfFileService = createPdfFileService;
         }
 
         public async Task<IActionResult> GetAll()
@@ -247,7 +249,7 @@ namespace SpaceX.Web.Controllers
                     #endregion
                 }
 
-                    #endregion
+                #endregion
 
                 launchPlanSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
@@ -259,6 +261,22 @@ namespace SpaceX.Web.Controllers
                         "LaunchPlan.xlsx");
                 }
             }
+        }
+
+        public IActionResult GetPdfReport()
+        {
+            var client = new RestClient($"{getAllLaunchesUrl}");
+            var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
+
+            //List<LaunchPlan> launchPlan = new List<LaunchPlan>();
+
+            var valueToReturn = _createPdfFileService.Report(launchList);
+
+            return File(valueToReturn, "application/pdf");
         }
     }
 }

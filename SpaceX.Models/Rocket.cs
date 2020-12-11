@@ -22,7 +22,7 @@ namespace SpaceX.Models
         public SecondStage SecondStage { get; set; }
 
         [JsonProperty("fairings")]
-        public Fairing? Fairings { get; set; } = new Fairing();
+        public Fairing Fairings { get; set; } = new Fairing();
 
         #endregion
     }

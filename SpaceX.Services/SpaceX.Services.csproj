@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.95.3" />
-    <PackageReference Include="EPPlus" Version="5.4.2" />
+    <PackageReference Include="EPPlus" Version="5.4.2" />    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
