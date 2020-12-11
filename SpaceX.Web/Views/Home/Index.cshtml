@@ -2,16 +2,21 @@
     ViewData["Title"] = "SpaceX";
 }
 
-<div class="card mb-3">
-    <h3 class="card-header">Welcome to SpaceX Launching center</h3>
-    <img alt="Download SpaceX launching plans:" src="https://spacenews.com/wp-content/uploads/2020/10/demo2-launch-879x485.jpg">
-    <div class="card-body">
-        <h5 class="card-title">Download SpaceX launching plans</h5>
-        <p class="card-text">Please select a format:</p>
-        <a asp-action="GetAll" class="btn btn-default" asp-controller="Launch">in Excel</a>
-        <a asp-action="GetAll" class="btn btn-default" asp-controller="Launch">in PDF</a>
+<br />
+<br />
+<div class="container">
+    <h1>Dive deep into the SpaceX launch plans...</h1>
+    <br />
+    <br />
+    <h4>Download data to:</h4>
+    <div style="text-align: center">
+        <button ID="btnSubmit" asp-controller="Launch" asp-action="GetAll">Excel</button>
+        <button ID="btnSubmit" asp-controller="Launch" asp-action="GetAll">PDF</button>
+        @*<a asp-action="GetAll" class="btn btn-default" asp-controller="Launch">in Excel</a>
+        <a asp-action="GetAll" class="btn btn-default" asp-controller="Launch">in PDF</a>*@
     </div>
-    <div class="card-footer text-muted">
-        2 days ago
-    </div>
+</div>
+
+<div>
+    <img id="rocket" class="bottomleft" src="~/images/rocket_image.gif" />
 </div>
