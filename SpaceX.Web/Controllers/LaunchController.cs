@@ -78,7 +78,7 @@ namespace SpaceX.Web.Controllers
                 launchPlanSheet.Cell(currentRow, 34).Value = "Details";
                 launchPlanSheet.Cell(currentRow, 35).Value = "Static Fire Date";
                 launchPlanSheet.Cell(currentRow, 36).Value = "Static Fire Date Unix";
-                //launchPlanSheet.Cell(currentRow, 37).Value = "Webcast Liftoff";
+                launchPlanSheet.Cell(currentRow, 37).Value = "Webcast Liftoff";
 
                 #endregion
 
@@ -88,9 +88,10 @@ namespace SpaceX.Web.Controllers
                 rocketSheet.Cell(currentRow, 2).Value = "Rocket Id";
                 rocketSheet.Cell(currentRow, 3).Value = "Rocket Name";
                 rocketSheet.Cell(currentRow, 4).Value = "Rocket Type";
-                //rocketSheet.Cell(currentRow, 5).Value = "Reused";
-                //rocketSheet.Cell(currentRow, 6).Value = "Recovery Attempt";
-                //rocketSheet.Cell(currentRow, 7).Value = "Ship";
+                rocketSheet.Cell(currentRow, 5).Value = "Reused";
+                rocketSheet.Cell(currentRow, 6).Value = "Recovery Attempt";
+                rocketSheet.Cell(currentRow, 7).Value = "Recovered";
+                rocketSheet.Cell(currentRow, 8).Value = "Ship";
 
                 #endregion
 
@@ -183,16 +184,16 @@ namespace SpaceX.Web.Controllers
                     launchPlanSheet.Cell(currentRow, 34).Value = launchPlanItem.Details;
                     launchPlanSheet.Cell(currentRow, 35).Value = launchPlanItem.StaticFireDateUtc;
                     launchPlanSheet.Cell(currentRow, 36).Value = launchPlanItem.StaticFireDateUnix;
-                    //launchPlanSheet.Cell(currentRow, 37).Value = item.Timeline.WebcastLiftoff;
+                    launchPlanSheet.Cell(currentRow, 37).Value = launchPlanItem.Timeline?.WebcastLiftoff ?? null;
 
                     rocketSheet.Cell(currentRow, 1).Value = launchPlanItem.MissionName;
                     rocketSheet.Cell(currentRow, 2).Value = launchPlanItem.Rocket.RocketId;
                     rocketSheet.Cell(currentRow, 3).Value = launchPlanItem.Rocket.RocketName;
                     rocketSheet.Cell(currentRow, 4).Value = launchPlanItem.Rocket.RocketType;
-                    //rocketSheet.Cell(currentRow, 5).Value = item.Rocket.Fairings.Reused;
-                    //rocketSheet.Cell(currentRow, 6).Value = item.Rocket.Fairings.RecoveryAttempt;
-                    //rocketSheet.Cell(currentRow, 7).Value = item.Rocket.Fairings.Recovered;
-                    //rocketSheet.Cell(currentRow, 8).Value = item.Rocket.Fairings.Ship;
+                    rocketSheet.Cell(currentRow, 5).Value = launchPlanItem.Rocket.Fairings?.Reused ?? null;
+                    rocketSheet.Cell(currentRow, 6).Value = launchPlanItem.Rocket.Fairings?.RecoveryAttempt ?? null;
+                    rocketSheet.Cell(currentRow, 7).Value = launchPlanItem.Rocket.Fairings?.Recovered ?? null;
+                    rocketSheet.Cell(currentRow, 8).Value = launchPlanItem.Rocket.Fairings?.Ship ?? null;
 
                     #region Rocket First Stage Excel Population
 
@@ -263,7 +264,7 @@ namespace SpaceX.Web.Controllers
             }
         }
 
-        public IActionResult GetPdfReport()
+        public IActionResult LaunchDataSpaceX()
         {
             var client = new RestClient($"{getAllLaunchesUrl}");
             var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);

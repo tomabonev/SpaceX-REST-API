@@ -60,7 +60,7 @@ namespace SpaceX.Services
             return _memoryStream.ToArray();
         }
 
-        private void ReportHeader()
+        public void ReportHeader()
         {
             _pdfCell = new PdfPCell(this.SetPageTitle());
             _pdfCell.Colspan = _maxColumn - 1;
@@ -70,13 +70,13 @@ namespace SpaceX.Services
             _pdfTable.CompleteRow();
         }
 
-        private PdfPTable SetPageTitle()
+        public PdfPTable SetPageTitle()
         {
             int maxColumn = 3;
             PdfPTable pdfPTable = new PdfPTable(maxColumn);
 
             _fontStyle = FontFactory.GetFont("Tahoma", 18f, 1);
-            _pdfCell = new PdfPCell(new Phrase("Launch info", _fontStyle));
+            _pdfCell = new PdfPCell(new Phrase("SpaceX Launch data", _fontStyle));
             _pdfCell.Colspan = maxColumn;
             _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             _pdfCell.Border = 0;
@@ -96,11 +96,11 @@ namespace SpaceX.Services
             return pdfPTable;
         }
 
-        private void EmptyRow(int nCount)
+        public void EmptyRow(int nCount)
         {
             for (int i = 1; i < nCount; i++)
             {
-                _pdfCell = new PdfPCell(new Phrase("Specifications", _fontStyle));
+                _pdfCell = new PdfPCell(new Phrase("Launch Data:", _fontStyle));
                 _pdfCell.Colspan = _maxColumn;
                 _pdfCell.Border = 0;
                 _pdfCell.ExtraParagraphSpace = 10;
@@ -109,7 +109,7 @@ namespace SpaceX.Services
             }
         }
 
-        private void ReportBody()
+        public void ReportBody()
         {
             var fontStyleBold = FontFactory.GetFont("Tahoma", 9f, 1);
             _fontStyle = FontFactory.GetFont("Tahoma", 9f, 0);
