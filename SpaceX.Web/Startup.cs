@@ -22,6 +22,7 @@ namespace SpaceX.Web
         {
             services.AddControllersWithViews();
             services.AddScoped<ICreateExcelFileService, CreateExcelFileService>();
+            services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
