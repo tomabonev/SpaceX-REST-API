@@ -277,7 +277,7 @@ namespace SpaceX.Web.Controllers
 
             var valueToReturn = _createPdfFileService.Report(launchList);
 
-            return File(valueToReturn, "application/pdf");
+            return File(valueToReturn, "application/pdf", "SpaceX Launches.pdf");
         }
     }
 }
