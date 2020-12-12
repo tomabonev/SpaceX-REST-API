@@ -80,13 +80,14 @@ namespace SpaceX.Services
                 rocketFirstStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
                 rocketFirstStageSheet.Cell(currentRow, 3).Value = "Core Serial";
                 rocketFirstStageSheet.Cell(currentRow, 4).Value = "Flight";
-                rocketFirstStageSheet.Cell(currentRow, 5).Value = "Gridfins";
-                rocketFirstStageSheet.Cell(currentRow, 6).Value = "Legs";
-                rocketFirstStageSheet.Cell(currentRow, 7).Value = "Reused";
-                rocketFirstStageSheet.Cell(currentRow, 8).Value = "Land Success";
-                rocketFirstStageSheet.Cell(currentRow, 9).Value = "Landing Intent";
-                rocketFirstStageSheet.Cell(currentRow, 10).Value = "Landing Type";
-                rocketFirstStageSheet.Cell(currentRow, 11).Value = "Landing Vehicle";
+                rocketFirstStageSheet.Cell(currentRow, 5).Value = "Block";
+                rocketFirstStageSheet.Cell(currentRow, 6).Value = "Gridfins";
+                rocketFirstStageSheet.Cell(currentRow, 7).Value = "Legs";
+                rocketFirstStageSheet.Cell(currentRow, 8).Value = "Reused";
+                rocketFirstStageSheet.Cell(currentRow, 9).Value = "Land Success";
+                rocketFirstStageSheet.Cell(currentRow, 10).Value = "Landing Intent";
+                rocketFirstStageSheet.Cell(currentRow, 11).Value = "Landing Type";
+                rocketFirstStageSheet.Cell(currentRow, 12).Value = "Landing Vehicle";
 
                 #endregion
 
@@ -103,22 +104,23 @@ namespace SpaceX.Services
                 rocketSecondStageSheet.Cell(currentRow, 9).Value = "PayloadType";
                 rocketSecondStageSheet.Cell(currentRow, 10).Value = "Payload Mass Kg";
                 rocketSecondStageSheet.Cell(currentRow, 11).Value = "Payload Mass Lbs";
-                rocketSecondStageSheet.Cell(currentRow, 12).Value = "Reference System";
-                rocketSecondStageSheet.Cell(currentRow, 13).Value = "Regime";
-                rocketSecondStageSheet.Cell(currentRow, 14).Value = "Longitude";
-                rocketSecondStageSheet.Cell(currentRow, 15).Value = "Semi-Major Axis Km";
-                rocketSecondStageSheet.Cell(currentRow, 16).Value = "Eccentricity";
-                rocketSecondStageSheet.Cell(currentRow, 17).Value = "Periapsis Km";
-                rocketSecondStageSheet.Cell(currentRow, 18).Value = "Apoapsis Km";
-                rocketSecondStageSheet.Cell(currentRow, 19).Value = "Inclination Deg";
-                rocketSecondStageSheet.Cell(currentRow, 20).Value = "Period Min";
-                rocketSecondStageSheet.Cell(currentRow, 21).Value = "Lifespan Years";
-                rocketSecondStageSheet.Cell(currentRow, 22).Value = "Epoch";
-                rocketSecondStageSheet.Cell(currentRow, 23).Value = "Mean Motion";
-                rocketSecondStageSheet.Cell(currentRow, 24).Value = "Raan";
-                rocketSecondStageSheet.Cell(currentRow, 25).Value = "Arg Of Pericenter";
-                rocketSecondStageSheet.Cell(currentRow, 26).Value = "Mean Anomaly";
-                rocketSecondStageSheet.Cell(currentRow, 27).Value = "Block";
+                rocketSecondStageSheet.Cell(currentRow, 12).Value = "Orbit";
+                rocketSecondStageSheet.Cell(currentRow, 13).Value = "Reference System";
+                rocketSecondStageSheet.Cell(currentRow, 14).Value = "Regime";
+                rocketSecondStageSheet.Cell(currentRow, 15).Value = "Longitude";
+                rocketSecondStageSheet.Cell(currentRow, 16).Value = "Semi-Major Axis Km";
+                rocketSecondStageSheet.Cell(currentRow, 17).Value = "Eccentricity";
+                rocketSecondStageSheet.Cell(currentRow, 18).Value = "Periapsis Km";
+                rocketSecondStageSheet.Cell(currentRow, 19).Value = "Apoapsis Km";
+                rocketSecondStageSheet.Cell(currentRow, 20).Value = "Inclination Deg";
+                rocketSecondStageSheet.Cell(currentRow, 21).Value = "Period Min";
+                rocketSecondStageSheet.Cell(currentRow, 22).Value = "Lifespan Years";
+                rocketSecondStageSheet.Cell(currentRow, 23).Value = "Epoch";
+                rocketSecondStageSheet.Cell(currentRow, 24).Value = "Mean Motion";
+                rocketSecondStageSheet.Cell(currentRow, 25).Value = "Raan";
+                rocketSecondStageSheet.Cell(currentRow, 26).Value = "Arg Of Pericenter";
+                rocketSecondStageSheet.Cell(currentRow, 27).Value = "Mean Anomaly";
+                rocketSecondStageSheet.Cell(currentRow, 28).Value = "Block";
 
                 #endregion
 
@@ -182,13 +184,14 @@ namespace SpaceX.Services
                         rocketFirstStageSheet.Cell(currentRow, 2).Value = launchPlanItem.Rocket.RocketName;
                         rocketFirstStageSheet.Cell(currentRow, 3).Value = firstStage.CoreSerial;
                         rocketFirstStageSheet.Cell(currentRow, 4).Value = firstStage.Flight;
-                        rocketFirstStageSheet.Cell(currentRow, 5).Value = firstStage.Gridfins;
-                        rocketFirstStageSheet.Cell(currentRow, 6).Value = firstStage.Legs;
-                        rocketFirstStageSheet.Cell(currentRow, 7).Value = firstStage.Reused;
-                        rocketFirstStageSheet.Cell(currentRow, 8).Value = firstStage.LandSuccess;
-                        rocketFirstStageSheet.Cell(currentRow, 9).Value = firstStage.LandingIntent;
-                        rocketFirstStageSheet.Cell(currentRow, 10).Value = firstStage.LandingType;
-                        rocketFirstStageSheet.Cell(currentRow, 11).Value = firstStage.LandingVehicle;
+                        rocketFirstStageSheet.Cell(currentRow, 5).Value = firstStage.Block;
+                        rocketFirstStageSheet.Cell(currentRow, 6).Value = firstStage.Gridfins;
+                        rocketFirstStageSheet.Cell(currentRow, 7).Value = firstStage.Legs;
+                        rocketFirstStageSheet.Cell(currentRow, 8).Value = firstStage.Reused;
+                        rocketFirstStageSheet.Cell(currentRow, 9).Value = firstStage.LandSuccess;
+                        rocketFirstStageSheet.Cell(currentRow, 10).Value = firstStage.LandingIntent;
+                        rocketFirstStageSheet.Cell(currentRow, 11).Value = firstStage.LandingType;
+                        rocketFirstStageSheet.Cell(currentRow, 12).Value = firstStage.LandingVehicle;
                     }
 
                     #endregion
@@ -208,22 +211,23 @@ namespace SpaceX.Services
                         rocketSecondStageSheet.Cell(currentRow, 9).Value = secondStage.PayloadType;
                         rocketSecondStageSheet.Cell(currentRow, 10).Value = secondStage.PayloadMassKg;
                         rocketSecondStageSheet.Cell(currentRow, 11).Value = secondStage.PayloadMassLbs;
-                        rocketSecondStageSheet.Cell(currentRow, 12).Value = secondStage.OrbitParams.ReferenceSystem;
-                        rocketSecondStageSheet.Cell(currentRow, 13).Value = secondStage.OrbitParams.Regime;
-                        rocketSecondStageSheet.Cell(currentRow, 14).Value = secondStage.OrbitParams.Longitude;
-                        rocketSecondStageSheet.Cell(currentRow, 15).Value = secondStage.OrbitParams.SemiMajorAxisKm;
-                        rocketSecondStageSheet.Cell(currentRow, 16).Value = secondStage.OrbitParams.Eccentricity;
-                        rocketSecondStageSheet.Cell(currentRow, 17).Value = secondStage.OrbitParams.PeriapsisKm;
-                        rocketSecondStageSheet.Cell(currentRow, 18).Value = secondStage.OrbitParams.ApoapsisKm;
-                        rocketSecondStageSheet.Cell(currentRow, 19).Value = secondStage.OrbitParams.InclinationDeg;
-                        rocketSecondStageSheet.Cell(currentRow, 20).Value = secondStage.OrbitParams.PeriodMin;
-                        rocketSecondStageSheet.Cell(currentRow, 21).Value = secondStage.OrbitParams.LifespanYears;
-                        rocketSecondStageSheet.Cell(currentRow, 22).Value = secondStage.OrbitParams.Epoch;
-                        rocketSecondStageSheet.Cell(currentRow, 23).Value = secondStage.OrbitParams.MeanMotion;
-                        rocketSecondStageSheet.Cell(currentRow, 24).Value = secondStage.OrbitParams.Raan;
-                        rocketSecondStageSheet.Cell(currentRow, 25).Value = secondStage.OrbitParams.ArgOfPericenter;
-                        rocketSecondStageSheet.Cell(currentRow, 26).Value = secondStage.OrbitParams.MeanAnomaly;
-                        rocketSecondStageSheet.Cell(currentRow, 27).Value = launchPlanItem.Rocket.SecondStage.Block;
+                        rocketSecondStageSheet.Cell(currentRow, 12).Value = secondStage.Orbit;
+                        rocketSecondStageSheet.Cell(currentRow, 13).Value = secondStage.OrbitParams.ReferenceSystem;
+                        rocketSecondStageSheet.Cell(currentRow, 14).Value = secondStage.OrbitParams.Regime;
+                        rocketSecondStageSheet.Cell(currentRow, 15).Value = secondStage.OrbitParams.Longitude;
+                        rocketSecondStageSheet.Cell(currentRow, 16).Value = secondStage.OrbitParams.SemiMajorAxisKm;
+                        rocketSecondStageSheet.Cell(currentRow, 17).Value = secondStage.OrbitParams.Eccentricity;
+                        rocketSecondStageSheet.Cell(currentRow, 18).Value = secondStage.OrbitParams.PeriapsisKm;
+                        rocketSecondStageSheet.Cell(currentRow, 19).Value = secondStage.OrbitParams.ApoapsisKm;
+                        rocketSecondStageSheet.Cell(currentRow, 20).Value = secondStage.OrbitParams.InclinationDeg;
+                        rocketSecondStageSheet.Cell(currentRow, 21).Value = secondStage.OrbitParams.PeriodMin;
+                        rocketSecondStageSheet.Cell(currentRow, 22).Value = secondStage.OrbitParams.LifespanYears;
+                        rocketSecondStageSheet.Cell(currentRow, 23).Value = secondStage.OrbitParams.Epoch;
+                        rocketSecondStageSheet.Cell(currentRow, 24).Value = secondStage.OrbitParams.MeanMotion;
+                        rocketSecondStageSheet.Cell(currentRow, 25).Value = secondStage.OrbitParams.Raan;
+                        rocketSecondStageSheet.Cell(currentRow, 26).Value = secondStage.OrbitParams.ArgOfPericenter;
+                        rocketSecondStageSheet.Cell(currentRow, 27).Value = secondStage.OrbitParams.MeanAnomaly;
+                        rocketSecondStageSheet.Cell(currentRow, 28).Value = launchPlanItem.Rocket.SecondStage.Block;
                     }
 
                     #endregion
