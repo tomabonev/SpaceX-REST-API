@@ -127,7 +127,7 @@ namespace SpaceX.Services
         {
             for (int i = 1; i < nCount; i++)
             {
-                _pdfCell = new PdfPCell(new Phrase("Launch Data:", _fontStyle));
+                _pdfCell = new PdfPCell(new Phrase("", _fontStyle));
                 _pdfCell.Colspan = _maxColumn;
                 _pdfCell.Border = 0;
                 _pdfCell.ExtraParagraphSpace = 10;
