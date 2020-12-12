@@ -22,7 +22,7 @@ namespace SpaceX.Web.Controllers
             _createPdfFileService = createPdfFileService;
         }
 
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
             var client = new RestClient($"{getAllLaunchesUrl}");
             var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);
@@ -272,8 +272,6 @@ namespace SpaceX.Web.Controllers
             IRestResponse response = client.Execute(request);
 
             var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
-
-            //List<LaunchPlan> launchPlan = new List<LaunchPlan>();
 
             var valueToReturn = _createPdfFileService.Report(launchList);
 

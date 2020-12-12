@@ -143,23 +143,9 @@ namespace SpaceX.Services
 
             #region Detail Table Header
 
-            _pdfCell = new PdfPCell(new Phrase("FlightNumber", fontStyleBold));
-            _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.Gray;
-            _pdfTable.AddCell(_pdfCell);
-
-            _pdfCell = new PdfPCell(new Phrase("MissionName", fontStyleBold));
-            _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.Gray;
-            _pdfTable.AddCell(_pdfCell);
-
-            _pdfCell = new PdfPCell(new Phrase("Upcoming", fontStyleBold));
-            _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            _pdfCell.BackgroundColor = BaseColor.Gray;
-            _pdfTable.AddCell(_pdfCell);
+            AddCellHeader(_pdfTable, "Flight Number", fontStyleBold);
+            AddCellHeader(_pdfTable, "Mission Name", fontStyleBold);
+            AddCellHeader(_pdfTable, "Upcoming", fontStyleBold);
 
             _pdfTable.CompleteRow();
 
@@ -169,28 +155,34 @@ namespace SpaceX.Services
 
             foreach (var plans in _launchPlans)
             {
-                _pdfCell = new PdfPCell(new Phrase(plans.FlightNumber, _fontStyle));
-                _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.White;
-                _pdfTable.AddCell(_pdfCell);
-
-                _pdfCell = new PdfPCell(new Phrase(plans.MissionName, _fontStyle));
-                _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.White;
-                _pdfTable.AddCell(_pdfCell);
-
-                _pdfCell = new PdfPCell(new Phrase(plans.Upcoming, _fontStyle));
-                _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                _pdfCell.BackgroundColor = BaseColor.White;
-                _pdfTable.AddCell(_pdfCell);
+                AddCellToBody(_pdfTable, plans.FlightNumber, _fontStyle);
+                AddCellToBody(_pdfTable, plans.MissionName, _fontStyle);
+                AddCellToBody(_pdfTable, plans.Upcoming, _fontStyle);
 
                 _pdfTable.CompleteRow();
             }
 
             #endregion
+        }
+
+        private void AddCellHeader(PdfPTable _pdfTable, string cellText, Font fontStyleBold)
+        {
+            _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, fontStyleBold))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = BaseColor.Gray
+            });
+        }
+
+        private void AddCellToBody(PdfPTable _pdfTable, string cellText, Font _fontStyle)
+        {
+            _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = BaseColor.White
+            });
         }
     }
 }
