@@ -1,17 +1,13 @@
 ﻿using ClosedXML.Excel;
-using OfficeOpenXml;
 using SpaceX.Models;
 using SpaceX.Services.Contracts;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace SpaceX.Services
 {
     public class CreateExcelFileService : ICreateExcelFileService
     {
-        public async Task<XLWorkbook> PopulateDataToExcel(List<LaunchPlan> launchPlans)
+        public XLWorkbook PopulateDataToExcel(List<LaunchPlan> launchPlans)
         {
             using (var workbook = new XLWorkbook())
             {
