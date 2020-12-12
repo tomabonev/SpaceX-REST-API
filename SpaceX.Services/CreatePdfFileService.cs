@@ -11,10 +11,11 @@ namespace SpaceX.Services
     {
         #region Declaration
 
-        int _maxColumn = 3;
+        int _maxColumn = 8;
         Document _document;
         Font _fontStyle;
-        PdfPTable _pdfTable = new PdfPTable(3);
+        PdfPTable _pdfTable = new PdfPTable(8);
+        PdfPTable _secondPdfTable = new PdfPTable(8);
         PdfPCell _pdfCell;
         MemoryStream _memoryStream = new MemoryStream();
 
@@ -33,6 +34,9 @@ namespace SpaceX.Services
             _pdfTable.WidthPercentage = 100;
             _pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
 
+            _secondPdfTable.WidthPercentage = 100;
+            _secondPdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
+
             _fontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
             PdfWriter docWrite = PdfWriter.GetInstance(_document, _memoryStream);
 
@@ -42,18 +46,21 @@ namespace SpaceX.Services
 
             for (var i = 0; i < _maxColumn; i++)
             {
-                if (i == 0) sizes[i] = 20;
+                if (i == 0) sizes[i] = 50;
                 else sizes[i] = 100;
             }
 
             _pdfTable.SetWidths(sizes);
+            _secondPdfTable.SetWidths(sizes);
 
             this.ReportHeader();
             this.EmptyRow(2);
             this.ReportBody();
 
             _pdfTable.HeaderRows = 2;
+            _secondPdfTable.HeaderRows = 2;
             _document.Add(_pdfTable);
+            _document.Add(_secondPdfTable);
 
             _document.Close();
 
@@ -66,13 +73,16 @@ namespace SpaceX.Services
             _pdfCell.Colspan = 1;
             _pdfCell.Border = 0;
             _pdfTable.AddCell(_pdfCell);
+            _secondPdfTable.AddCell(_pdfCell);
 
             _pdfCell = new PdfPCell(this.SetPageTitle());
             _pdfCell.Colspan = _maxColumn - 1;
             _pdfCell.Border = 0;
             _pdfTable.AddCell(_pdfCell);
+            _secondPdfTable.AddCell(_pdfCell);
 
             _pdfTable.CompleteRow();
+            _secondPdfTable.CompleteRow();
         }
 
         private PdfPTable AddLogo()
@@ -99,7 +109,7 @@ namespace SpaceX.Services
 
         private PdfPTable SetPageTitle()
         {
-            int maxColumn = 3;
+            int maxColumn = 6;
             PdfPTable pdfPTable = new PdfPTable(maxColumn);
 
             _fontStyle = FontFactory.GetFont("Tahoma", 18f, 1);
@@ -127,12 +137,8 @@ namespace SpaceX.Services
         {
             for (int i = 1; i < nCount; i++)
             {
-                _pdfCell = new PdfPCell(new Phrase("", _fontStyle));
-                _pdfCell.Colspan = _maxColumn;
-                _pdfCell.Border = 0;
-                _pdfCell.ExtraParagraphSpace = 10;
-                _pdfTable.AddCell(_pdfCell);
-                _pdfTable.CompleteRow();
+                AddEmptyRow(_pdfTable, "", _fontStyle, _maxColumn);
+                AddEmptyRow(_secondPdfTable, "", _fontStyle, _maxColumn);
             }
         }
 
@@ -145,9 +151,24 @@ namespace SpaceX.Services
 
             AddCellHeader(_pdfTable, "Flight Number", fontStyleBold);
             AddCellHeader(_pdfTable, "Mission Name", fontStyleBold);
+            AddCellHeader(_pdfTable, "Mission Id", fontStyleBold);
             AddCellHeader(_pdfTable, "Upcoming", fontStyleBold);
+            AddCellHeader(_pdfTable, "Launch Year", fontStyleBold);
+            AddCellHeader(_pdfTable, "Date Unix", fontStyleBold);
+            AddCellHeader(_pdfTable, "UTC Time", fontStyleBold);
+            AddCellHeader(_pdfTable, "Local Time", fontStyleBold);
+
+            AddCellHeader(_secondPdfTable, "Flight Number", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "Mission Name", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "Is Tentative", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "Max Precision", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "TBD", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "Launch Window", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "Ships", fontStyleBold);
+            AddCellHeader(_secondPdfTable, "Launch Success", fontStyleBold);
 
             _pdfTable.CompleteRow();
+            _secondPdfTable.CompleteRow();
 
             #endregion
 
@@ -157,12 +178,39 @@ namespace SpaceX.Services
             {
                 AddCellToBody(_pdfTable, plans.FlightNumber, _fontStyle);
                 AddCellToBody(_pdfTable, plans.MissionName, _fontStyle);
+                AddCellToBody(_pdfTable, plans.MissionId.ToString(), _fontStyle);
                 AddCellToBody(_pdfTable, plans.Upcoming, _fontStyle);
+                AddCellToBody(_pdfTable, plans.LaunchYear, _fontStyle);
+                AddCellToBody(_pdfTable, plans.LaunchDateUnix, _fontStyle);
+                AddCellToBody(_pdfTable, plans.LaunchDateUtc.UtcDateTime.ToString(), _fontStyle);
+                AddCellToBody(_pdfTable, plans.LaunchDateLocal.LocalDateTime.ToString(), _fontStyle);
+
+                AddCellToBody(_secondPdfTable, plans.FlightNumber, _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.MissionName, _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.IsTentative, _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.TentativeMaxPrecision, _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.Tbd, _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.LaunchWindow, _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.Ships.ToString(), _fontStyle);
+                AddCellToBody(_secondPdfTable, plans.LaunchSuccess, _fontStyle);
 
                 _pdfTable.CompleteRow();
+                _secondPdfTable.CompleteRow();
             }
 
             #endregion
+        }
+
+        private void AddEmptyRow(PdfPTable _pdfTable, string cellText, Font _fontStyle, int _maxColumn)
+        {
+            _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
+            {
+                Colspan = _maxColumn,
+                Border = 0,
+                ExtraParagraphSpace = 10,
+            });
+
+            _pdfTable.CompleteRow();
         }
 
         private void AddCellHeader(PdfPTable _pdfTable, string cellText, Font fontStyleBold)
