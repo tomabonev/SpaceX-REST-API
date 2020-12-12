@@ -22,7 +22,7 @@ namespace SpaceX.Services
 
         #endregion
 
-        public byte[] Report(List<LaunchPlan> launchPlans)
+        public byte[] ReportToPdf(List<LaunchPlan> launchPlans)
         {
             _launchPlans = launchPlans;
 
