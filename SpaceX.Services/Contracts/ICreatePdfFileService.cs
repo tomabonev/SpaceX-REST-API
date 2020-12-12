@@ -5,6 +5,6 @@ namespace SpaceX.Services.Contracts
 {
     public interface ICreatePdfFileService
     {
-        byte[] Report(List<LaunchPlan> launchPlans);
+        byte[] ReportToPdf(List<LaunchPlan> launchPlans);
     }
 }
