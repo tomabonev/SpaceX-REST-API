@@ -60,8 +60,13 @@ namespace SpaceX.Services
             return _memoryStream.ToArray();
         }
 
-        public void ReportHeader()
+        private void ReportHeader()
         {
+            _pdfCell = new PdfPCell(this.AddLogo());
+            _pdfCell.Colspan = 1;
+            _pdfCell.Border = 0;
+            _pdfTable.AddCell(_pdfCell);
+
             _pdfCell = new PdfPCell(this.SetPageTitle());
             _pdfCell.Colspan = _maxColumn - 1;
             _pdfCell.Border = 0;
@@ -70,7 +75,29 @@ namespace SpaceX.Services
             _pdfTable.CompleteRow();
         }
 
-        public PdfPTable SetPageTitle()
+        private PdfPTable AddLogo()
+        {
+            int maxColumn = 1;
+            PdfPTable pdfPTable = new PdfPTable(maxColumn);
+
+            string path = "https://res.cloudinary.com/dpc0sub89/image/upload/v1607747243/SpaceX/Space-X_owyf13.png";
+
+            string imgCombine = Path.Combine(path);
+            Image img = Image.GetInstance(imgCombine);
+
+            _pdfCell = new PdfPCell(img);
+            _pdfCell.Colspan = maxColumn;
+            _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            _pdfCell.Border = 0;
+            _pdfCell.ExtraParagraphSpace = 0;
+            pdfPTable.AddCell(_pdfCell);
+
+            pdfPTable.CompleteRow();
+
+            return pdfPTable;
+        }
+
+        private PdfPTable SetPageTitle()
         {
             int maxColumn = 3;
             PdfPTable pdfPTable = new PdfPTable(maxColumn);
@@ -96,7 +123,7 @@ namespace SpaceX.Services
             return pdfPTable;
         }
 
-        public void EmptyRow(int nCount)
+        private void EmptyRow(int nCount)
         {
             for (int i = 1; i < nCount; i++)
             {
@@ -109,7 +136,7 @@ namespace SpaceX.Services
             }
         }
 
-        public void ReportBody()
+        private void ReportBody()
         {
             var fontStyleBold = FontFactory.GetFont("Tahoma", 9f, 1);
             _fontStyle = FontFactory.GetFont("Tahoma", 9f, 0);
