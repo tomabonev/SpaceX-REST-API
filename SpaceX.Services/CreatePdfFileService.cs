@@ -7,11 +7,12 @@ using System.IO;
 
 namespace SpaceX.Services
 {
+    /// <summary>
+    /// A service class which contains methods for populating data into an Pdf file
+    /// </summary>
     public class CreatePdfFileService : ICreatePdfFileService
     {
         #region Declarations
-
-        private int _maxColumn = 8;
 
         private Document _document;
         private Font _fontStyle;
@@ -39,9 +40,14 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Report To PDF Method
+        #region Export To PDF Method
 
-        public byte[] ReportToPdf(List<LaunchPlan> launchPlans)
+        /// <summary>
+        /// Visualizes the SpaceX API launch plan data
+        /// </summary>
+        /// <param name="launchPlans">A collection of SpaceX launch data</param>
+        /// <returns>Pdf file containing all the SpaceX launch data</returns>
+        public byte[] ExportToPdf(List<LaunchPlan> launchPlans)
         {
             _launchPlans = launchPlans;
 
@@ -70,9 +76,9 @@ namespace SpaceX.Services
 
             _document.Open();
 
-            _pdfTable.SetWidths(this.ChangeColumnSize(_maxColumn));
-            _secondPdfTable.SetWidths(this.ChangeColumnSize(_maxColumn));
-            _thirdPdfTable.SetWidths(this.ChangeColumnSize(_maxColumn));
+            _pdfTable.SetWidths(this.ChangeColumnSize(8));
+            _secondPdfTable.SetWidths(this.ChangeColumnSize(8));
+            _thirdPdfTable.SetWidths(this.ChangeColumnSize(8));
             _fourthPdfTable.SetWidths(this.ChangeColumnSize(6));
             _fifthPdfTable.SetWidths(this.ChangeColumnSize(8));
             _firstStagePdfTable.SetWidths(this.ChangeColumnSize(11));
@@ -86,9 +92,9 @@ namespace SpaceX.Services
             _detailsPdfTable.SetWidths(this.ChangeColumnSize(3));
             _flickerPdfTable.SetWidths(this.ChangeColumnSize(3));
 
-            ReportHeader();
-            SetEmptyRow(2);
-            ReportBody();
+            RenderHeaders();
+            AddSpaceBetweenTables(2);
+            RenderPdfDocument();
 
             AddTableHeader(_pdfTable);
             AddTableHeader(_secondPdfTable);
@@ -131,9 +137,12 @@ namespace SpaceX.Services
 
         #region Report To PDF Extension Methods
 
-        #region Report Header
+        #region Render Headers Method
 
-        private void ReportHeader()
+        /// <summary>
+        /// Reders the pdf file headers
+        /// </summary>
+        private void RenderHeaders()
         {
             AddHeader(_pdfTable);
             AddHeader(_secondPdfTable);
@@ -154,18 +163,26 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Add Table Header
+        #region Add Spacing for Table Header Method
 
+        /// <summary>
+        /// Adds empty rows for the pdf table header
+        /// </summary>
+        /// <param name="_pdfTable"></param>
         private void AddTableHeader(PdfPTable _pdfTable)
         {
             _pdfTable.HeaderRows = 2;
-            this.SetEmptyRow(2);
+            this.AddSpaceBetweenTables(2);
         }
 
         #endregion
 
-        #region Add Logo
+        #region Add Logo Method
 
+        /// <summary>
+        /// Adds logo to the pdf header
+        /// </summary>
+        /// <returns>the updated pdf table</returns>
         private PdfPTable AddLogo()
         {
             int maxColumn = 1;
@@ -191,8 +208,12 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Set Page Title
+        #region Set Page Title Method
 
+        /// <summary>
+        /// Sets the pdf page title
+        /// </summary>
+        /// <returns>the updated pdf table</returns>
         private PdfPTable SetPageTitle()
         {
             int maxColumn = 6;
@@ -207,39 +228,38 @@ namespace SpaceX.Services
             pdfPTable.AddCell(_pdfCell);
             pdfPTable.CompleteRow();
 
-            _fontStyle = FontFactory.GetFont("Tahoma", 14f, 1);
-            _pdfCell = new PdfPCell(new Phrase("Specifications", _fontStyle));
-            _pdfCell.Colspan = maxColumn;
-            _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            _pdfCell.Border = 0;
-            _pdfCell.ExtraParagraphSpace = 0;
-            pdfPTable.AddCell(_pdfCell);
-            pdfPTable.CompleteRow();
-
             return pdfPTable;
         }
 
         #endregion
 
-        #region Set Table Alignment
+        #region Set Table Alignment Method
 
+        /// <summary>
+        /// Sets alignments for the pdf file
+        /// </summary>
+        /// <param name="_pdfTable">The Pdf table which will be configured</param>
         private void SetAlignment(PdfPTable _pdfTable)
         {
             _pdfTable.WidthPercentage = 100;
             _pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
+            _pdfTable.KeepTogether = true;
         }
 
         #endregion
 
-        #region Set Empty Row
+        #region Set Empty Row Method
 
-        private void SetEmptyRow(int numCount)
+        /// <summary>
+        /// Adds spacing between the tables
+        /// </summary>
+        private void AddSpaceBetweenTables(int numCount)
         {
             for (int i = 1; i < numCount; i++)
             {
-                AddEmptyRow(_pdfTable, string.Empty, _fontStyle, _maxColumn);
-                AddEmptyRow(_secondPdfTable, string.Empty, _fontStyle, _maxColumn);
-                AddEmptyRow(_thirdPdfTable, string.Empty, _fontStyle, _maxColumn);
+                AddEmptyRow(_pdfTable, string.Empty, _fontStyle, 8);
+                AddEmptyRow(_secondPdfTable, string.Empty, _fontStyle, 8);
+                AddEmptyRow(_thirdPdfTable, string.Empty, _fontStyle, 8);
                 AddEmptyRow(_fourthPdfTable, string.Empty, _fontStyle, 6);
                 AddEmptyRow(_fifthPdfTable, string.Empty, _fontStyle, 8);
                 AddEmptyRow(_firstStagePdfTable, string.Empty, _fontStyle, 11);
@@ -257,137 +277,144 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Report Body
+        #region Render Pdf Document Method
 
-        private void ReportBody()
+        /// <summary>
+        /// Populates the pdf document with data
+        /// </summary>
+        private void RenderPdfDocument()
         {
             this.RenderHeader();
-            this.RenderData();
+            this.RenderBody();
         }
 
         #region Render Header
+
+        /// <summary>
+        /// Renders the pdf file headers
+        /// </summary>
         private void RenderHeader()
         {
             var fontStyleBold = FontFactory.GetFont("Tahoma", 9f, 1);
             _fontStyle = FontFactory.GetFont("Tahoma", 9f, 0);
 
-            AddCellHeader(_pdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_pdfTable, "Mission Name", fontStyleBold);
-            AddCellHeader(_pdfTable, "Mission Id", fontStyleBold);
-            AddCellHeader(_pdfTable, "Upcoming", fontStyleBold);
-            AddCellHeader(_pdfTable, "Launch Year", fontStyleBold);
-            AddCellHeader(_pdfTable, "Launch Date", fontStyleBold);
-            AddCellHeader(_pdfTable, "Launch UTC Time", fontStyleBold);
-            AddCellHeader(_pdfTable, "Local Time", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Mission Name", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Mission Id", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Upcoming", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Launch Year", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Launch Date", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Launch UTC Time", fontStyleBold);
+            StyleTableHeader(_pdfTable, "Local Time", fontStyleBold);
 
-            AddCellHeader(_secondPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "Mission Name", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "Is Tentative", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "Max Precision", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "TBD", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "Launch Window", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "Ships", fontStyleBold);
-            AddCellHeader(_secondPdfTable, "Launch Success", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Mission Name", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Is Tentative", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Max Precision", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "TBD", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Launch Window", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Ships", fontStyleBold);
+            StyleTableHeader(_secondPdfTable, "Launch Success", fontStyleBold);
 
-            AddCellHeader(_thirdPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Mission Name", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Failure Time", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Failure Altitude", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Failure Reason", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Fire Date UTC", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Fire Date Unix", fontStyleBold);
-            AddCellHeader(_thirdPdfTable, "Webcast LiftOff", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Mission Name", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Failure Time", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Failure Altitude", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Failure Reason", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Fire Date UTC", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Fire Date Unix", fontStyleBold);
+            StyleTableHeader(_thirdPdfTable, "Webcast LiftOff", fontStyleBold);
 
-            AddCellHeader(_fourthPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_fourthPdfTable, "Mission Name", fontStyleBold);
-            AddCellHeader(_fourthPdfTable, "Flight Club", fontStyleBold);
-            AddCellHeader(_fourthPdfTable, "Site Id", fontStyleBold);
-            AddCellHeader(_fourthPdfTable, "Site Name", fontStyleBold);
-            AddCellHeader(_fourthPdfTable, "Site Full Name", fontStyleBold);
+            StyleTableHeader(_fourthPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_fourthPdfTable, "Mission Name", fontStyleBold);
+            StyleTableHeader(_fourthPdfTable, "Flight Club", fontStyleBold);
+            StyleTableHeader(_fourthPdfTable, "Site Id", fontStyleBold);
+            StyleTableHeader(_fourthPdfTable, "Site Name", fontStyleBold);
+            StyleTableHeader(_fourthPdfTable, "Site Full Name", fontStyleBold);
 
-            AddCellHeader(_fifthPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Rocket Id", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Rocket Name", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Rocket Type", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Reused", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Recovery Attempt", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Recovered", fontStyleBold);
-            AddCellHeader(_fifthPdfTable, "Ship", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Rocket Id", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Rocket Name", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Rocket Type", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Reused", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Recovery Attempt", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Recovered", fontStyleBold);
+            StyleTableHeader(_fifthPdfTable, "Ship", fontStyleBold);
 
-            AddCellHeader(_firstStagePdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Core Serial", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Flight", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Block", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "GridFins", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Legs", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Reused", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Land", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Landing intent", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Landing type", fontStyleBold);
-            AddCellHeader(_firstStagePdfTable, "Landing vehicle", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Core Serial", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Flight", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Block", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "GridFins", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Legs", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Reused", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Land", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Landing intent", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Landing type", fontStyleBold);
+            StyleTableHeader(_firstStagePdfTable, "Landing vehicle", fontStyleBold);
 
-            AddCellHeader(_secondStagePartOnePdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Rocket Name", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Payload Id", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Norad Id", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Reused", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Customers", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Nationality", fontStyleBold);
-            AddCellHeader(_secondStagePartOnePdfTable, "Manufacturer", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Rocket Name", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Payload Id", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Norad Id", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Reused", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Customers", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Nationality", fontStyleBold);
+            StyleTableHeader(_secondStagePartOnePdfTable, "Manufacturer", fontStyleBold);
 
-            AddCellHeader(_secondStagePartTwoPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Rocket Name", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Payload Type", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Mass kg", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Mass lbs", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Orbit", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Reference System", fontStyleBold);
-            AddCellHeader(_secondStagePartTwoPdfTable, "Regime", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Rocket Name", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Payload Type", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Mass kg", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Mass lbs", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Orbit", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Reference System", fontStyleBold);
+            StyleTableHeader(_secondStagePartTwoPdfTable, "Regime", fontStyleBold);
 
-            AddCellHeader(_secondStagePartThreePdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "Rocket Name", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "Longtitude", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "Axis km", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "Eccentricity", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "Periapsis Km", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "Apoapsis Km", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "InclinationDeg", fontStyleBold);
-            AddCellHeader(_secondStagePartThreePdfTable, "PeriodMin", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Rocket Name", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Longtitude", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Axis km", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Eccentricity", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Periapsis Km", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "Apoapsis Km", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "InclinationDeg", fontStyleBold);
+            StyleTableHeader(_secondStagePartThreePdfTable, "PeriodMin", fontStyleBold);
 
-            AddCellHeader(_secondStagePartFourPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Rocket Name", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Lifespan Years", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Epoch", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Mean Motion", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Raan", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Arg Of Pericenter", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Mean Anomaly", fontStyleBold);
-            AddCellHeader(_secondStagePartFourPdfTable, "Block", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Rocket Name", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Lifespan Years", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Epoch", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Mean Motion", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Raan", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Arg Of Pericenter", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Mean Anomaly", fontStyleBold);
+            StyleTableHeader(_secondStagePartFourPdfTable, "Block", fontStyleBold);
 
-            AddCellHeader(_linksListPartOnePdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_linksListPartOnePdfTable, "Mission Patch", fontStyleBold);
-            AddCellHeader(_linksListPartOnePdfTable, "Mission Small Patch", fontStyleBold);
-            AddCellHeader(_linksListPartOnePdfTable, "Reddit Campaign", fontStyleBold);
-            AddCellHeader(_linksListPartOnePdfTable, "Reddit Launch", fontStyleBold);
+            StyleTableHeader(_linksListPartOnePdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_linksListPartOnePdfTable, "Mission Patch", fontStyleBold);
+            StyleTableHeader(_linksListPartOnePdfTable, "Mission Small Patch", fontStyleBold);
+            StyleTableHeader(_linksListPartOnePdfTable, "Reddit Campaign", fontStyleBold);
+            StyleTableHeader(_linksListPartOnePdfTable, "Reddit Launch", fontStyleBold);
 
-            AddCellHeader(_linksListPartTwoPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_linksListPartTwoPdfTable, "Reddit Recovery", fontStyleBold);
-            AddCellHeader(_linksListPartTwoPdfTable, "Reddit Media", fontStyleBold);
-            AddCellHeader(_linksListPartTwoPdfTable, "Presskit", fontStyleBold);
-            AddCellHeader(_linksListPartTwoPdfTable, "Article link", fontStyleBold);
+            StyleTableHeader(_linksListPartTwoPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_linksListPartTwoPdfTable, "Reddit Recovery", fontStyleBold);
+            StyleTableHeader(_linksListPartTwoPdfTable, "Reddit Media", fontStyleBold);
+            StyleTableHeader(_linksListPartTwoPdfTable, "Presskit", fontStyleBold);
+            StyleTableHeader(_linksListPartTwoPdfTable, "Article link", fontStyleBold);
 
-            AddCellHeader(_linksListPartThreePdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_linksListPartThreePdfTable, "Wikipedia", fontStyleBold);
-            AddCellHeader(_linksListPartThreePdfTable, "Video link", fontStyleBold);
-            AddCellHeader(_linksListPartThreePdfTable, "Youtube Id", fontStyleBold);
+            StyleTableHeader(_linksListPartThreePdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_linksListPartThreePdfTable, "Wikipedia", fontStyleBold);
+            StyleTableHeader(_linksListPartThreePdfTable, "Video link", fontStyleBold);
+            StyleTableHeader(_linksListPartThreePdfTable, "Youtube Id", fontStyleBold);
 
-            AddCellHeader(_detailsPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_detailsPdfTable, "Mission Name", fontStyleBold);
-            AddCellHeader(_detailsPdfTable, "Details", fontStyleBold);
+            StyleTableHeader(_detailsPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_detailsPdfTable, "Mission Name", fontStyleBold);
+            StyleTableHeader(_detailsPdfTable, "Details", fontStyleBold);
 
-            AddCellHeader(_flickerPdfTable, "Flight Number", fontStyleBold);
-            AddCellHeader(_flickerPdfTable, "Mission Name", fontStyleBold);
-            AddCellHeader(_flickerPdfTable, "Flickr image", fontStyleBold);
+            StyleTableHeader(_flickerPdfTable, "Flight Number", fontStyleBold);
+            StyleTableHeader(_flickerPdfTable, "Mission Name", fontStyleBold);
+            StyleTableHeader(_flickerPdfTable, "Flickr image", fontStyleBold);
 
             _pdfTable.CompleteRow();
             _secondPdfTable.CompleteRow();
@@ -408,9 +435,12 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Render Data
+        #region Render Body
 
-        private void RenderData()
+        /// <summary>
+        /// Renders the pdf file body
+        /// </summary>
+        private void RenderBody()
         {
             foreach (var plan in _launchPlans)
             {
@@ -429,73 +459,73 @@ namespace SpaceX.Services
                 var presskit = string.Join(" ", plan.Links.Presskit);
                 var flickrImage = string.Join(" ", plan.Links.FlickrImages);
 
-                AddCellToBody(_pdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_pdfTable, plan.MissionName, _fontStyle);
-                AddCellToBody(_pdfTable, missionId, _fontStyle);
-                AddCellToBody(_pdfTable, plan.Upcoming, _fontStyle);
-                AddCellToBody(_pdfTable, plan.LaunchYear, _fontStyle);
-                AddCellToBody(_pdfTable, plan.LaunchDateUnix, _fontStyle);
-                AddCellToBody(_pdfTable, plan.LaunchDateUtc.UtcDateTime.ToString(), _fontStyle);
-                AddCellToBody(_pdfTable, plan.LaunchDateLocal.LocalDateTime.ToString(), _fontStyle);
+                StyleTableBody(_pdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_pdfTable, plan.MissionName, _fontStyle);
+                StyleTableBody(_pdfTable, missionId, _fontStyle);
+                StyleTableBody(_pdfTable, plan.Upcoming, _fontStyle);
+                StyleTableBody(_pdfTable, plan.LaunchYear, _fontStyle);
+                StyleTableBody(_pdfTable, plan.LaunchDateUnix, _fontStyle);
+                StyleTableBody(_pdfTable, plan.LaunchDateUtc.UtcDateTime.ToString(), _fontStyle);
+                StyleTableBody(_pdfTable, plan.LaunchDateLocal.LocalDateTime.ToString(), _fontStyle);
 
-                AddCellToBody(_secondPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_secondPdfTable, plan.MissionName, _fontStyle);
-                AddCellToBody(_secondPdfTable, plan.IsTentative, _fontStyle);
-                AddCellToBody(_secondPdfTable, plan.TentativeMaxPrecision, _fontStyle);
-                AddCellToBody(_secondPdfTable, plan.Tbd, _fontStyle);
-                AddCellToBody(_secondPdfTable, plan.LaunchWindow, _fontStyle);
-                AddCellToBody(_secondPdfTable, ships, _fontStyle);
-                AddCellToBody(_secondPdfTable, plan.LaunchSuccess, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.MissionName, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.IsTentative, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.TentativeMaxPrecision, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.Tbd, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.LaunchWindow, _fontStyle);
+                StyleTableBody(_secondPdfTable, ships, _fontStyle);
+                StyleTableBody(_secondPdfTable, plan.LaunchSuccess, _fontStyle);
 
-                AddCellToBody(_thirdPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_thirdPdfTable, plan.MissionName, _fontStyle);
-                AddCellToBody(_thirdPdfTable, plan.LaunchFailureDetails.Time, _fontStyle);
-                AddCellToBody(_thirdPdfTable, altitude, _fontStyle);
-                AddCellToBody(_thirdPdfTable, plan.LaunchFailureDetails.Reason, _fontStyle);
-                AddCellToBody(_thirdPdfTable, plan.StaticFireDateUtc.ToString(), _fontStyle);
-                AddCellToBody(_thirdPdfTable, plan.StaticFireDateUnix, _fontStyle);
-                AddCellToBody(_thirdPdfTable, plan.Timeline?.WebcastLiftoff ?? null, _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.MissionName, _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.LaunchFailureDetails.Time, _fontStyle);
+                StyleTableBody(_thirdPdfTable, altitude, _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.LaunchFailureDetails.Reason, _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.StaticFireDateUtc.ToString(), _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.StaticFireDateUnix, _fontStyle);
+                StyleTableBody(_thirdPdfTable, plan.Timeline?.WebcastLiftoff ?? null, _fontStyle);
 
-                AddCellToBody(_fourthPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_fourthPdfTable, plan.MissionName, _fontStyle);
-                AddCellToBody(_fourthPdfTable, flightClub, _fontStyle);
-                AddCellToBody(_fourthPdfTable, plan.LaunchSite.SiteId, _fontStyle);
-                AddCellToBody(_fourthPdfTable, plan.LaunchSite.SiteName, _fontStyle);
-                AddCellToBody(_fourthPdfTable, plan.LaunchSite.SiteNameLong, _fontStyle);
+                StyleTableBody(_fourthPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_fourthPdfTable, plan.MissionName, _fontStyle);
+                StyleTableBody(_fourthPdfTable, flightClub, _fontStyle);
+                StyleTableBody(_fourthPdfTable, plan.LaunchSite.SiteId, _fontStyle);
+                StyleTableBody(_fourthPdfTable, plan.LaunchSite.SiteName, _fontStyle);
+                StyleTableBody(_fourthPdfTable, plan.LaunchSite.SiteNameLong, _fontStyle);
 
-                AddCellToBody(_fifthPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_fifthPdfTable, plan.Rocket.RocketId, _fontStyle);
-                AddCellToBody(_fifthPdfTable, plan.Rocket.RocketName, _fontStyle);
-                AddCellToBody(_fifthPdfTable, plan.Rocket.RocketType, _fontStyle);
-                AddCellToBody(_fifthPdfTable, reused, _fontStyle);
-                AddCellToBody(_fifthPdfTable, recoveryAttempt, _fontStyle);
-                AddCellToBody(_fifthPdfTable, recovered, _fontStyle);
-                AddCellToBody(_fifthPdfTable, ship, _fontStyle);
+                StyleTableBody(_fifthPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_fifthPdfTable, plan.Rocket.RocketId, _fontStyle);
+                StyleTableBody(_fifthPdfTable, plan.Rocket.RocketName, _fontStyle);
+                StyleTableBody(_fifthPdfTable, plan.Rocket.RocketType, _fontStyle);
+                StyleTableBody(_fifthPdfTable, reused, _fontStyle);
+                StyleTableBody(_fifthPdfTable, recoveryAttempt, _fontStyle);
+                StyleTableBody(_fifthPdfTable, recovered, _fontStyle);
+                StyleTableBody(_fifthPdfTable, ship, _fontStyle);
 
-                AddCellToBody(_linksListPartOnePdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_linksListPartOnePdfTable, plan.Links.MissionPatch, _fontStyle);
-                AddCellToBody(_linksListPartOnePdfTable, plan.Links.MissionPatchSmall, _fontStyle);
-                AddCellToBody(_linksListPartOnePdfTable, redditCampaing, _fontStyle);
-                AddCellToBody(_linksListPartOnePdfTable, redditLaunch, _fontStyle);
+                StyleTableBody(_linksListPartOnePdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_linksListPartOnePdfTable, plan.Links.MissionPatch, _fontStyle);
+                StyleTableBody(_linksListPartOnePdfTable, plan.Links.MissionPatchSmall, _fontStyle);
+                StyleTableBody(_linksListPartOnePdfTable, redditCampaing, _fontStyle);
+                StyleTableBody(_linksListPartOnePdfTable, redditLaunch, _fontStyle);
 
-                AddCellToBody(_linksListPartTwoPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_linksListPartTwoPdfTable, redditRecovery, _fontStyle);
-                AddCellToBody(_linksListPartTwoPdfTable, redditMedia, _fontStyle);
-                AddCellToBody(_linksListPartTwoPdfTable, presskit, _fontStyle);
-                AddCellToBody(_linksListPartTwoPdfTable, plan.Links.ArticleLink, _fontStyle);
+                StyleTableBody(_linksListPartTwoPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_linksListPartTwoPdfTable, redditRecovery, _fontStyle);
+                StyleTableBody(_linksListPartTwoPdfTable, redditMedia, _fontStyle);
+                StyleTableBody(_linksListPartTwoPdfTable, presskit, _fontStyle);
+                StyleTableBody(_linksListPartTwoPdfTable, plan.Links.ArticleLink, _fontStyle);
 
-                AddCellToBody(_linksListPartThreePdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_linksListPartThreePdfTable, plan.Links.Wikipedia, _fontStyle);
-                AddCellToBody(_linksListPartThreePdfTable, plan.Links.VideoLink, _fontStyle);
-                AddCellToBody(_linksListPartThreePdfTable, plan.Links.YoutubeId, _fontStyle);
+                StyleTableBody(_linksListPartThreePdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_linksListPartThreePdfTable, plan.Links.Wikipedia, _fontStyle);
+                StyleTableBody(_linksListPartThreePdfTable, plan.Links.VideoLink, _fontStyle);
+                StyleTableBody(_linksListPartThreePdfTable, plan.Links.YoutubeId, _fontStyle);
 
-                AddCellToBody(_detailsPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_detailsPdfTable, plan.MissionName, _fontStyle);
-                AddCellToBody(_detailsPdfTable, plan.Details, _fontStyle);
+                StyleTableBody(_detailsPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_detailsPdfTable, plan.MissionName, _fontStyle);
+                StyleTableBody(_detailsPdfTable, plan.Details, _fontStyle);
 
-                AddCellToBody(_flickerPdfTable, plan.FlightNumber, _fontStyle);
-                AddCellToBody(_flickerPdfTable, plan.MissionName, _fontStyle);
-                AddCellToBody(_flickerPdfTable, flickrImage, _fontStyle);
+                StyleTableBody(_flickerPdfTable, plan.FlightNumber, _fontStyle);
+                StyleTableBody(_flickerPdfTable, plan.MissionName, _fontStyle);
+                StyleTableBody(_flickerPdfTable, flickrImage, _fontStyle);
 
                 foreach (var firstStage in plan.Rocket.FirstStage.Cores)
                 {
@@ -504,17 +534,17 @@ namespace SpaceX.Services
                     var landingType = string.Join(" ", firstStage.LandingType);
                     var landingVehicle = string.Join(" ", firstStage.LandingVehicle);
 
-                    AddCellToBody(_firstStagePdfTable, plan.FlightNumber, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, firstStage.CoreSerial, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, firstStage.Flight, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, block, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, firstStage.Gridfins, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, firstStage.Legs, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, firstStage.Reused, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, landSuccess, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, firstStage.LandingIntent, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, landingType, _fontStyle);
-                    AddCellToBody(_firstStagePdfTable, landingVehicle, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, plan.FlightNumber, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, firstStage.CoreSerial, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, firstStage.Flight, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, block, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, firstStage.Gridfins, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, firstStage.Legs, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, firstStage.Reused, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, landSuccess, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, firstStage.LandingIntent, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, landingType, _fontStyle);
+                    StyleTableBody(_firstStagePdfTable, landingVehicle, _fontStyle);
                 }
 
                 foreach (var secondStage in plan.Rocket.SecondStage.Payloads)
@@ -532,43 +562,43 @@ namespace SpaceX.Services
                     var argOfPericenter = string.Join(" ", secondStage.OrbitParams.ArgOfPericenter);
                     var meanAnomaly = string.Join(" ", secondStage.OrbitParams.MeanAnomaly);
 
-                    AddCellToBody(_secondStagePartOnePdfTable, plan.FlightNumber, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, plan.Rocket.RocketName, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, secondStage.PayloadId, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, noradId, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, secondStage.Reused, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, customers, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, secondStage.Nationality, _fontStyle);
-                    AddCellToBody(_secondStagePartOnePdfTable, secondStage.Manufacturer, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, plan.FlightNumber, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, plan.Rocket.RocketName, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, secondStage.PayloadId, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, noradId, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, secondStage.Reused, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, customers, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, secondStage.Nationality, _fontStyle);
+                    StyleTableBody(_secondStagePartOnePdfTable, secondStage.Manufacturer, _fontStyle);
 
-                    AddCellToBody(_secondStagePartTwoPdfTable, plan.FlightNumber, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, plan.Rocket.RocketName, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, secondStage.PayloadType, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, secondStage.PayloadMassKg, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, secondStage.PayloadMassLbs, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, secondStage.Orbit, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, secondStage.OrbitParams.ReferenceSystem, _fontStyle);
-                    AddCellToBody(_secondStagePartTwoPdfTable, secondStage.OrbitParams.Regime, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, plan.FlightNumber, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, plan.Rocket.RocketName, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, secondStage.PayloadType, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, secondStage.PayloadMassKg, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, secondStage.PayloadMassLbs, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, secondStage.Orbit, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, secondStage.OrbitParams.ReferenceSystem, _fontStyle);
+                    StyleTableBody(_secondStagePartTwoPdfTable, secondStage.OrbitParams.Regime, _fontStyle);
 
-                    AddCellToBody(_secondStagePartThreePdfTable, plan.FlightNumber, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, plan.Rocket.RocketName, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, longitude, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, axisKm, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, eccentricity, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, secondStage.OrbitParams.PeriapsisKm, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, secondStage.OrbitParams.ApoapsisKm, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, secondStage.OrbitParams.InclinationDeg, _fontStyle);
-                    AddCellToBody(_secondStagePartThreePdfTable, periodMin, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, plan.FlightNumber, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, plan.Rocket.RocketName, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, longitude, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, axisKm, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, eccentricity, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, secondStage.OrbitParams.PeriapsisKm, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, secondStage.OrbitParams.ApoapsisKm, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, secondStage.OrbitParams.InclinationDeg, _fontStyle);
+                    StyleTableBody(_secondStagePartThreePdfTable, periodMin, _fontStyle);
 
-                    AddCellToBody(_secondStagePartFourPdfTable, plan.FlightNumber, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, plan.Rocket.RocketName, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, lifespanYears, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, epoch, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, meanMotion, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, raan, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, argOfPericenter, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, meanAnomaly, _fontStyle);
-                    AddCellToBody(_secondStagePartFourPdfTable, plan.Rocket.SecondStage.Block, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, plan.FlightNumber, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, plan.Rocket.RocketName, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, lifespanYears, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, epoch, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, meanMotion, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, raan, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, argOfPericenter, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, meanAnomaly, _fontStyle);
+                    StyleTableBody(_secondStagePartFourPdfTable, plan.Rocket.SecondStage.Block, _fontStyle);
                 }
 
                 _pdfTable.CompleteRow();
@@ -593,8 +623,13 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Change Column Size
+        #region Change Column Size Method
 
+        /// <summary>
+        /// Changes the column size of the pdf file
+        /// </summary>
+        /// <param name="_maxColumn"></param>
+        /// <returns>The updated column size</returns>
         private float[] ChangeColumnSize(int _maxColumn)
         {
             float[] sizes = new float[_maxColumn];
@@ -616,8 +651,11 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Add Header
+        #region Style Header Method
 
+        /// <summary>
+        /// Adds style to the document header
+        /// </summary>
         private void AddHeader(PdfPTable _pdfTable)
         {
             _pdfTable.AddCell(new PdfPCell(this.AddLogo())
@@ -637,8 +675,11 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Add Empty Row
+        #region Add Empty Row Method
 
+        /// <summary>
+        /// Adds empty row for each cell
+        /// </summary>
         private void AddEmptyRow(PdfPTable _pdfTable, string cellText, Font _fontStyle, int _maxColumn)
         {
             _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
@@ -653,9 +694,12 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Add Cell Header
+        #region Style Table Header Method
 
-        private void AddCellHeader(PdfPTable _pdfTable, string cellText, Font fontStyleBold)
+        /// <summary>
+        /// Style table headers
+        /// </summary>
+        private void StyleTableHeader(PdfPTable _pdfTable, string cellText, Font fontStyleBold)
         {
             _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, fontStyleBold))
             {
@@ -667,9 +711,9 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Add Cell To Body
+        #region Style Table Body Method
 
-        private void AddCellToBody(PdfPTable _pdfTable, string cellText, Font _fontStyle)
+        private void StyleTableBody(PdfPTable _pdfTable, string cellText, Font _fontStyle)
         {
             _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
             {
