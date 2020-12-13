@@ -6,11 +6,19 @@ using System.IO;
 
 namespace SpaceX.Services
 {
+    /// <summary>
+    /// A service class which contains methods for populating data into an Excel file
+    /// </summary>
     public class CreateExcelFileService : ICreateExcelFileService
     {
         #region Report to Excel Method
 
-        public byte[] ReportToExcel(List<LaunchPlan> launchPlans)
+        /// <summary>
+        /// Visualizes the SpaceX API launch plan data
+        /// </summary>
+        /// <param name="launchPlans">A collection of SpaceX launch data</param>
+        /// <returns>Excel file containing all the SpaceX launch data</returns>
+        public byte[] ExportToExcel(List<LaunchPlan> launchPlans)
         {
             using (var workbook = new XLWorkbook())
             {
@@ -22,7 +30,7 @@ namespace SpaceX.Services
                 this.RenderHeader(launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
                 this.RenderBody(launchPlans, launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
                 this.StyleAlignment(launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
-                            
+
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
@@ -38,6 +46,13 @@ namespace SpaceX.Services
 
         #region Render Header Method
 
+        /// <summary>
+        /// Renders the excel sheet headers
+        /// </summary>
+        /// <param name="launchPlanSheet">A sheet file containing SpaceX launch data with generic information</param>
+        /// <param name="rocketSheet">A sheet file containing the rocket data from SpaceX launches</param>
+        /// <param name="rocketFirstStageSheet">A sheet file containing the first stage data from SpaceX rocket launches</param>
+        /// <param name="rocketSecondStageSheet">A sheet file containing the second stage data from SpaceX rocket launches</param>
         private void RenderHeader(
            IXLWorksheet launchPlanSheet,
            IXLWorksheet rocketSheet,
@@ -156,6 +171,13 @@ namespace SpaceX.Services
 
         #region Render Body Method
 
+        /// <summary>
+        /// Renders the excel sheet body
+        /// </summary>
+        /// <param name="launchPlanSheet">A sheet file containing SpaceX launch data with generic information</param>
+        /// <param name="rocketSheet">A sheet file containing the rocket data from SpaceX launches</param>
+        /// <param name="rocketFirstStageSheet">A sheet file containing the first stage data from SpaceX rocket launches</param>
+        /// <param name="rocketSecondStageSheet">A sheet file containing the second stage data from SpaceX rocket launches</param>
         private void RenderBody(
             List<LaunchPlan> launchPlans,
             IXLWorksheet launchPlanSheet,
@@ -218,7 +240,6 @@ namespace SpaceX.Services
                 rocketSheet.Cell(currentRow, 7).Value = launchPlanItem.Rocket.Fairings?.Recovered ?? null;
                 rocketSheet.Cell(currentRow, 8).Value = launchPlanItem.Rocket.Fairings?.Ship ?? null;
 
-                #endregion
 
                 #region Rocket First Stage Sheet Body
 
@@ -276,12 +297,21 @@ namespace SpaceX.Services
 
                 #endregion
             }
+
+            #endregion
         }
 
         #endregion
 
-        #region StyleAlignment Method
+        #region Style Alignment Method
 
+        /// <summary>
+        /// Styling the excel sheets
+        /// </summary>
+        /// <param name="launchPlanSheet">A sheet file containing SpaceX launch data with generic information</param>
+        /// <param name="rocketSheet">A sheet file containing the rocket data from SpaceX launches</param>
+        /// <param name="rocketFirstStageSheet">A sheet file containing the first stage data from SpaceX rocket launches</param>
+        /// <param name="rocketSecondStageSheet">A sheet file containing the second stage data from SpaceX rocket launches</param>
         private void StyleAlignment(
            IXLWorksheet launchPlanSheet,
            IXLWorksheet rocketSheet,

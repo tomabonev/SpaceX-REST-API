@@ -1,11 +1,8 @@
-﻿using ClosedXML.Excel;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using SpaceX.Models;
 using SpaceX.Services.Contracts;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
 {
@@ -31,7 +28,7 @@ namespace SpaceX.Web.Controllers
 
             var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
 
-            var content = _createExcelFileService.ReportToExcel(launchList);
+            var content = _createExcelFileService.ExportToExcel(launchList);
 
             return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LaunchPlan.xlsx");
         }
@@ -45,7 +42,7 @@ namespace SpaceX.Web.Controllers
 
             var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
 
-            var valueToReturn = _createPdfFileService.ReportToPdf(launchList);
+            var valueToReturn = _createPdfFileService.ExportToPdf(launchList);
 
             return File(valueToReturn, "application/pdf", "SpaceX Launches.pdf");
         }
