@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestSharp;
 using SpaceX.Models;
 using SpaceX.Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
@@ -23,42 +24,48 @@ namespace SpaceX.Web.Controllers
 
         public async Task<IActionResult> PopulateDataToExcel()
         {
-            var client = new RestClient($"{getAllLaunchesUrl}");
-            var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);
+            var client = new HttpClient();
+
+            client.BaseAddress = new Uri(getAllLaunchesUrl);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.Timeout = TimeSpan.FromMinutes(1.00);
 
             try
             {
-                IRestResponse response = await client.ExecuteAsync(request);
+                HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
 
-                var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
+                response.EnsureSuccessStatusCode();
+
+                var launchList = Newtonsoft.Json.JsonConvert
+                    .DeserializeObject<List<LaunchPlan>>(response.Content.ReadAsStringAsync().Result);
 
                 var content = _createExcelFileService.ExportToExcel(launchList);
-
                 return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LaunchPlan.xlsx");
             }
             catch (Exception)
             {
-                if (Response.StatusCode == 500)
-                {
-                    throw new Exception("SpaceX server is temporary unreachable. Please try again later");
-                }
-                else
-                {
-                    throw new Exception("SpaceX doesn't know such planet in all the galaxies");
-                }
+                return View("Home/Error");
             }
         }
 
         public async Task<IActionResult> PopulateDataToPdf()
         {
-            var client = new RestClient($"{getAllLaunchesUrl}");
-            var request = new RestRequest($"{getAllLaunchesUrl}", Method.GET);
+            var client = new HttpClient();
+
+            client.BaseAddress = new Uri(getAllLaunchesUrl);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.Timeout = TimeSpan.FromMinutes(1.00);
 
             try
             {
-                IRestResponse response = await client.ExecuteAsync(request);
+                HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
 
-                var launchList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LaunchPlan>>(response.Content);
+                response.EnsureSuccessStatusCode();
+
+                var launchList = Newtonsoft.Json.JsonConvert
+                    .DeserializeObject<List<LaunchPlan>>(response.Content.ReadAsStringAsync().Result);
 
                 var valueToReturn = _createPdfFileService.ExportToPdf(launchList);
 
@@ -66,14 +73,7 @@ namespace SpaceX.Web.Controllers
             }
             catch (Exception)
             {
-                if (Response.StatusCode == 500)
-                {
-                    throw new Exception("SpaceX server is temporary unreachable. Please try again later");
-                }
-                else
-                {
-                    throw new Exception("SpaceX doesn't know such planet in all the galaxies");
-                }
+                return View("Home/Error");
             }
         }
     }
