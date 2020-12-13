@@ -21,9 +21,8 @@ namespace SpaceX.Services
 
                 this.RenderHeader(launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
                 this.RenderBody(launchPlans, launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
-
-                launchPlanSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-
+                this.StyleAlignment(launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
+                            
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
@@ -37,13 +36,15 @@ namespace SpaceX.Services
 
         #region Report to Excel Extension Methods
 
+        #region Render Header Method
+
         private void RenderHeader(
-            IXLWorksheet launchPlanSheet,
-            IXLWorksheet rocketSheet,
-            IXLWorksheet rocketFirstStageSheet,
-            IXLWorksheet rocketSecondStageSheet)
+           IXLWorksheet launchPlanSheet,
+           IXLWorksheet rocketSheet,
+           IXLWorksheet rocketFirstStageSheet,
+           IXLWorksheet rocketSecondStageSheet)
         {
-            #region Launch Plan Sheet
+            #region Launch Plan Sheet Headers
 
             int currentRow = 1;
 
@@ -87,7 +88,7 @@ namespace SpaceX.Services
 
             #endregion
 
-            #region Rocket Sheet
+            #region Rocket Sheet Headers
 
             rocketSheet.Cell(currentRow, 1).Value = "Mission Name";
             rocketSheet.Cell(currentRow, 2).Value = "Rocket Id";
@@ -100,7 +101,7 @@ namespace SpaceX.Services
 
             #endregion
 
-            #region Rocket First Stage Sheet
+            #region Rocket First Stage Sheet Headers
 
             rocketFirstStageSheet.Cell(currentRow, 1).Value = "Mission Name";
             rocketFirstStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
@@ -117,7 +118,7 @@ namespace SpaceX.Services
 
             #endregion
 
-            #region Rocket Second Stage Sheet
+            #region Rocket Second Stage Sheet Headers
 
             rocketSecondStageSheet.Cell(currentRow, 1).Value = "Mission Name";
             rocketSecondStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
@@ -151,6 +152,10 @@ namespace SpaceX.Services
             #endregion
         }
 
+        #endregion
+
+        #region Render Body Method
+
         private void RenderBody(
             List<LaunchPlan> launchPlans,
             IXLWorksheet launchPlanSheet,
@@ -158,7 +163,7 @@ namespace SpaceX.Services
             IXLWorksheet rocketFirstStageSheet,
             IXLWorksheet rocketSecondStageSheet)
         {
-            #region Launch Plan Excel Population
+            #region Launch Plan Sheet Body
 
             int currentRow = 1;
 
@@ -215,7 +220,7 @@ namespace SpaceX.Services
 
                 #endregion
 
-                #region Rocket First Stage Excel Population
+                #region Rocket First Stage Sheet Body
 
                 foreach (var firstStage in launchPlanItem.Rocket.FirstStage.Cores)
                 {
@@ -235,7 +240,7 @@ namespace SpaceX.Services
 
                 #endregion
 
-                #region Rocket Second Stage Excel Population
+                #region Rocket Second Stage Sheet Body
 
                 foreach (var secondStage in launchPlanItem.Rocket.SecondStage.Payloads)
                 {
@@ -272,6 +277,43 @@ namespace SpaceX.Services
                 #endregion
             }
         }
+
+        #endregion
+
+        #region StyleAlignment Method
+
+        private void StyleAlignment(
+           IXLWorksheet launchPlanSheet,
+           IXLWorksheet rocketSheet,
+           IXLWorksheet rocketFirstStageSheet,
+           IXLWorksheet rocketSecondStageSheet)
+        {
+            launchPlanSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            launchPlanSheet.Columns().AdjustToContents();
+            launchPlanSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.Orange;
+            launchPlanSheet.FirstRow().Style.Font.Bold = true;
+            launchPlanSheet.TabColor = XLColor.Orange;
+
+            rocketSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            rocketSheet.Columns().AdjustToContents();
+            rocketSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.BabyBlue;
+            rocketSheet.FirstRow().Style.Font.Bold = true;
+            rocketSheet.TabColor = XLColor.BabyBlue;
+
+            rocketFirstStageSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            rocketFirstStageSheet.Columns().AdjustToContents();
+            rocketFirstStageSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.AppleGreen;
+            rocketFirstStageSheet.FirstRow().Style.Font.Bold = true;
+            rocketFirstStageSheet.TabColor = XLColor.AppleGreen;
+
+            rocketSecondStageSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            rocketSecondStageSheet.Columns().AdjustToContents();
+            rocketSecondStageSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.BananaMania;
+            rocketSecondStageSheet.FirstRow().Style.Font.Bold = true;
+            rocketSecondStageSheet.TabColor = XLColor.BananaMania;
+        }
+
+        #endregion
 
         #endregion
     }
