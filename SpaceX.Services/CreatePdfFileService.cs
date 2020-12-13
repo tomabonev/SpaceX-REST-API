@@ -9,35 +9,37 @@ namespace SpaceX.Services
 {
     public class CreatePdfFileService : ICreatePdfFileService
     {
-        #region Declaration
+        #region Declarations
 
-        int _maxColumn = 8;
+        private int _maxColumn = 8;
 
-        Document _document;
-        Font _fontStyle;
+        private Document _document;
+        private Font _fontStyle;
 
-        PdfPTable _pdfTable = new PdfPTable(8);
-        PdfPTable _secondPdfTable = new PdfPTable(8);
-        PdfPTable _thirdPdfTable = new PdfPTable(8);
-        PdfPTable _fourthPdfTable = new PdfPTable(6);
-        PdfPTable _fifthPdfTable = new PdfPTable(8);
-        PdfPTable _firstStagePdfTable = new PdfPTable(11);
-        PdfPTable _secondStagePartOnePdfTable = new PdfPTable(8);
-        PdfPTable _secondStagePartTwoPdfTable = new PdfPTable(8);
-        PdfPTable _secondStagePartThreePdfTable = new PdfPTable(9);
-        PdfPTable _secondStagePartFourPdfTable = new PdfPTable(9);
-        PdfPTable _linksListPartOnePdfTable = new PdfPTable(5);
-        PdfPTable _linksListPartTwoPdfTable = new PdfPTable(5);
-        PdfPTable _linksListPartThreePdfTable = new PdfPTable(4);
-        PdfPTable _detailsPdfTable = new PdfPTable(3);
-        PdfPTable _flickerPdfTable = new PdfPTable(3);
+        private PdfPTable _pdfTable = new PdfPTable(8);
+        private PdfPTable _secondPdfTable = new PdfPTable(8);
+        private PdfPTable _thirdPdfTable = new PdfPTable(8);
+        private PdfPTable _fourthPdfTable = new PdfPTable(6);
+        private PdfPTable _fifthPdfTable = new PdfPTable(8);
+        private PdfPTable _firstStagePdfTable = new PdfPTable(11);
+        private PdfPTable _secondStagePartOnePdfTable = new PdfPTable(8);
+        private PdfPTable _secondStagePartTwoPdfTable = new PdfPTable(8);
+        private PdfPTable _secondStagePartThreePdfTable = new PdfPTable(9);
+        private PdfPTable _secondStagePartFourPdfTable = new PdfPTable(9);
+        private PdfPTable _linksListPartOnePdfTable = new PdfPTable(5);
+        private PdfPTable _linksListPartTwoPdfTable = new PdfPTable(5);
+        private PdfPTable _linksListPartThreePdfTable = new PdfPTable(4);
+        private PdfPTable _detailsPdfTable = new PdfPTable(3);
+        private PdfPTable _flickerPdfTable = new PdfPTable(3);
 
-        PdfPCell _pdfCell;
-        MemoryStream _memoryStream = new MemoryStream();
+        private PdfPCell _pdfCell;
+        private MemoryStream _memoryStream = new MemoryStream();
 
-        List<LaunchPlan> _launchPlans = new List<LaunchPlan>();
+        private List<LaunchPlan> _launchPlans = new List<LaunchPlan>();
 
         #endregion
+
+        #region Report To PDF Method
 
         public byte[] ReportToPdf(List<LaunchPlan> launchPlans)
         {
@@ -84,9 +86,9 @@ namespace SpaceX.Services
             _detailsPdfTable.SetWidths(this.ChangeColumnSize(3));
             _flickerPdfTable.SetWidths(this.ChangeColumnSize(3));
 
-            this.ReportHeader();
-            this.SetEmptyRow(2);
-            this.ReportBody();
+            ReportHeader();
+            SetEmptyRow(2);
+            ReportBody();
 
             AddTableHeader(_pdfTable);
             AddTableHeader(_secondPdfTable);
@@ -125,7 +127,9 @@ namespace SpaceX.Services
             return _memoryStream.ToArray();
         }
 
-        #region Report Extension Methods
+        #endregion
+
+        #region Report To PDF Extension Methods
 
         #region Report Header
 
@@ -229,25 +233,25 @@ namespace SpaceX.Services
 
         #region Set Empty Row
 
-        private void SetEmptyRow(int nCount)
+        private void SetEmptyRow(int numCount)
         {
-            for (int i = 1; i < nCount; i++)
+            for (int i = 1; i < numCount; i++)
             {
-                AddEmptyRow(_pdfTable, "", _fontStyle, _maxColumn);
-                AddEmptyRow(_secondPdfTable, "", _fontStyle, _maxColumn);
-                AddEmptyRow(_thirdPdfTable, "", _fontStyle, _maxColumn);
-                AddEmptyRow(_fourthPdfTable, "", _fontStyle, 6);
-                AddEmptyRow(_fifthPdfTable, "", _fontStyle, 8);
-                AddEmptyRow(_firstStagePdfTable, "", _fontStyle, 11);
-                AddEmptyRow(_secondStagePartOnePdfTable, "", _fontStyle, 8);
-                AddEmptyRow(_secondStagePartTwoPdfTable, "", _fontStyle, 8);
-                AddEmptyRow(_secondStagePartThreePdfTable, "", _fontStyle, 9);
-                AddEmptyRow(_secondStagePartFourPdfTable, "", _fontStyle, 9);
-                AddEmptyRow(_linksListPartOnePdfTable, "", _fontStyle, 5);
-                AddEmptyRow(_linksListPartTwoPdfTable, "", _fontStyle, 5);
-                AddEmptyRow(_linksListPartThreePdfTable, "", _fontStyle, 4);
-                AddEmptyRow(_detailsPdfTable, "", _fontStyle, 3);
-                AddEmptyRow(_flickerPdfTable, "", _fontStyle, 3);
+                AddEmptyRow(_pdfTable, string.Empty, _fontStyle, _maxColumn);
+                AddEmptyRow(_secondPdfTable, string.Empty, _fontStyle, _maxColumn);
+                AddEmptyRow(_thirdPdfTable, string.Empty, _fontStyle, _maxColumn);
+                AddEmptyRow(_fourthPdfTable, string.Empty, _fontStyle, 6);
+                AddEmptyRow(_fifthPdfTable, string.Empty, _fontStyle, 8);
+                AddEmptyRow(_firstStagePdfTable, string.Empty, _fontStyle, 11);
+                AddEmptyRow(_secondStagePartOnePdfTable, string.Empty, _fontStyle, 8);
+                AddEmptyRow(_secondStagePartTwoPdfTable, string.Empty, _fontStyle, 8);
+                AddEmptyRow(_secondStagePartThreePdfTable, string.Empty, _fontStyle, 9);
+                AddEmptyRow(_secondStagePartFourPdfTable, string.Empty, _fontStyle, 9);
+                AddEmptyRow(_linksListPartOnePdfTable, string.Empty, _fontStyle, 5);
+                AddEmptyRow(_linksListPartTwoPdfTable, string.Empty, _fontStyle, 5);
+                AddEmptyRow(_linksListPartThreePdfTable, string.Empty, _fontStyle, 4);
+                AddEmptyRow(_detailsPdfTable, string.Empty, _fontStyle, 3);
+                AddEmptyRow(_flickerPdfTable, string.Empty, _fontStyle, 3);
             }
         }
 
@@ -585,7 +589,7 @@ namespace SpaceX.Services
             }
         }
 
-            #endregion
+        #endregion
 
         #endregion
 
@@ -597,8 +601,14 @@ namespace SpaceX.Services
 
             for (var i = 0; i < _maxColumn; i++)
             {
-                if (i == 0) sizes[i] = 25;
-                else sizes[i] = 40;
+                if (i == 0)
+                {
+                    sizes[i] = 25;
+                }
+                else
+                {
+                    sizes[i] = 40;
+                }
             }
 
             return sizes;

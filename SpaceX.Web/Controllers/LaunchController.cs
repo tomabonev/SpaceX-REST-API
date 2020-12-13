@@ -33,8 +33,7 @@ namespace SpaceX.Web.Controllers
 
             var content = _createExcelFileService.ReportToExcel(launchList);
 
-            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "LaunchPlan.xlsx");
+            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LaunchPlan.xlsx");
         }
 
         public IActionResult PopulateDataToPdf()
