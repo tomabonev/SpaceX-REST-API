@@ -41,7 +41,8 @@ namespace SpaceX.Web.Controllers
                     .DeserializeObject<List<LaunchPlan>>(response.Content.ReadAsStringAsync().Result);
 
                 var content = _createExcelFileService.ExportToExcel(launchList);
-                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "LaunchPlan.xlsx");
+
+                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SpaceX Launches.xlsx");
             }
             catch (Exception)
             {
