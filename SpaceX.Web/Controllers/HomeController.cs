@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SpaceX.Web.Models;
-using System.Diagnostics;
 
 namespace SpaceX.Web.Controllers
 {
