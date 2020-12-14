@@ -1,0 +1,319 @@
+﻿@model SpaceX.Models.LaunchPlan
+
+@{
+    var missionId = string.Join(" ", @Model.MissionId);
+    var ships = string.Join(" ", @Model.Ships);
+    var altitude = string.Join(" ", @Model.LaunchFailureDetails.Altitude);
+    var flightClub = string.Join(" ", @Model.Telemetry.FlightClub);
+    var reused = string.Join(" ", @Model.Rocket.Fairings?.Reused ?? null);
+    var recoveryAttempt = string.Join(" ", @Model.Rocket.Fairings?.RecoveryAttempt ?? null);
+    var recovered = string.Join(" ", @Model.Rocket.Fairings?.Recovered ?? null);
+    var ship = string.Join(" ", @Model.Rocket.Fairings?.Ship ?? null);
+    var redditCampaing = string.Join(" ", @Model.Links.RedditCampaign);
+    var redditLaunch = string.Join(" ", @Model.Links.RedditLaunch);
+    var redditRecovery = string.Join(" ", @Model.Links.RedditRecovery);
+    var redditMedia = string.Join(" ", @Model.Links.RedditMedia);
+    var presskit = string.Join(" ", @Model.Links.Presskit);
+    var flickrImage = string.Join(" ", @Model.Links.FlickrImages);
+    var webcastLiftoff = string.Join(" ", @Model.Timeline?.WebcastLiftoff ?? null);
+}
+
+<h1 class="text-center">General information</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Flight Number</th>
+            <th scope="col">Mission Name</th>
+            <th scope="col">Mission Id</th>
+            <th scope="col">Upcoming</th>
+            <th scope="col">Launch Year</th>
+            <th scope="col">Date Unix</th>
+            <th scope="col">Launch Date</th>
+            <th scope="col">Date Local</th>
+            <th scope="col">Launch Success</th>
+            <th scope="col">Is Tentative</th>
+            <th scope="col">Max Precision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.FlightNumber</td>
+            <td>@Model.MissionName</td>
+            <td>@missionId</td>
+            <td>@Model.Upcoming</td>
+            <td>@Model.LaunchYear</td>
+            <td>@Model.LaunchDateUnix</td>
+            <td>@Model.LaunchDateUtc</td>
+            <td>@Model.LaunchDateLocal</td>
+            <td>@Model.LaunchSuccess</td>
+            <td>@Model.IsTentative</td>
+            <td>@Model.TentativeMaxPrecision</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tbd</th>
+            <th scope="col">Launch Window</th>
+            <th scope="col">Ships</th>
+            <th scope="col">Launch Success</th>
+            <th scope="col">Fire Date UTC</th>
+            <th scope="col">Date Unix</th>
+            <th scope="col">Webcast Liftoff</th>
+            <th scope="col">Flight Club</th>
+            <th scope="col">Site ID</th>
+            <th scope="col">Site Name</th>
+            <th scope="col">Full Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Tbd</td>
+            <td>@Model.LaunchWindow</td>
+            <td>@ships</td>
+            <td>@Model.LaunchSuccess</td>
+            <td>@Model.StaticFireDateUtc</td>
+            <td>@Model.StaticFireDateUnix</td>
+            <td>@webcastLiftoff</td>
+            <td>@flightClub</td>
+            <td>@Model.LaunchSite.SiteId</td>
+            <td>@Model.LaunchSite.SiteName</td>
+            <td>@Model.LaunchSite.SiteNameLong</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<h1 class="text-center">Rocket first stage:</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Mission Name</th>
+            <th scope="col">Rocket Name</th>
+            <th scope="col">Rocket ID</th>
+            <th scope="col">Rocket Type</th>
+            <th scope="col">Reused</th>
+            <th scope="col">Recovery Attempt</th>
+            <th scope="col">Recovered</th>
+            <th scope="col">Ship</th>
+
+            <th scope="col">Core Serial</th>
+            <th scope="col">Flight</th>
+            <th scope="col">Block</th>
+            <th scope="col">Gridfins</th>
+            <th scope="col">Legs</th>
+            <th scope="col">Reused</th>
+            <th scope="col">Land Success</th>
+            <th scope="col">Landing Intent</th>
+            <th scope="col">Landing Type</th>
+            <th scope="col">Landing Vehicle</th>
+        </tr>
+    </thead>
+    @foreach (var firstStage in Model.Rocket.FirstStage.Cores)
+    {
+
+        var block = string.Join(" ", firstStage.Block);
+        var landSuccess = string.Join(" ", firstStage.LandSuccess);
+        var landingType = string.Join(" ", firstStage.LandingType);
+        var landingVehicle = string.Join(" ", firstStage.LandingVehicle);
+
+        <tbody>
+            <tr>
+                <td>@Model.MissionName</td>
+                <td>@Model.Rocket.RocketName</td>
+                <td>@Model.Rocket.RocketId</td>
+                <td>@Model.Rocket.RocketType</td>
+                <td>@Model.Rocket.RocketType</td>
+                <td>@reused</td>
+                <td>@recoveryAttempt</td>
+                <td>@recovered</td>
+                <td>@ship</td>
+
+                <td>@firstStage.CoreSerial</td>
+                <td>@firstStage.Flight</td>
+                <td>@block</td>
+                <td>@firstStage.Gridfins</td>
+                <td>@firstStage.Legs</td>
+                <td>@firstStage.Reused</td>
+                <td>@landSuccess</td>
+                <td>@firstStage.LandingIntent</td>
+                <td>@landingType</td>
+                <td>@landingVehicle</td>
+
+            </tr>
+        </tbody>
+    }
+</table>
+<br />
+<br />
+<h1 class="text-center">Rocket first stage: </h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Mission Name</th>
+                <th scope="col">Rocket Name</th>
+                <th scope="col">Block</th>
+                <th scope="col">Payload ID</th>
+                <th scope="col">Norad ID</th>
+                <th scope="col">Reused</th>
+                <th scope="col">Customers</th>
+                <th scope="col">Nationality</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Payload Type</th>
+                <th scope="col">Mass Kg</th>
+                <th scope="col">Mass Lbs</th>
+                <th scope="col">Orbit</th>
+            </tr>
+        </thead>
+        @foreach (var secondStage in Model.Rocket.SecondStage.Payloads)
+        {
+
+            var noradId = string.Join(" ", secondStage.NoradId);
+            var customers = string.Join(" ", secondStage.Customers);
+            var longitude = string.Join(" ", secondStage.OrbitParams.Longitude);
+            var axisKm = string.Join(" ", secondStage.OrbitParams.SemiMajorAxisKm);
+            var eccentricity = string.Join(" ", secondStage.OrbitParams.Eccentricity);
+            var periodMin = string.Join(" ", secondStage.OrbitParams.PeriodMin);
+            var lifespanYears = string.Join(" ", secondStage.OrbitParams.LifespanYears);
+            var epoch = string.Join(" ", secondStage.OrbitParams.Epoch);
+            var meanMotion = string.Join(" ", secondStage.OrbitParams.MeanMotion);
+            var raan = string.Join(" ", secondStage.OrbitParams.Raan);
+            var argOfPericenter = string.Join(" ", secondStage.OrbitParams.ArgOfPericenter);
+            var meanAnomaly = string.Join(" ", secondStage.OrbitParams.MeanAnomaly);
+
+            <tbody>
+                <tr>
+                    <td>@Model.MissionName</td>
+                    <td>@Model.Rocket.RocketName</td>
+                    <td>@Model.Rocket.SecondStage.Block</td>
+                    <td>@secondStage.PayloadId</td>
+                    <td>@noradId</td>
+                    <td>@secondStage.Reused</td>
+                    <td>@customers</td>
+                    <td>@secondStage.Nationality</td>
+                    <td>@secondStage.Manufacturer</td>
+                    <td>@secondStage.PayloadType</td>
+                    <td>@secondStage.PayloadMassKg</td>
+                    <td>@secondStage.PayloadMassLbs</td>
+                    <td>@secondStage.Orbit</td>
+                </tr>
+            </tbody>
+        }
+    </table>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Reference System</th>
+            <th scope="col">Regime</th>
+            <th scope="col">Longitude</th>
+            <th scope="col">Axis Km</th>
+            <th scope="col">Eccentricity</th>
+            <th scope="col">Periapsis Km</th>
+            <th scope="col">Apoapsis Km</th>
+            <th scope="col">Inclination Deg</th>
+            <th scope="col">Period Min</th>
+            <th scope="col">Lifespan Years</th>
+            <th scope="col">Epoch</th>
+            <th scope="col">Mean Motion</th>
+            <th scope="col">Raan</th>
+            <th scope="col">Pericenter</th>
+            <th scope="col">Mean Anomaly</th>
+        </tr>
+    </thead>
+    @foreach (var secondStage in Model.Rocket.SecondStage.Payloads)
+    {
+
+        var noradId = string.Join(" ", secondStage.NoradId);
+        var customers = string.Join(" ", secondStage.Customers);
+        var longitude = string.Join(" ", secondStage.OrbitParams.Longitude);
+        var axisKm = string.Join(" ", secondStage.OrbitParams.SemiMajorAxisKm);
+        var eccentricity = string.Join(" ", secondStage.OrbitParams.Eccentricity);
+        var periodMin = string.Join(" ", secondStage.OrbitParams.PeriodMin);
+        var lifespanYears = string.Join(" ", secondStage.OrbitParams.LifespanYears);
+        var epoch = string.Join(" ", secondStage.OrbitParams.Epoch);
+        var meanMotion = string.Join(" ", secondStage.OrbitParams.MeanMotion);
+        var raan = string.Join(" ", secondStage.OrbitParams.Raan);
+        var argOfPericenter = string.Join(" ", secondStage.OrbitParams.ArgOfPericenter);
+        var meanAnomaly = string.Join(" ", secondStage.OrbitParams.MeanAnomaly);
+        <tbody>
+            <tr>
+                <td>@secondStage.OrbitParams.ReferenceSystem</td>
+                <td>@secondStage.OrbitParams.Regime</td>
+                <td>@longitude</td>
+                <td>@axisKm</td>
+                <td>@eccentricity</td>
+                <td>@secondStage.OrbitParams.PeriapsisKm</td>
+                <td>@secondStage.OrbitParams.ApoapsisKm</td>
+                <td>@secondStage.OrbitParams.InclinationDeg</td>
+                <td>@periodMin</td>
+                <td>@lifespanYears</td>
+                <td>@epoch</td>
+                <td>@meanMotion</td>
+                <td>@raan</td>
+                <td>@argOfPericenter</td>
+                <td>@meanAnomaly</td>
+            </tr>
+        </tbody>
+    }
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Mission Patch</th>
+            <th scope="col">Small Patch</th>
+            <th scope="col">Reddit Campaign</th>
+            <th scope="col">Reddit Launch</th>
+            <th scope="col">Reddit Recovery</th>
+            <th scope="col">Reddit Media</th>
+            <th scope="col">Presskit</th>
+            <th scope="col">Article Link</th>
+            <th scope="col">Wikipedia</th>
+            <th scope="col">Video Link</th>
+            <th scope="col">Youtube Id</th>
+            <th scope="col">Flickr Images</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Links.MissionPatch</td>
+            <td>@Model.Links.MissionPatchSmall</td>
+            <td>@redditCampaing</td>
+            <td>@redditLaunch</td>
+            <td>@redditRecovery</td>
+            <td>@redditMedia</td>
+            <td>@presskit</td>
+            <td>@Model.Links.ArticleLink</td>
+            <td>@Model.Links.Wikipedia</td>
+            <td>@Model.Links.VideoLink</td>
+            <td>@Model.Links.YoutubeId</td>
+            <td>@flickrImage</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Failure Time</th>
+            <th scope="col">Failure Altitude</th>
+            <th scope="col">Failure Reason</th>
+            <th scope="col">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.LaunchFailureDetails.Time</td>
+            <td>@Model.LaunchFailureDetails.Altitude</td>
+            <td>@Model.LaunchFailureDetails.Reason</td>
+            <td>@Model.Details</td>
+        </tr>
+    </tbody>
+</table>
+
+<td><a asp-action="Index" class="btn btn-default" asp-controller="Home">Go back</a></td>
+
+
