@@ -19,7 +19,6 @@ Implementing All launch plans of r/SpaceX API with MVC and .NET Core.
   </i>
 </h4>
 
----
 ## Project Links
 
 
