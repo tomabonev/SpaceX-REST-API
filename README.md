@@ -31,14 +31,12 @@ Implementing All launch plans of r/SpaceX API with MVC and .NET Core.
 * Develop a simple website for listing the official SpaceX launch plan. Users should be able to export the data in .xlsx and .pdf format.
 * The solution must be built with MVC and .NET Core. It should utilize the SpaceX REST API.
 
----
 ## Sponsors
 
 ### [AmericanEagle](https://www.americaneagle.com/)
 
 [![AmericanEagle](https://res.cloudinary.com/dpc0sub89/image/upload/v1607917476/SpaceX/809f23f0-38fb-4a5e-b005-88d26d6cda8f_1_wja7gj.jpg)](https://www.americaneagle.com/)
 
----
 ## FAQ's
 
 * If you have any questions or corrections, please open an issue and we'll get it merged ASAP
