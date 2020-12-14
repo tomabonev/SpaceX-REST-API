@@ -10,9 +10,9 @@ namespace SpaceX.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ISpacexApiService _spacexApiService;
+        private readonly IDataService _spacexApiService;
 
-        public HomeController(ILogger<HomeController> logger, ISpacexApiService spacexApiService)
+        public HomeController(ILogger<HomeController> logger, IDataService spacexApiService)
         {
             _logger = logger;
             _spacexApiService = spacexApiService;

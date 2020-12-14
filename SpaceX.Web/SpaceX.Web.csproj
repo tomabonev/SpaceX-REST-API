@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpaceX.Models\SpaceX.Models.csproj" />
+    <ProjectReference Include="..\SpaceX.Models\SpaceX.DTO.csproj" />
     <ProjectReference Include="..\SpaceX.Services\SpaceX.Services.csproj" />
   </ItemGroup>
 

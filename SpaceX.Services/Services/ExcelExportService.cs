@@ -1,6 +1,6 @@
 ﻿using ClosedXML.Excel;
 using SpaceX.Models;
-using SpaceX.Services.Contracts;
+using SpaceX.Services.IO;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,7 +9,7 @@ namespace SpaceX.Services
     /// <summary>
     /// A service class which contains methods for populating data into an Excel file
     /// </summary>
-    public class CreateExcelFileService : ICreateExcelFileService
+    public class ExcelExportService : IExcelExportService
     {
         #region Report to Excel Method
 
@@ -18,7 +18,7 @@ namespace SpaceX.Services
         /// </summary>
         /// <param name="launchPlans">A collection of SpaceX launch data</param>
         /// <returns>Excel file containing all the SpaceX launch data</returns>
-        public byte[] ExportToExcel(List<LaunchPlan> launchPlans)
+        public byte[] Export(List<LaunchPlan> launchPlans)
         {
             using (var workbook = new XLWorkbook())
             {
