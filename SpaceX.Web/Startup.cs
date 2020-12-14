@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpaceX.Services;
 using SpaceX.Services.Contracts;
+using SpaceX.Services.IO;
 using SpaceX.Services.Services;
 
 namespace SpaceX.Web
@@ -22,9 +23,9 @@ namespace SpaceX.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddScoped<ICreateExcelFileService, CreateExcelFileService>();
-            services.AddScoped<ICreatePdfFileService, CreatePdfFileService>();
-            services.AddScoped<ISpacexApiService, SpacexApiService>();
+            services.AddScoped<IExcelExportService, ExcelExportService>();
+            services.AddScoped<IPdfExportService, PdfExportService>();
+            services.AddScoped<IDataService, DataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

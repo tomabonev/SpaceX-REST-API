@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceX.Web", "SpaceX.Web\SpaceX.Web.csproj", "{80170E94-DA9E-4250-892B-C6905DDD7092}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceX.Models", "SpaceX.Models\SpaceX.Models.csproj", "{7E145A30-15EF-4F2A-8EAD-2F7354B7334E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceX.DTO", "SpaceX.Models\SpaceX.DTO.csproj", "{7E145A30-15EF-4F2A-8EAD-2F7354B7334E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceX.Services", "SpaceX.Services\SpaceX.Services.csproj", "{3C809485-0145-47CC-9F21-5E6C751E4B09}"
 EndProject

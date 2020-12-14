@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SpaceX.Services.Contracts
 {
-    public interface ISpacexApiService
+    public interface IDataService
     {
         Task<List<LaunchPlan>> GetLaunchList(int page, int limit);
 

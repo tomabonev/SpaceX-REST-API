@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SpaceX.Services.Services
 {
-    public class SpacexApiService : ISpacexApiService
+    public class DataService : IDataService
     {
         private const string getAllLaunchesUrl = "https://api.spacexdata.com/v3/launches";
 

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpaceX.Models\SpaceX.Models.csproj" />
+    <ProjectReference Include="..\SpaceX.Models\SpaceX.DTO.csproj" />
   </ItemGroup>
 
 </Project>

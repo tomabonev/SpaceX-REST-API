@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpaceX.Services.Contracts;
+using SpaceX.Services.IO;
 using SpaceX.Web.Models;
 using System;
 using System.Linq;
@@ -9,18 +10,18 @@ namespace SpaceX.Web.Controllers
 {
     public class LaunchController : Controller
     {
-        private readonly ICreateExcelFileService _createExcelFileService;
-        private readonly ICreatePdfFileService _createPdfFileService;
-        private readonly ISpacexApiService _spacexApiService;
+        private readonly IPdfExportService _exportService;
+        private readonly IExcelExportService _excelExporttService;
+        private readonly IDataService _spacexApiService;
 
         public
-            LaunchController(ICreateExcelFileService createExcelFileService,
-            ICreatePdfFileService createPdfFileService,
-            ISpacexApiService spacexApiService)
+            LaunchController(IPdfExportService exportService,
+            IExcelExportService excelExporttService,
+            IDataService spacexApiService)
         {
-            _createExcelFileService = createExcelFileService;
-            _createPdfFileService = createPdfFileService;
+            _exportService = exportService;
             _spacexApiService = spacexApiService;
+            _excelExporttService = excelExporttService;
         }
 
         [HttpGet]
@@ -48,7 +49,7 @@ namespace SpaceX.Web.Controllers
             {
                 var launchList = await _spacexApiService.GetLaunchList(1, int.MaxValue);
 
-                var content = _createExcelFileService.ExportToExcel(launchList);
+                var content = _excelExporttService.Export(launchList);
 
                 return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SpaceX Launches.xlsx");
             }
@@ -58,13 +59,13 @@ namespace SpaceX.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> PopulateDataToPdf()
+        public async Task<IActionResult> PopulateDataToPdf(string fileType)
         {
             try
             {
                 var launchList = await _spacexApiService.GetLaunchList(1, int.MaxValue);
 
-                var valueToReturn = _createPdfFileService.ExportToPdf(launchList);
+                var valueToReturn = _exportService.Export(launchList);
 
                 return File(valueToReturn, "application/pdf", "SpaceX Launches.pdf");
             }
