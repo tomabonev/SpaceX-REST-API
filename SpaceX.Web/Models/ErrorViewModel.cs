@@ -1,5 +1,3 @@
-using System;
-
 namespace SpaceX.Web.Models
 {
     public class ErrorViewModel
