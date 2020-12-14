@@ -1,44 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SpaceX.Models;
 using SpaceX.Services.Contracts;
+using SpaceX.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
 {
     public class LaunchController : Controller
     {
-        private readonly string getAllLaunchesUrl = "https://api.spacexdata.com/v3/launches";
-
         private readonly ICreateExcelFileService _createExcelFileService;
         private readonly ICreatePdfFileService _createPdfFileService;
+        private readonly ISpacexApiService _spacexApiService;
 
-        public LaunchController(ICreateExcelFileService createExcelFileService, ICreatePdfFileService createPdfFileService)
+        public
+            LaunchController(ICreateExcelFileService createExcelFileService,
+            ICreatePdfFileService createPdfFileService,
+            ISpacexApiService spacexApiService)
         {
             _createExcelFileService = createExcelFileService;
             _createPdfFileService = createPdfFileService;
+            _spacexApiService = spacexApiService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Launch(int page = 1, int size = 22)
+        {
+            var launchPlans = await _spacexApiService.GetLaunchList(page, size);
+
+            if (!launchPlans.Any())
+            {
+                return View("Error");
+            }
+
+            var viewModel = new LaunchViewModel
+            {
+                LaunchPlans = launchPlans,
+                Page = page,
+                Size = size
+            };
+
+            return View(viewModel);
+        }
         public async Task<IActionResult> PopulateDataToExcel()
         {
-            var client = new HttpClient();
-
-            client.BaseAddress = new Uri(getAllLaunchesUrl);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.Timeout = TimeSpan.FromMinutes(1.00);
-
             try
             {
-                HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
-
-                response.EnsureSuccessStatusCode();
-
-                var launchList = Newtonsoft.Json.JsonConvert
-                    .DeserializeObject<List<LaunchPlan>>(response.Content.ReadAsStringAsync().Result);
+                var launchList = await _spacexApiService.GetLaunchList(1, int.MaxValue);
 
                 var content = _createExcelFileService.ExportToExcel(launchList);
 
@@ -52,25 +60,27 @@ namespace SpaceX.Web.Controllers
 
         public async Task<IActionResult> PopulateDataToPdf()
         {
-            var client = new HttpClient();
-
-            client.BaseAddress = new Uri(getAllLaunchesUrl);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.Timeout = TimeSpan.FromMinutes(1.00);
-
             try
             {
-                HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
-
-                response.EnsureSuccessStatusCode();
-
-                var launchList = Newtonsoft.Json.JsonConvert
-                    .DeserializeObject<List<LaunchPlan>>(response.Content.ReadAsStringAsync().Result);
+                var launchList = await _spacexApiService.GetLaunchList(1, int.MaxValue);
 
                 var valueToReturn = _createPdfFileService.ExportToPdf(launchList);
 
                 return File(valueToReturn, "application/pdf", "SpaceX Launches.pdf");
+            }
+            catch (Exception)
+            {
+                return View("Home/Error");
+            }
+        }
+
+        public async Task<IActionResult> LaunchDetail(string flightNumber)
+        {
+            try
+            {
+                var launchPlan = await _spacexApiService.GetLaunchPlan(flightNumber);
+
+                return View(launchPlan);
             }
             catch (Exception)
             {

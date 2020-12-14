@@ -1,0 +1,43 @@
+﻿@model SpaceX.Web.Models.LaunchViewModel
+
+@{
+    ViewData["Title"] = "Launch";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Flight Number</th>
+            <th scope="col">Mission Name</th>
+            <th scope="col">Launch Year</th>
+            <th scope="col">Launch Date</th>
+            <th scope="col">Launch Success</th>
+            <th scope="col">Details</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.LaunchPlans)
+    {
+        <tbody>
+            <tr>
+                <td>@item.FlightNumber</td>
+                <td>@item.MissionName</td>
+                <td>@item.LaunchYear</td>
+                <td>@item.LaunchDateUtc</td>
+                <td>@item.LaunchSuccess</td>
+                <td><a asp-controller="Launch" asp-action="LaunchDetail" asp-route-flightNumber="@item.FlightNumber">Details</a></td>
+            </tr>
+        </tbody>
+    }
+</table>
+
+
+@{
+    int nextPage = Model.Page + 1;
+    int previosPage = Model.Page - 1;
+}
+
+@if (Model.Page > 1)
+{
+    <a asp-action="Launch" class="btn btn-default" asp-controller="Launch" asp-route-page="@previosPage">Previous</a>
+}
+<a asp-action="Launch" class="btn btn-default" asp-controller="Launch" asp-route-page="@nextPage">Next</a>
