@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace SpaceX.Web.Controllers
 {
     /// <summary>
-    /// A controller class that contains the flow control launch logic for our application and return it as a view
+    /// A control class that handles the visualization of launch data
     /// </summary>
     public class LaunchController : Controller
     {

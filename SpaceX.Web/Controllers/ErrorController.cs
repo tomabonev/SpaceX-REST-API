@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SpaceX.Web.Controllers
 {
     /// <summary>
-    /// A controller class that handles the errors for our application and return them as a view
+    /// The class handles the visualization of error messages in an user friendly way
     /// </summary>
     public class ErrorController : Controller
     {

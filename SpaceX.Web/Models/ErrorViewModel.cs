@@ -1,7 +1,7 @@
 namespace SpaceX.Web.Models
 {
     /// <summary>
-    /// An error view model class
+    /// The class provides properties that handle the errors
     /// </summary>
     public class ErrorViewModel
     {

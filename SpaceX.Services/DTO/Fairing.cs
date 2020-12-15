@@ -2,6 +2,9 @@
 
 namespace SpaceX.Services.DTO
 {
+    /// <summary>
+    /// The class provide properties of the fairings
+    /// </summary>
     public class Fairing
     {
         #region Fairing Properties

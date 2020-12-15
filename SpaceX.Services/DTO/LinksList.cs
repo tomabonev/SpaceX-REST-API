@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// A dto class which contains properties with links for each rocket launch
+    /// The class provide properties with links for each rocket launchs
     /// </summary>
     public class LinksList
     {

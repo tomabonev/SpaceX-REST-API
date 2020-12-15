@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// A dto class which contains properties of rocket core data
+    /// The class provide properties of rocket core data
     /// </summary>
     public class Core
     {

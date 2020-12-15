@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// A dto class which contains properties of the orbit parameters
+    /// The class provide properties of the orbit parameters
     /// </summary>
     public class OrbitParam
     {
