@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of the rocket payloads
+    /// </summary>
     public class Payload
     {
-        #region Payload Properties
+        #region Properties
 
         [JsonProperty("payload_id")]
         public string PayloadId { get; set; }

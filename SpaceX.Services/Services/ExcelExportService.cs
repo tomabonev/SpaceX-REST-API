@@ -11,13 +11,8 @@ namespace SpaceX.Services
     /// </summary>
     public class ExcelExportService : IExcelExportService
     {
-        #region Report to Excel Method
+        #region Public Methods
 
-        /// <summary>
-        /// Visualizes the SpaceX API launch plan data
-        /// </summary>
-        /// <param name="launchPlans">A collection of SpaceX launch data</param>
-        /// <returns>Excel file containing all the SpaceX launch data</returns>
         public byte[] Export(List<LaunchPlan> launchPlans)
         {
             using (var workbook = new XLWorkbook())
@@ -42,25 +37,14 @@ namespace SpaceX.Services
 
         #endregion
 
-        #region Report to Excel Extension Methods
+        #region Private Methods
 
-        #region Render Header Method
-
-        /// <summary>
-        /// Renders the excel sheet headers
-        /// </summary>
-        /// <param name="launchPlanSheet">A sheet file containing SpaceX launch data with generic information</param>
-        /// <param name="rocketSheet">A sheet file containing the rocket data from SpaceX launches</param>
-        /// <param name="rocketFirstStageSheet">A sheet file containing the first stage data from SpaceX rocket launches</param>
-        /// <param name="rocketSecondStageSheet">A sheet file containing the second stage data from SpaceX rocket launches</param>
         private void RenderHeader(
-           IXLWorksheet launchPlanSheet,
-           IXLWorksheet rocketSheet,
-           IXLWorksheet rocketFirstStageSheet,
-           IXLWorksheet rocketSecondStageSheet)
+            IXLWorksheet launchPlanSheet,
+            IXLWorksheet rocketSheet,
+            IXLWorksheet rocketFirstStageSheet,
+            IXLWorksheet rocketSecondStageSheet)
         {
-            #region Launch Plan Sheet Headers
-
             int currentRow = 1;
 
             launchPlanSheet.Cell(currentRow, 1).Value = "Flight Number";
@@ -101,10 +85,6 @@ namespace SpaceX.Services
             launchPlanSheet.Cell(currentRow, 36).Value = "Static Fire Date Unix";
             launchPlanSheet.Cell(currentRow, 37).Value = "Webcast Liftoff";
 
-            #endregion
-
-            #region Rocket Sheet Headers
-
             rocketSheet.Cell(currentRow, 1).Value = "Mission Name";
             rocketSheet.Cell(currentRow, 2).Value = "Rocket Id";
             rocketSheet.Cell(currentRow, 3).Value = "Rocket Name";
@@ -113,10 +93,6 @@ namespace SpaceX.Services
             rocketSheet.Cell(currentRow, 6).Value = "Recovery Attempt";
             rocketSheet.Cell(currentRow, 7).Value = "Recovered";
             rocketSheet.Cell(currentRow, 8).Value = "Ship";
-
-            #endregion
-
-            #region Rocket First Stage Sheet Headers
 
             rocketFirstStageSheet.Cell(currentRow, 1).Value = "Mission Name";
             rocketFirstStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
@@ -130,10 +106,6 @@ namespace SpaceX.Services
             rocketFirstStageSheet.Cell(currentRow, 10).Value = "Landing Intent";
             rocketFirstStageSheet.Cell(currentRow, 11).Value = "Landing Type";
             rocketFirstStageSheet.Cell(currentRow, 12).Value = "Landing Vehicle";
-
-            #endregion
-
-            #region Rocket Second Stage Sheet Headers
 
             rocketSecondStageSheet.Cell(currentRow, 1).Value = "Mission Name";
             rocketSecondStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
@@ -163,21 +135,8 @@ namespace SpaceX.Services
             rocketSecondStageSheet.Cell(currentRow, 26).Value = "Arg Of Pericenter";
             rocketSecondStageSheet.Cell(currentRow, 27).Value = "Mean Anomaly";
             rocketSecondStageSheet.Cell(currentRow, 28).Value = "Block";
-
-            #endregion
         }
 
-        #endregion
-
-        #region Render Body Method
-
-        /// <summary>
-        /// Renders the excel sheet body
-        /// </summary>
-        /// <param name="launchPlanSheet">A sheet file containing SpaceX launch data with generic information</param>
-        /// <param name="rocketSheet">A sheet file containing the rocket data from SpaceX launches</param>
-        /// <param name="rocketFirstStageSheet">A sheet file containing the first stage data from SpaceX rocket launches</param>
-        /// <param name="rocketSecondStageSheet">A sheet file containing the second stage data from SpaceX rocket launches</param>
         private void RenderBody(
             List<LaunchPlan> launchPlans,
             IXLWorksheet launchPlanSheet,
@@ -185,8 +144,6 @@ namespace SpaceX.Services
             IXLWorksheet rocketFirstStageSheet,
             IXLWorksheet rocketSecondStageSheet)
         {
-            #region Launch Plan Sheet Body
-
             int currentRow = 1;
 
             foreach (var launchPlanItem in launchPlans)
@@ -240,9 +197,6 @@ namespace SpaceX.Services
                 rocketSheet.Cell(currentRow, 7).Value = launchPlanItem.Rocket.Fairings?.Recovered ?? null;
                 rocketSheet.Cell(currentRow, 8).Value = launchPlanItem.Rocket.Fairings?.Ship ?? null;
 
-
-                #region Rocket First Stage Sheet Body
-
                 foreach (var firstStage in launchPlanItem.Rocket.FirstStage.Cores)
                 {
                     rocketFirstStageSheet.Cell(currentRow, 1).Value = launchPlanItem.MissionName;
@@ -258,10 +212,6 @@ namespace SpaceX.Services
                     rocketFirstStageSheet.Cell(currentRow, 11).Value = firstStage.LandingType;
                     rocketFirstStageSheet.Cell(currentRow, 12).Value = firstStage.LandingVehicle;
                 }
-
-                #endregion
-
-                #region Rocket Second Stage Sheet Body
 
                 foreach (var secondStage in launchPlanItem.Rocket.SecondStage.Payloads)
                 {
@@ -294,24 +244,9 @@ namespace SpaceX.Services
                     rocketSecondStageSheet.Cell(currentRow, 27).Value = secondStage.OrbitParams.MeanAnomaly;
                     rocketSecondStageSheet.Cell(currentRow, 28).Value = launchPlanItem.Rocket.SecondStage.Block;
                 }
-
-                #endregion
             }
-
-            #endregion
         }
 
-        #endregion
-
-        #region Style Alignment Method
-
-        /// <summary>
-        /// Styling the excel sheets
-        /// </summary>
-        /// <param name="launchPlanSheet">A sheet file containing SpaceX launch data with generic information</param>
-        /// <param name="rocketSheet">A sheet file containing the rocket data from SpaceX launches</param>
-        /// <param name="rocketFirstStageSheet">A sheet file containing the first stage data from SpaceX rocket launches</param>
-        /// <param name="rocketSecondStageSheet">A sheet file containing the second stage data from SpaceX rocket launches</param>
         private void StyleAlignment(
            IXLWorksheet launchPlanSheet,
            IXLWorksheet rocketSheet,
@@ -342,8 +277,6 @@ namespace SpaceX.Services
             rocketSecondStageSheet.FirstRow().Style.Font.Bold = true;
             rocketSecondStageSheet.TabColor = XLColor.BananaMania;
         }
-
-        #endregion
 
         #endregion
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SpaceX.Services.Contracts
 {
     /// <summary>
-    /// Defines functionality for exporting data to an excel or pdf file
+    /// Defines functionality for exporting data to a pdf file
     /// </summary>
     public interface IPdfExportService
     {

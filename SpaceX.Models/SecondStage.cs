@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains a collection of the rocket payload data during the second stage
+    /// </summary>
     public class SecondStage
     {
-        #region Second Stage Properties
+        #region Properties
 
         [JsonProperty("block")]
         public string Block { get; set; }

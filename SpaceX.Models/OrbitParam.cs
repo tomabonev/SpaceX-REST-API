@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of the orbit parameters
+    /// </summary>
     public class OrbitParam
     {
-        #region Orbit Param Properties
+        #region Properties
 
         [JsonProperty("reference_system")]
         public string ReferenceSystem { get; set; }

@@ -3,14 +3,27 @@ using System.Threading.Tasks;
 
 namespace SpaceX.Web.Middleware
 {
+    /// <summary>
+    /// An eror handling class which redirects the http response
+    /// </summary>
     public class ErrorHandlingMiddleware
     {
+        #region Fields
+
         private readonly RequestDelegate next;
+
+        #endregion
+
+        #region Constructors
 
         public ErrorHandlingMiddleware(RequestDelegate next)
         {
             this.next = next;
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task Invoke(HttpContext httpContext)
         {
@@ -18,5 +31,7 @@ namespace SpaceX.Web.Middleware
 
             httpContext.Response.Redirect("Home/Error");
         }
+
+        #endregion
     }
 }

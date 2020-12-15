@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SpaceX.Web.Controllers
 {
+    /// <summary>
+    /// A controller class that handles the errors for our application and return them as a view
+    /// </summary>
     public class ErrorController : Controller
     {
         [Route("Error")]

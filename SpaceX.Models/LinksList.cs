@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties with links for each rocket launch
+    /// </summary>
     public class LinksList
     {
-        #region Links List Properties
+        #region Properties
 
         [JsonProperty("mission_patch")]
         public string MissionPatch { get; set; }
