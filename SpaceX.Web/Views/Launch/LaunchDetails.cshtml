@@ -1,26 +1,26 @@
-﻿@model SpaceX.Services.DTO.LaunchPlan
+﻿@model SpaceX.Web.Models.LaunchDetailsVM
 
 @{
-    var missionId = string.Join(" ", @Model.MissionId);
-    var ships = string.Join(" ", @Model.Ships);
-    var altitude = string.Join(" ", @Model.LaunchFailureDetails.Altitude);
-    var flightClub = string.Join(" ", @Model.Telemetry.FlightClub);
-    var reused = string.Join(" ", @Model.Rocket.Fairings?.Reused ?? null);
-    var recoveryAttempt = string.Join(" ", @Model.Rocket.Fairings?.RecoveryAttempt ?? null);
-    var recovered = string.Join(" ", @Model.Rocket.Fairings?.Recovered ?? null);
-    var ship = string.Join(" ", @Model.Rocket.Fairings?.Ship ?? null);
-    var redditCampaing = string.Join(" ", @Model.Links.RedditCampaign);
-    var redditLaunch = string.Join(" ", @Model.Links.RedditLaunch);
-    var redditRecovery = string.Join(" ", @Model.Links.RedditRecovery);
-    var redditMedia = string.Join(" ", @Model.Links.RedditMedia);
-    var presskit = string.Join(" ", @Model.Links.Presskit);
-    var flickrImage = string.Join(" ", @Model.Links.FlickrImages);
-    var webcastLiftoff = string.Join(" ", @Model.Timeline?.WebcastLiftoff ?? null);
+    var missionId = string.Join(" ", @Model.LaunchPlans.MissionId);
+    var ships = string.Join(" ", @Model.LaunchPlans.Ships);
+    var altitude = string.Join(" ", @Model.LaunchPlans.LaunchFailureDetails.Altitude);
+    var flightClub = string.Join(" ", @Model.LaunchPlans.Telemetry.FlightClub);
+    var reused = string.Join(" ", @Model.LaunchPlans.Rocket.Fairings?.Reused ?? null);
+    var recoveryAttempt = string.Join(" ", @Model.LaunchPlans.Rocket.Fairings?.RecoveryAttempt ?? null);
+    var recovered = string.Join(" ", @Model.LaunchPlans.Rocket.Fairings?.Recovered ?? null);
+    var ship = string.Join(" ", @Model.LaunchPlans.Rocket.Fairings?.Ship ?? null);
+    var redditCampaing = string.Join(" ", @Model.LaunchPlans.Links.RedditCampaign);
+    var redditLaunch = string.Join(" ", @Model.LaunchPlans.Links.RedditLaunch);
+    var redditRecovery = string.Join(" ", @Model.LaunchPlans.Links.RedditRecovery);
+    var redditMedia = string.Join(" ", @Model.LaunchPlans.Links.RedditMedia);
+    var presskit = string.Join(" ", @Model.LaunchPlans.Links.Presskit);
+    var flickrImage = string.Join(" ", @Model.LaunchPlans.Links.FlickrImages);
+    var webcastLiftoff = string.Join(" ", @Model.LaunchPlans.Timeline?.WebcastLiftoff ?? null);
 }
 <body>
     <h2 class="text-center">General information</h2>
     <br />
-    <h3 class="text-center">@Model.Details</h3>
+    <h3 class="text-center">@Model.LaunchPlans.Details</h3>
     <br />
     <table id="dt-bordered" class="table table-bordered">
         <thead>
@@ -39,16 +39,16 @@
         </thead>
         <tbody>
             <tr>
-                <td>@Model.FlightNumber</td>
-                <td>@Model.MissionName</td>
+                <td>@Model.LaunchPlans.FlightNumber</td>
+                <td>@Model.LaunchPlans.MissionName</td>
                 <td>@missionId</td>
-                <td>@Model.Upcoming</td>
-                <td>@Model.LaunchYear</td>
-                <td>@Model.LaunchDateUnix</td>
-                <td>@Model.LaunchDateUtc</td>
-                <td>@Model.LaunchDateLocal</td>
-                <td>@Model.IsTentative</td>
-                <td>@Model.TentativeMaxPrecision</td>
+                <td>@Model.LaunchPlans.Upcoming</td>
+                <td>@Model.LaunchPlans.LaunchYear</td>
+                <td>@Model.LaunchPlans.LaunchDateUnix</td>
+                <td>@Model.LaunchPlans.LaunchDateUtc</td>
+                <td>@Model.LaunchPlans.LaunchDateLocal</td>
+                <td>@Model.LaunchPlans.IsTentative</td>
+                <td>@Model.LaunchPlans.TentativeMaxPrecision</td>
             </tr>
         </tbody>
     </table>
@@ -69,14 +69,14 @@
         </thead>
         <tbody>
             <tr>
-                <td>@Model.Tbd</td>
-                <td>@Model.LaunchWindow</td>
+                <td>@Model.LaunchPlans.Tbd</td>
+                <td>@Model.LaunchPlans.LaunchWindow</td>
                 <td>@ships</td>
                 <td>@flightClub</td>
-                <td>@Model.LaunchSite.SiteId</td>
-                <td>@Model.LaunchSite.SiteName</td>
-                <td>@Model.LaunchSite.SiteNameLong</td>
-                <td>@Model.LaunchSuccess</td>
+                <td>@Model.LaunchPlans.LaunchSite.SiteId</td>
+                <td>@Model.LaunchPlans.LaunchSite.SiteName</td>
+                <td>@Model.LaunchPlans.LaunchSite.SiteNameLong</td>
+                <td>@Model.LaunchPlans.LaunchSuccess</td>
             </tr>
         </tbody>
     </table>
@@ -94,9 +94,9 @@
         </thead>
         <tbody>
             <tr>
-                <td>@Model.LaunchFailureDetails.Time</td>
-                <td>@Model.LaunchFailureDetails.Altitude</td>
-                <td>@Model.LaunchFailureDetails.Reason</td>
+                <td>@Model.LaunchPlans.LaunchFailureDetails.Time</td>
+                <td>@Model.LaunchPlans.LaunchFailureDetails.Altitude</td>
+                <td>@Model.LaunchPlans.LaunchFailureDetails.Reason</td>
             </tr>
         </tbody>
     </table>
@@ -112,13 +112,13 @@
                 <th scope="col">Rocket Type</th>
             </tr>
         </thead>
-        @foreach (var firstStage in Model.Rocket.FirstStage.Cores)
+        @foreach (var firstStage in Model.LaunchPlans.Rocket.FirstStage.Cores)
         {
             <tbody>
                 <tr>
-                    <td>@Model.Rocket.RocketName</td>
-                    <td>@Model.Rocket.RocketId</td>
-                    <td>@Model.Rocket.RocketType</td>
+                    <td>@Model.LaunchPlans.Rocket.RocketName</td>
+                    <td>@Model.LaunchPlans.Rocket.RocketId</td>
+                    <td>@Model.LaunchPlans.Rocket.RocketType</td>
                 </tr>
             </tbody>
         }
@@ -142,7 +142,7 @@
                 <th scope="col">landing vehicle</th>
             </tr>
         </thead>
-        @foreach (var firstStage in Model.Rocket.FirstStage.Cores)
+        @foreach (var firstStage in Model.LaunchPlans.Rocket.FirstStage.Cores)
         {
 
             <tbody>
@@ -180,7 +180,7 @@
                 <th scope="col">Orbit</th>
             </tr>
         </thead>
-        @foreach (var secondStage in Model.Rocket.SecondStage.Payloads)
+        @foreach (var secondStage in Model.LaunchPlans.Rocket.SecondStage.Payloads)
         {
             var noradId = string.Join(" ", secondStage.NoradId);
             var customers = string.Join(" ", secondStage.Customers);
@@ -217,7 +217,7 @@
                 <th scope="col">InclinationDeg</th>
             </tr>
         </thead>
-        @foreach (var secondStage in Model.Rocket.SecondStage.Payloads)
+        @foreach (var secondStage in Model.LaunchPlans.Rocket.SecondStage.Payloads)
         {
             var longitude = string.Join(" ", secondStage.OrbitParams.Longitude);
             var semiMajorAxisKm = string.Join(" ", secondStage.OrbitParams.SemiMajorAxisKm);
@@ -248,7 +248,7 @@
                 <th scope="col">MeanAnomaly</th>
             </tr>
         </thead>
-        @foreach (var secondStage in Model.Rocket.SecondStage.Payloads)
+        @foreach (var secondStage in Model.LaunchPlans.Rocket.SecondStage.Payloads)
         {
             var periodMin = string.Join(" ", secondStage.OrbitParams.PeriodMin);
             var lifespanYears = string.Join(" ", secondStage.OrbitParams.LifespanYears);
@@ -285,51 +285,51 @@
         <tbody>
             <tr>
                 <td>Mission Patch</td>
-                <td>@Model.Links.MissionPatch</td>
+                <td><a href="@Model.LaunchPlans.Links.MissionPatch">@Model.LaunchPlans.Links.MissionPatch</a></td>
             </tr>
             <tr>
                 <td>Mission Patch Small</td>
-                <td>@Model.Links.MissionPatchSmall</td>
+                <td><a href="@Model.LaunchPlans.Links.MissionPatchSmall">@Model.LaunchPlans.Links.MissionPatchSmall</a></td>
             </tr>
             <tr>
                 <td>Reddit Campaign</td>
-                <td>@redditCampaing</td>
+                <td><a href="@redditCampaing">@redditCampaing</a></td>
             </tr>
             <tr>
                 <td>Reddit Launch</td>
-                <td>@redditLaunch</td>
+                <td><a href="@redditLaunch">@redditLaunch</a></td>
             </tr>
             <tr>
                 <td>Reddi tRecovery</td>
-                <td>@redditRecovery</td>
+                <td><a href="@redditRecovery">@redditRecovery</a></td>
             </tr>
             <tr>
                 <td>Reddit Media</td>
-                <td>@redditMedia</td>
+                <td><a href="@redditMedia">@redditMedia</a></td>
             </tr>
             <tr>
                 <td>Presskit</td>
-                <td>@presskit</td>
+                <td><a href="@presskit">@presskit</a></td>
             </tr>
             <tr>
                 <td>Article Link</td>
-                <td>@Model.Links.ArticleLink</td>
+                <td><a href="@Model.LaunchPlans.Links.ArticleLink">@Model.LaunchPlans.Links.ArticleLink</a></td>
             </tr>
             <tr>
                 <td>Wikipedia</td>
-                <td>@Model.Links.Wikipedia</td>
+                <td><a href="@Model.LaunchPlans.Links.Wikipedia">@Model.LaunchPlans.Links.Wikipedia</a></td>
             </tr>
             <tr>
                 <td>Video Link</td>
-                <td>@Model.Links.VideoLink</td>
+                <td><a href="@Model.LaunchPlans.Links.VideoLink">@Model.LaunchPlans.Links.VideoLink</a></td>
             </tr>
             <tr>
                 <td>Youtube Id</td>
-                <td>@Model.Links.YoutubeId</td>
+                <td>@Model.LaunchPlans.Links.YoutubeId</td>
             </tr>
             <tr>
                 <td>Flickr Image</td>
-                <td>@flickrImage</td>
+                <td><a href="@flickrImage">@flickrImage</a></td>
             </tr>
         </tbody>
     </table>
