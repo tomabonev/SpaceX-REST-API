@@ -1,14 +1,13 @@
 ﻿using SpaceX.Models;
 using System.Collections.Generic;
 
-namespace SpaceX.Services.Contracts
+namespace SpaceX.Services.IO
 {
     /// <summary>
-    /// Defines functionality for exporting data to a pdf file
+    /// Defines functionality for exporting data to excel and pdf files
     /// </summary>
-    public interface IPdfExportService
+    public interface IExportService
     {
         byte[] Export(List<LaunchPlan> launchPlans);
-
     }
 }

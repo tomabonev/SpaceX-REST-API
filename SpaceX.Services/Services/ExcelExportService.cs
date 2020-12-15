@@ -9,7 +9,7 @@ namespace SpaceX.Services
     /// <summary>
     /// A service class which contains methods for populating data into an Excel file
     /// </summary>
-    public class ExcelExportService : IExcelExportService
+    public class ExcelExportService : IExportService
     {
         #region Public Methods
 
