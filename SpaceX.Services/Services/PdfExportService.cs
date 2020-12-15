@@ -12,24 +12,15 @@ namespace SpaceX.Services
     /// </summary>
     public class PdfExportService : IPdfExportService
     {
-        #region Declarations
-
-        private Font fontStyle;
-
-        private PdfPTable pdfTable = new PdfPTable(8);
-
-        private PdfPCell pdfCell;
-
-        #endregion
-
         #region Public Methods
 
         public byte[] Export(List<LaunchPlan> launchPlans)
         {
-         
-            MemoryStream memoryStream = new MemoryStream();
-
             Document document = new Document();
+            PdfPTable pdfTable = new PdfPTable(8);
+            PdfPCell pdfCell = new PdfPCell();
+            Font fontStyle = new Font();
+            MemoryStream memoryStream = new MemoryStream();
 
             document.SetPageSize(PageSize.A4);
             document.SetMargins(5f, 5f, 20f, 5f);
@@ -43,9 +34,9 @@ namespace SpaceX.Services
 
             pdfTable.SetWidths(this.ChangeColumnSize(8));
 
-            RenderHeaders();
-            AddSpaceBetweenTables(2);
-            RenderPdfDocument(launchPlans);
+            RenderHeaders(pdfTable);
+            AddSpaceBetweenTables(2, pdfTable);
+            RenderPdfDocument(launchPlans, pdfTable, fontStyle);
 
             AddTableHeader(pdfTable);
 
@@ -60,21 +51,22 @@ namespace SpaceX.Services
 
         #region Private Methods
 
-        private void RenderHeaders()
+        private void RenderHeaders(PdfPTable pdfTable)
         {
             AddHeader(pdfTable);
         }
 
-        private void AddTableHeader(PdfPTable _pdfTable)
+        private void AddTableHeader(PdfPTable pdfTable)
         {
-            _pdfTable.HeaderRows = 2;
-            this.AddSpaceBetweenTables(2);
+            pdfTable.HeaderRows = 2;
+            this.AddSpaceBetweenTables(2, pdfTable);
         }
 
         private PdfPTable AddLogo()
         {
             int maxColumn = 1;
             PdfPTable pdfPTable = new PdfPTable(maxColumn);
+            PdfPCell pdfCell = new PdfPCell();
 
             string path = "https://res.cloudinary.com/dpc0sub89/image/upload/v1607747243/SpaceX/Space-X_owyf13.png";
 
@@ -96,8 +88,10 @@ namespace SpaceX.Services
 
         private PdfPTable SetPageTitle()
         {
-            int maxColumn = 6;
+            int maxColumn = 8;
             PdfPTable pdfPTable = new PdfPTable(maxColumn);
+            Font fontStyle = new Font();
+            PdfPCell pdfCell = new PdfPCell();
 
             fontStyle = FontFactory.GetFont("Tahoma", 18f, 1);
             pdfCell = new PdfPCell(new Phrase("SpaceX Launch data", fontStyle));
@@ -111,21 +105,23 @@ namespace SpaceX.Services
             return pdfPTable;
         }
 
-        private void AddSpaceBetweenTables(int numCount)
+        private void AddSpaceBetweenTables(int numCount, PdfPTable pdfTable)
         {
+            Font fontStyle = new Font();
+
             for (int i = 1; i < numCount; i++)
             {
                 AddEmptyRow(pdfTable, string.Empty, fontStyle, 8);
             }
         }
 
-        private void RenderPdfDocument(List<LaunchPlan> launchPlans)
+        private void RenderPdfDocument(List<LaunchPlan> launchPlans, PdfPTable pdfTable, Font fontStyle)
         {
-            this.RenderHeader();
-            this.RenderBody(launchPlans);
+            this.RenderHeader(pdfTable, fontStyle);
+            this.RenderBody(launchPlans, pdfTable, fontStyle);
         }
 
-        private void RenderHeader()
+        private void RenderHeader(PdfPTable pdfTable, Font fontStyle)
         {
             var fontStyleBold = FontFactory.GetFont("Tahoma", 9f, 1);
             fontStyle = FontFactory.GetFont("Tahoma", 9f, 0);
@@ -146,14 +142,14 @@ namespace SpaceX.Services
 
         #region Private Methods
 
-        private void SetAlignment(PdfPTable _pdfTable)
+        private void SetAlignment(PdfPTable pdfTable)
         {
-            _pdfTable.WidthPercentage = 100;
-            _pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
-            _pdfTable.KeepTogether = true;
+            pdfTable.WidthPercentage = 100;
+            pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
+            pdfTable.KeepTogether = true;
         }
 
-        private void RenderBody(List<LaunchPlan> launchPlans)
+        private void RenderBody(List<LaunchPlan> launchPlans, PdfPTable pdfTable, Font fontStyle)
         {
             foreach (var plan in launchPlans)
             {
@@ -191,38 +187,38 @@ namespace SpaceX.Services
             return sizes;
         }
 
-        private void AddHeader(PdfPTable _pdfTable)
+        private void AddHeader(PdfPTable pdfTable)
         {
-            _pdfTable.AddCell(new PdfPCell(this.AddLogo())
+            pdfTable.AddCell(new PdfPCell(this.AddLogo())
             {
                 Colspan = 1,
                 Border = 0
             });
 
-            _pdfTable.AddCell(new PdfPCell(this.SetPageTitle())
+            pdfTable.AddCell(new PdfPCell(this.SetPageTitle())
             {
                 Colspan = 10,
                 Border = 0
             });
 
-            _pdfTable.CompleteRow();
+            pdfTable.CompleteRow();
         }
 
-        private void AddEmptyRow(PdfPTable _pdfTable, string cellText, Font _fontStyle, int _maxColumn)
+        private void AddEmptyRow(PdfPTable pdfTable, string cellText, Font _fontStyle, int _maxColumn)
         {
-            _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
+            pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
             {
                 Colspan = _maxColumn,
                 Border = 0,
                 ExtraParagraphSpace = 10,
             });
 
-            _pdfTable.CompleteRow();
+            pdfTable.CompleteRow();
         }
 
-        private void StyleTableHeader(PdfPTable _pdfTable, string cellText, Font fontStyleBold)
+        private void StyleTableHeader(PdfPTable pdfTable, string cellText, Font fontStyleBold)
         {
-            _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, fontStyleBold))
+            pdfTable.AddCell(new PdfPCell(new Phrase(cellText, fontStyleBold))
             {
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
@@ -230,9 +226,9 @@ namespace SpaceX.Services
             });
         }
 
-        private void StyleTableBody(PdfPTable _pdfTable, string cellText, Font _fontStyle)
+        private void StyleTableBody(PdfPTable pdfTable, string cellText, Font _fontStyle)
         {
-            _pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
+            pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
             {
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
