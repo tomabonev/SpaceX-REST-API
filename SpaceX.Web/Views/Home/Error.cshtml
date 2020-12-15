@@ -2,13 +2,14 @@
 @{
     ViewData["Title"] = "Error";
 }
-<br />
-<br />
-<div class="text-center">
-    <h1>SpaceX is out of space...</h1>
+<body style="background-image: url('../images/errorImage.jpg'); ">
     <br />
     <br />
-    <img id="error" src="~/images/errorPageGif.gif" />
-    <br />
-    <a asp-action="Index" class="btn btn-dark" asp-controller="Home">Go back to Earth</a>
-</div>
+    <div class="text-center">
+        <h1>SpaceX is out of space...</h1>
+        <br />
+        <br />
+        <br />
+        <a asp-action="Index" class="btn btn-dark" asp-controller="Home">Go back to Earth</a>
+    </div>
+</body>
