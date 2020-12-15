@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SpaceX.Services;
 using SpaceX.Services.Contracts;
 using SpaceX.Services.IO;
 using SpaceX.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,19 +15,16 @@ namespace SpaceX.Web.Controllers
     /// </summary>
     public class LaunchController : Controller
     {
-        private readonly IPdfExportService _pdfExportService;
-        private readonly IExcelExportService _excelExporttService;
+        private readonly IEnumerable<IExportService> _exportServices;
         private readonly IDataService _dataService;
 
         public
             LaunchController(
-            IPdfExportService pdfExportService,
-            IExcelExportService excelExporttService,
+            IEnumerable<IExportService> exportServices,
             IDataService dateService)
         {
-            _pdfExportService = pdfExportService;
+            _exportServices = exportServices;
             _dataService = dateService;
-            _excelExporttService = excelExporttService;
         }
 
         [HttpGet]
@@ -53,7 +52,7 @@ namespace SpaceX.Web.Controllers
             {
                 var launchList = await _dataService.GetLaunchList(1, int.MaxValue);
 
-                var content = _excelExporttService.Export(launchList);
+                var content = _exportServices.FirstOrDefault(e => e is ExcelExportService).Export(launchList);
 
                 return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SpaceX Launches.xlsx");
             }
@@ -69,7 +68,7 @@ namespace SpaceX.Web.Controllers
             {
                 var launchList = await _dataService.GetLaunchList(1, int.MaxValue);
 
-                var valueToReturn = _pdfExportService.Export(launchList);
+                var valueToReturn = _exportServices.FirstOrDefault(e => e is PdfExportService).Export(launchList);
 
                 return File(valueToReturn, "application/pdf", "SpaceX Launches.pdf");
             }
