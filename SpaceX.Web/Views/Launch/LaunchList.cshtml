@@ -1,4 +1,4 @@
-﻿@model SpaceX.Web.Models.LaunchViewModel
+﻿@model SpaceX.Web.Models.LaunchListVM
 
 @{
     ViewData["Title"] = "Launch";
@@ -32,7 +32,7 @@
                 <td>@item.LaunchYear</td>
                 <td>@item.LaunchDateUtc</td>
                 <td>@item.LaunchSuccess</td>
-                <td><a class="btn btn-dark" asp-controller="Launch" asp-action="LaunchDetail" asp-route-flightNumber="@item.FlightNumber">Details</a></td>
+                <td><a class="btn btn-dark" asp-controller="Launch" asp-action="LaunchDetails" asp-route-flightNumber="@item.FlightNumber">Details</a></td>
             </tr>
         </tbody>
     }

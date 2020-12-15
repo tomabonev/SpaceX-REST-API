@@ -20,7 +20,6 @@ namespace SpaceX.Services.IO
 
             using (MemoryStream stream = new MemoryStream())
             {
-
                 document.SetPageSize(PageSize.A4);
                 document.SetMargins(5f, 5f, 20f, 5f);
 

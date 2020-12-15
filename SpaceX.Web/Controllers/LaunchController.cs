@@ -28,7 +28,7 @@ namespace SpaceX.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Launch(int page = 1, int size = 22)
+        public async Task<IActionResult> LaunchList(int page = 1, int size = 22)
         {
             var launchPlans = await _dataService.GetLaunchList(page, size);
 
@@ -37,7 +37,7 @@ namespace SpaceX.Web.Controllers
                 return View("Error");
             }
 
-            var viewModel = new LaunchViewModel
+            var viewModel = new LaunchListVM
             {
                 LaunchPlans = launchPlans,
                 Page = page,
@@ -78,13 +78,17 @@ namespace SpaceX.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> LaunchDetail(string flightNumber)
+        public async Task<IActionResult> LaunchDetails(string flightNumber)
         {
             try
             {
                 var launchPlan = await _dataService.GetLaunchPlan(flightNumber);
 
-                return View(launchPlan);
+                var launch = new LaunchDetailsVM();
+
+                launch.LaunchPlans = launchPlan;
+
+                return View(launch);
             }
             catch (Exception)
             {

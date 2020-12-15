@@ -6,7 +6,7 @@ namespace SpaceX.Web.Models
     /// <summary>
     /// A view model class which contains properties of launch plan data
     /// </summary>
-    public class LaunchViewModel
+    public class LaunchListVM
     {
         #region Properties
 
