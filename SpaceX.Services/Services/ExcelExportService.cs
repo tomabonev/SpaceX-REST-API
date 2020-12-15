@@ -18,13 +18,10 @@ namespace SpaceX.Services
             using (var workbook = new XLWorkbook())
             {
                 IXLWorksheet launchPlanSheet = workbook.Worksheets.Add("Launch Plan");
-                IXLWorksheet rocketSheet = workbook.Worksheets.Add("Rocket");
-                IXLWorksheet rocketFirstStageSheet = workbook.Worksheets.Add("Rocket First Stage");
-                IXLWorksheet rocketSecondStageSheet = workbook.Worksheets.Add("Rocket Second Stage");
 
-                this.RenderHeader(launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
-                this.RenderBody(launchPlans, launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
-                this.StyleAlignment(launchPlanSheet, rocketSheet, rocketFirstStageSheet, rocketSecondStageSheet);
+                this.RenderHeader(launchPlanSheet);
+                this.RenderBody(launchPlans, launchPlanSheet);
+                this.StyleAlignment(launchPlanSheet);
 
                 using (var stream = new MemoryStream())
                 {
@@ -39,11 +36,7 @@ namespace SpaceX.Services
 
         #region Private Methods
 
-        private void RenderHeader(
-            IXLWorksheet launchPlanSheet,
-            IXLWorksheet rocketSheet,
-            IXLWorksheet rocketFirstStageSheet,
-            IXLWorksheet rocketSecondStageSheet)
+        private void RenderHeader(IXLWorksheet launchPlanSheet)
         {
             int currentRow = 1;
 
@@ -85,64 +78,54 @@ namespace SpaceX.Services
             launchPlanSheet.Cell(currentRow, 36).Value = "Static Fire Date Unix";
             launchPlanSheet.Cell(currentRow, 37).Value = "Webcast Liftoff";
 
-            rocketSheet.Cell(currentRow, 1).Value = "Mission Name";
-            rocketSheet.Cell(currentRow, 2).Value = "Rocket Id";
-            rocketSheet.Cell(currentRow, 3).Value = "Rocket Name";
-            rocketSheet.Cell(currentRow, 4).Value = "Rocket Type";
-            rocketSheet.Cell(currentRow, 5).Value = "Reused";
-            rocketSheet.Cell(currentRow, 6).Value = "Recovery Attempt";
-            rocketSheet.Cell(currentRow, 7).Value = "Recovered";
-            rocketSheet.Cell(currentRow, 8).Value = "Ship";
+            launchPlanSheet.Cell(currentRow, 38).Value = "Rocket Id";
+            launchPlanSheet.Cell(currentRow, 39).Value = "Rocket Name";
+            launchPlanSheet.Cell(currentRow, 40).Value = "Rocket Type";
+            launchPlanSheet.Cell(currentRow, 41).Value = "Reused";
+            launchPlanSheet.Cell(currentRow, 42).Value = "Recovery Attempt";
+            launchPlanSheet.Cell(currentRow, 43).Value = "Recovered";
+            launchPlanSheet.Cell(currentRow, 44).Value = "Ship";
 
-            rocketFirstStageSheet.Cell(currentRow, 1).Value = "Mission Name";
-            rocketFirstStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
-            rocketFirstStageSheet.Cell(currentRow, 3).Value = "Core Serial";
-            rocketFirstStageSheet.Cell(currentRow, 4).Value = "Flight";
-            rocketFirstStageSheet.Cell(currentRow, 5).Value = "Block";
-            rocketFirstStageSheet.Cell(currentRow, 6).Value = "Gridfins";
-            rocketFirstStageSheet.Cell(currentRow, 7).Value = "Legs";
-            rocketFirstStageSheet.Cell(currentRow, 8).Value = "Reused";
-            rocketFirstStageSheet.Cell(currentRow, 9).Value = "Land Success";
-            rocketFirstStageSheet.Cell(currentRow, 10).Value = "Landing Intent";
-            rocketFirstStageSheet.Cell(currentRow, 11).Value = "Landing Type";
-            rocketFirstStageSheet.Cell(currentRow, 12).Value = "Landing Vehicle";
+            launchPlanSheet.Cell(currentRow, 45).Value = "Core Serial";
+            launchPlanSheet.Cell(currentRow, 46).Value = "Flight";
+            launchPlanSheet.Cell(currentRow, 47).Value = "Block";
+            launchPlanSheet.Cell(currentRow, 48).Value = "Gridfins";
+            launchPlanSheet.Cell(currentRow, 49).Value = "Legs";
+            launchPlanSheet.Cell(currentRow, 50).Value = "Reused";
+            launchPlanSheet.Cell(currentRow, 51).Value = "Land Success";
+            launchPlanSheet.Cell(currentRow, 52).Value = "Landing Intent";
+            launchPlanSheet.Cell(currentRow, 53).Value = "Landing Type";
+            launchPlanSheet.Cell(currentRow, 54).Value = "Landing Vehicle";
 
-            rocketSecondStageSheet.Cell(currentRow, 1).Value = "Mission Name";
-            rocketSecondStageSheet.Cell(currentRow, 2).Value = "Rocket Name";
-            rocketSecondStageSheet.Cell(currentRow, 3).Value = "Payload Id";
-            rocketSecondStageSheet.Cell(currentRow, 4).Value = "Norad Id";
-            rocketSecondStageSheet.Cell(currentRow, 5).Value = "Reused";
-            rocketSecondStageSheet.Cell(currentRow, 6).Value = "Customers";
-            rocketSecondStageSheet.Cell(currentRow, 7).Value = "Nationality";
-            rocketSecondStageSheet.Cell(currentRow, 8).Value = "Manufacturer";
-            rocketSecondStageSheet.Cell(currentRow, 9).Value = "PayloadType";
-            rocketSecondStageSheet.Cell(currentRow, 10).Value = "Payload Mass Kg";
-            rocketSecondStageSheet.Cell(currentRow, 11).Value = "Payload Mass Lbs";
-            rocketSecondStageSheet.Cell(currentRow, 12).Value = "Orbit";
-            rocketSecondStageSheet.Cell(currentRow, 13).Value = "Reference System";
-            rocketSecondStageSheet.Cell(currentRow, 14).Value = "Regime";
-            rocketSecondStageSheet.Cell(currentRow, 15).Value = "Longitude";
-            rocketSecondStageSheet.Cell(currentRow, 16).Value = "Semi-Major Axis Km";
-            rocketSecondStageSheet.Cell(currentRow, 17).Value = "Eccentricity";
-            rocketSecondStageSheet.Cell(currentRow, 18).Value = "Periapsis Km";
-            rocketSecondStageSheet.Cell(currentRow, 19).Value = "Apoapsis Km";
-            rocketSecondStageSheet.Cell(currentRow, 20).Value = "Inclination Deg";
-            rocketSecondStageSheet.Cell(currentRow, 21).Value = "Period Min";
-            rocketSecondStageSheet.Cell(currentRow, 22).Value = "Lifespan Years";
-            rocketSecondStageSheet.Cell(currentRow, 23).Value = "Epoch";
-            rocketSecondStageSheet.Cell(currentRow, 24).Value = "Mean Motion";
-            rocketSecondStageSheet.Cell(currentRow, 25).Value = "Raan";
-            rocketSecondStageSheet.Cell(currentRow, 26).Value = "Arg Of Pericenter";
-            rocketSecondStageSheet.Cell(currentRow, 27).Value = "Mean Anomaly";
-            rocketSecondStageSheet.Cell(currentRow, 28).Value = "Block";
+            launchPlanSheet.Cell(currentRow, 55).Value = "Payload Id";
+            launchPlanSheet.Cell(currentRow, 56).Value = "Norad Id";
+            launchPlanSheet.Cell(currentRow, 57).Value = "Reused";
+            launchPlanSheet.Cell(currentRow, 58).Value = "Customers";
+            launchPlanSheet.Cell(currentRow, 59).Value = "Nationality";
+            launchPlanSheet.Cell(currentRow, 60).Value = "Manufacturer";
+            launchPlanSheet.Cell(currentRow, 61).Value = "PayloadType";
+            launchPlanSheet.Cell(currentRow, 62).Value = "Payload Mass Kg";
+            launchPlanSheet.Cell(currentRow, 63).Value = "Payload Mass Lbs";
+            launchPlanSheet.Cell(currentRow, 64).Value = "Orbit";
+            launchPlanSheet.Cell(currentRow, 65).Value = "Reference System";
+            launchPlanSheet.Cell(currentRow, 66).Value = "Regime";
+            launchPlanSheet.Cell(currentRow, 67).Value = "Longitude";
+            launchPlanSheet.Cell(currentRow, 68).Value = "Semi-Major Axis Km";
+            launchPlanSheet.Cell(currentRow, 69).Value = "Eccentricity";
+            launchPlanSheet.Cell(currentRow, 70).Value = "Periapsis Km";
+            launchPlanSheet.Cell(currentRow, 71).Value = "Apoapsis Km";
+            launchPlanSheet.Cell(currentRow, 72).Value = "Inclination Deg";
+            launchPlanSheet.Cell(currentRow, 73).Value = "Period Min";
+            launchPlanSheet.Cell(currentRow, 74).Value = "Lifespan Years";
+            launchPlanSheet.Cell(currentRow, 75).Value = "Epoch";
+            launchPlanSheet.Cell(currentRow, 76).Value = "Mean Motion";
+            launchPlanSheet.Cell(currentRow, 77).Value = "Raan";
+            launchPlanSheet.Cell(currentRow, 78).Value = "Arg Of Pericenter";
+            launchPlanSheet.Cell(currentRow, 79).Value = "Mean Anomaly";
+            launchPlanSheet.Cell(currentRow, 80).Value = "Block";
         }
 
-        private void RenderBody(
-            List<LaunchPlan> launchPlans,
-            IXLWorksheet launchPlanSheet,
-            IXLWorksheet rocketSheet,
-            IXLWorksheet rocketFirstStageSheet,
-            IXLWorksheet rocketSecondStageSheet)
+        private void RenderBody(List<LaunchPlan> launchPlans, IXLWorksheet launchPlanSheet)
         {
             int currentRow = 1;
 
@@ -188,94 +171,67 @@ namespace SpaceX.Services
                 launchPlanSheet.Cell(currentRow, 36).Value = launchPlanItem.StaticFireDateUnix;
                 launchPlanSheet.Cell(currentRow, 37).Value = launchPlanItem.Timeline?.WebcastLiftoff ?? null;
 
-                rocketSheet.Cell(currentRow, 1).Value = launchPlanItem.MissionName;
-                rocketSheet.Cell(currentRow, 2).Value = launchPlanItem.Rocket.RocketId;
-                rocketSheet.Cell(currentRow, 3).Value = launchPlanItem.Rocket.RocketName;
-                rocketSheet.Cell(currentRow, 4).Value = launchPlanItem.Rocket.RocketType;
-                rocketSheet.Cell(currentRow, 5).Value = launchPlanItem.Rocket.Fairings?.Reused ?? null;
-                rocketSheet.Cell(currentRow, 6).Value = launchPlanItem.Rocket.Fairings?.RecoveryAttempt ?? null;
-                rocketSheet.Cell(currentRow, 7).Value = launchPlanItem.Rocket.Fairings?.Recovered ?? null;
-                rocketSheet.Cell(currentRow, 8).Value = launchPlanItem.Rocket.Fairings?.Ship ?? null;
+                launchPlanSheet.Cell(currentRow, 38).Value = launchPlanItem.Rocket.RocketId;
+                launchPlanSheet.Cell(currentRow, 39).Value = launchPlanItem.Rocket.RocketName;
+                launchPlanSheet.Cell(currentRow, 40).Value = launchPlanItem.Rocket.RocketType;
+                launchPlanSheet.Cell(currentRow, 41).Value = launchPlanItem.Rocket.Fairings?.Reused ?? null;
+                launchPlanSheet.Cell(currentRow, 42).Value = launchPlanItem.Rocket.Fairings?.RecoveryAttempt ?? null;
+                launchPlanSheet.Cell(currentRow, 43).Value = launchPlanItem.Rocket.Fairings?.Recovered ?? null;
+                launchPlanSheet.Cell(currentRow, 44).Value = launchPlanItem.Rocket.Fairings?.Ship ?? null;
 
                 foreach (var firstStage in launchPlanItem.Rocket.FirstStage.Cores)
                 {
-                    rocketFirstStageSheet.Cell(currentRow, 1).Value = launchPlanItem.MissionName;
-                    rocketFirstStageSheet.Cell(currentRow, 2).Value = launchPlanItem.Rocket.RocketName;
-                    rocketFirstStageSheet.Cell(currentRow, 3).Value = firstStage.CoreSerial;
-                    rocketFirstStageSheet.Cell(currentRow, 4).Value = firstStage.Flight;
-                    rocketFirstStageSheet.Cell(currentRow, 5).Value = firstStage.Block;
-                    rocketFirstStageSheet.Cell(currentRow, 6).Value = firstStage.Gridfins;
-                    rocketFirstStageSheet.Cell(currentRow, 7).Value = firstStage.Legs;
-                    rocketFirstStageSheet.Cell(currentRow, 8).Value = firstStage.Reused;
-                    rocketFirstStageSheet.Cell(currentRow, 9).Value = firstStage.LandSuccess;
-                    rocketFirstStageSheet.Cell(currentRow, 10).Value = firstStage.LandingIntent;
-                    rocketFirstStageSheet.Cell(currentRow, 11).Value = firstStage.LandingType;
-                    rocketFirstStageSheet.Cell(currentRow, 12).Value = firstStage.LandingVehicle;
+                    launchPlanSheet.Cell(currentRow, 45).Value = firstStage.CoreSerial;
+                    launchPlanSheet.Cell(currentRow, 46).Value = firstStage.Flight;
+                    launchPlanSheet.Cell(currentRow, 47).Value = firstStage.Block;
+                    launchPlanSheet.Cell(currentRow, 48).Value = firstStage.Gridfins;
+                    launchPlanSheet.Cell(currentRow, 49).Value = firstStage.Legs;
+                    launchPlanSheet.Cell(currentRow, 50).Value = firstStage.Reused;
+                    launchPlanSheet.Cell(currentRow, 51).Value = firstStage.LandSuccess;
+                    launchPlanSheet.Cell(currentRow, 52).Value = firstStage.LandingIntent;
+                    launchPlanSheet.Cell(currentRow, 53).Value = firstStage.LandingType;
+                    launchPlanSheet.Cell(currentRow, 54).Value = firstStage.LandingVehicle;
                 }
 
                 foreach (var secondStage in launchPlanItem.Rocket.SecondStage.Payloads)
                 {
-                    rocketSecondStageSheet.Cell(currentRow, 1).Value = launchPlanItem.MissionName;
-                    rocketSecondStageSheet.Cell(currentRow, 2).Value = launchPlanItem.Rocket.RocketName;
-                    rocketSecondStageSheet.Cell(currentRow, 3).Value = secondStage.PayloadId;
-                    rocketSecondStageSheet.Cell(currentRow, 4).Value = secondStage.NoradId;
-                    rocketSecondStageSheet.Cell(currentRow, 5).Value = secondStage.Reused;
-                    rocketSecondStageSheet.Cell(currentRow, 6).Value = secondStage.Customers;
-                    rocketSecondStageSheet.Cell(currentRow, 7).Value = secondStage.Nationality;
-                    rocketSecondStageSheet.Cell(currentRow, 8).Value = secondStage.Manufacturer;
-                    rocketSecondStageSheet.Cell(currentRow, 9).Value = secondStage.PayloadType;
-                    rocketSecondStageSheet.Cell(currentRow, 10).Value = secondStage.PayloadMassKg;
-                    rocketSecondStageSheet.Cell(currentRow, 11).Value = secondStage.PayloadMassLbs;
-                    rocketSecondStageSheet.Cell(currentRow, 12).Value = secondStage.Orbit;
-                    rocketSecondStageSheet.Cell(currentRow, 13).Value = secondStage.OrbitParams.ReferenceSystem;
-                    rocketSecondStageSheet.Cell(currentRow, 14).Value = secondStage.OrbitParams.Regime;
-                    rocketSecondStageSheet.Cell(currentRow, 15).Value = secondStage.OrbitParams.Longitude;
-                    rocketSecondStageSheet.Cell(currentRow, 16).Value = secondStage.OrbitParams.SemiMajorAxisKm;
-                    rocketSecondStageSheet.Cell(currentRow, 17).Value = secondStage.OrbitParams.Eccentricity;
-                    rocketSecondStageSheet.Cell(currentRow, 18).Value = secondStage.OrbitParams.PeriapsisKm;
-                    rocketSecondStageSheet.Cell(currentRow, 19).Value = secondStage.OrbitParams.ApoapsisKm;
-                    rocketSecondStageSheet.Cell(currentRow, 20).Value = secondStage.OrbitParams.InclinationDeg;
-                    rocketSecondStageSheet.Cell(currentRow, 21).Value = secondStage.OrbitParams.PeriodMin;
-                    rocketSecondStageSheet.Cell(currentRow, 22).Value = secondStage.OrbitParams.LifespanYears;
-                    rocketSecondStageSheet.Cell(currentRow, 23).Value = secondStage.OrbitParams.Epoch;
-                    rocketSecondStageSheet.Cell(currentRow, 24).Value = secondStage.OrbitParams.MeanMotion;
-                    rocketSecondStageSheet.Cell(currentRow, 25).Value = secondStage.OrbitParams.Raan;
-                    rocketSecondStageSheet.Cell(currentRow, 26).Value = secondStage.OrbitParams.ArgOfPericenter;
-                    rocketSecondStageSheet.Cell(currentRow, 27).Value = secondStage.OrbitParams.MeanAnomaly;
-                    rocketSecondStageSheet.Cell(currentRow, 28).Value = launchPlanItem.Rocket.SecondStage.Block;
+                    launchPlanSheet.Cell(currentRow, 55).Value = secondStage.PayloadId;
+                    launchPlanSheet.Cell(currentRow, 56).Value = secondStage.NoradId;
+                    launchPlanSheet.Cell(currentRow, 57).Value = secondStage.Reused;
+                    launchPlanSheet.Cell(currentRow, 58).Value = secondStage.Customers;
+                    launchPlanSheet.Cell(currentRow, 59).Value = secondStage.Nationality;
+                    launchPlanSheet.Cell(currentRow, 60).Value = secondStage.Manufacturer;
+                    launchPlanSheet.Cell(currentRow, 61).Value = secondStage.PayloadType;
+                    launchPlanSheet.Cell(currentRow, 62).Value = secondStage.PayloadMassKg;
+                    launchPlanSheet.Cell(currentRow, 63).Value = secondStage.PayloadMassLbs;
+                    launchPlanSheet.Cell(currentRow, 64).Value = secondStage.Orbit;
+                    launchPlanSheet.Cell(currentRow, 65).Value = secondStage.OrbitParams.ReferenceSystem;
+                    launchPlanSheet.Cell(currentRow, 66).Value = secondStage.OrbitParams.Regime;
+                    launchPlanSheet.Cell(currentRow, 67).Value = secondStage.OrbitParams.Longitude;
+                    launchPlanSheet.Cell(currentRow, 68).Value = secondStage.OrbitParams.SemiMajorAxisKm;
+                    launchPlanSheet.Cell(currentRow, 69).Value = secondStage.OrbitParams.Eccentricity;
+                    launchPlanSheet.Cell(currentRow, 70).Value = secondStage.OrbitParams.PeriapsisKm;
+                    launchPlanSheet.Cell(currentRow, 71).Value = secondStage.OrbitParams.ApoapsisKm;
+                    launchPlanSheet.Cell(currentRow, 72).Value = secondStage.OrbitParams.InclinationDeg;
+                    launchPlanSheet.Cell(currentRow, 73).Value = secondStage.OrbitParams.PeriodMin;
+                    launchPlanSheet.Cell(currentRow, 74).Value = secondStage.OrbitParams.LifespanYears;
+                    launchPlanSheet.Cell(currentRow, 75).Value = secondStage.OrbitParams.Epoch;
+                    launchPlanSheet.Cell(currentRow, 76).Value = secondStage.OrbitParams.MeanMotion;
+                    launchPlanSheet.Cell(currentRow, 77).Value = secondStage.OrbitParams.Raan;
+                    launchPlanSheet.Cell(currentRow, 78).Value = secondStage.OrbitParams.ArgOfPericenter;
+                    launchPlanSheet.Cell(currentRow, 79).Value = secondStage.OrbitParams.MeanAnomaly;
+                    launchPlanSheet.Cell(currentRow, 80).Value = launchPlanItem.Rocket.SecondStage.Block;
                 }
             }
         }
 
-        private void StyleAlignment(
-           IXLWorksheet launchPlanSheet,
-           IXLWorksheet rocketSheet,
-           IXLWorksheet rocketFirstStageSheet,
-           IXLWorksheet rocketSecondStageSheet)
+        private void StyleAlignment(IXLWorksheet launchPlanSheet)
         {
             launchPlanSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
             launchPlanSheet.Columns().AdjustToContents();
             launchPlanSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.Orange;
             launchPlanSheet.FirstRow().Style.Font.Bold = true;
             launchPlanSheet.TabColor = XLColor.Orange;
-
-            rocketSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-            rocketSheet.Columns().AdjustToContents();
-            rocketSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.BabyBlue;
-            rocketSheet.FirstRow().Style.Font.Bold = true;
-            rocketSheet.TabColor = XLColor.BabyBlue;
-
-            rocketFirstStageSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-            rocketFirstStageSheet.Columns().AdjustToContents();
-            rocketFirstStageSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.AppleGreen;
-            rocketFirstStageSheet.FirstRow().Style.Font.Bold = true;
-            rocketFirstStageSheet.TabColor = XLColor.AppleGreen;
-
-            rocketSecondStageSheet.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-            rocketSecondStageSheet.Columns().AdjustToContents();
-            rocketSecondStageSheet.FirstRow().Style.Fill.BackgroundColor = XLColor.BananaMania;
-            rocketSecondStageSheet.FirstRow().Style.Font.Bold = true;
-            rocketSecondStageSheet.TabColor = XLColor.BananaMania;
         }
 
         #endregion
