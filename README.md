@@ -1,44 +1,39 @@
-<p align="left"><img src="https://live.staticflickr.com/65535/49185149122_37f5c52e43_k.jpg"></p>
+## SpaceX-REST-API Summery
 
-<h1 align="center">Utilize the SpaceX REST API</h1>
+This website allows users to visualize and export launch plan data in .xlsx and .pdf format from the official SpaceX REST API.
 
-<h3 align="center">
-Implementing All launch plans of r/SpaceX API with MVC and .NET Core.
-</h3>
-
-<p align="center">
-<a href="https://github.com/tomabonev/SpaceX-REST-API/actions"><img src="https://img.shields.io/github/workflow/status/r-spacex/SpaceX-API/Test?style=flat-square"></a>
-<a href="https://github.com/r-spacex/SpaceX-API/releases/tag/v3.1.0"><img src="https://img.shields.io/badge/release-v3.1.0-blue"><a>
-<a href="https://en.wikipedia.org/wiki/Representational_state_transfer"><img src="https://img.shields.io/badge/interface-REST-brightgreen.svg?longCache=true&style=flat-square"></a>
-<a href="https://docs.spacexdata.com/#5fc4c846-c373-43df-a10a-e9faf80a8b0a"><img src="https://img.shields.io/badge/postman-SpaceX%20API%20docs-important"><a>
-</p>
-
-<h4 align="center">
-  <i>
-    We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with Space Exploration Technologies Inc (SpaceX), or any of its subsidiaries or its affiliates. The names SpaceX as well as related names, marks, emblems and images are registered trademarks of their respective owners.
-  </i>
-</h4>
-
-## Project Links
-
-
+Project Links:
 * [Website](https://spacexlaunches.azurewebsites.net/)
 * Trello Link: [Trello](https://trello.com/b/FidNrecQ/spacex)
 
-## Project Requirements
+# Technologies
 
-* Develop a simple website for listing the official SpaceX launch plan. Users should be able to export the data in .xlsx and .pdf format.
-* The solution must be built with MVC and .NET Core. It should utilize the SpaceX REST API.
+- ASP.NET Core
+- ClosedXML
+- EPPlus
+- Bootstrap
+- HTML 5
+- CSS 3
 
-## Sponsors
+## Contributing to <SpaceX_REST_API>
+<!--- If your README is long or you have some specific process or steps you want contributors to follow, consider creating a separate CONTRIBUTING.md file--->
+To contribute to <SpaceX_REST_API>, follow these steps:
 
-### [AmericanEagle](https://www.americaneagle.com/)
+1. Fork this repository.
+2. Create a branch: `git checkout -b <branch_name>`.
+3. Make your changes and commit them: `git commit -m '<commit_message>'`
+4. Push to the original branch: `git push origin <SpaceX-REST-API>/<location>`
+5. Create the pull request.
 
-[![AmericanEagle](https://res.cloudinary.com/dpc0sub89/image/upload/v1607917476/SpaceX/809f23f0-38fb-4a5e-b005-88d26d6cda8f_1_wja7gj.jpg)](https://www.americaneagle.com/)
+Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-## FAQ's
+## Contributors
 
-* If you have any questions or corrections, please open an issue and we'll get it merged ASAP
-* For any other questions or concerns, just shoot me an email
+Thanks to the following people who have contributed to this project:
+
+* [@tomabonev](https://github.com/tomabonev) 📖
 
 
+## Contact
+
+If you want to contact me you can reach me at <tomabonev@yahoo.com>.
