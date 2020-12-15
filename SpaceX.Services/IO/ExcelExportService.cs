@@ -7,7 +7,7 @@ using System.IO;
 namespace SpaceX.Services
 {
     /// <summary>
-    /// A service class which contains methods for populating data into an Excel file
+    /// This class expose functionality for exporting data into .xlsx format
     /// </summary>
     public class ExcelExportService : IExportService
     {
