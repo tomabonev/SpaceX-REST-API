@@ -13,24 +13,25 @@ namespace SpaceX.Web.Controllers
     /// </summary>
     public class LaunchController : Controller
     {
-        private readonly IPdfExportService _exportService;
+        private readonly IPdfExportService _pdfExportService;
         private readonly IExcelExportService _excelExporttService;
-        private readonly IDataService _spacexApiService;
+        private readonly IDataService _dataService;
 
         public
-            LaunchController(IPdfExportService exportService,
+            LaunchController(
+            IPdfExportService pdfExportService,
             IExcelExportService excelExporttService,
-            IDataService spacexApiService)
+            IDataService dateService)
         {
-            _exportService = exportService;
-            _spacexApiService = spacexApiService;
+            _pdfExportService = pdfExportService;
+            _dataService = dateService;
             _excelExporttService = excelExporttService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Launch(int page = 1, int size = 22)
         {
-            var launchPlans = await _spacexApiService.GetLaunchList(page, size);
+            var launchPlans = await _dataService.GetLaunchList(page, size);
 
             if (!launchPlans.Any())
             {
@@ -50,7 +51,7 @@ namespace SpaceX.Web.Controllers
         {
             try
             {
-                var launchList = await _spacexApiService.GetLaunchList(1, int.MaxValue);
+                var launchList = await _dataService.GetLaunchList(1, int.MaxValue);
 
                 var content = _excelExporttService.Export(launchList);
 
@@ -66,9 +67,9 @@ namespace SpaceX.Web.Controllers
         {
             try
             {
-                var launchList = await _spacexApiService.GetLaunchList(1, int.MaxValue);
+                var launchList = await _dataService.GetLaunchList(1, int.MaxValue);
 
-                var valueToReturn = _exportService.Export(launchList);
+                var valueToReturn = _pdfExportService.Export(launchList);
 
                 return File(valueToReturn, "application/pdf", "SpaceX Launches.pdf");
             }
@@ -82,7 +83,7 @@ namespace SpaceX.Web.Controllers
         {
             try
             {
-                var launchPlan = await _spacexApiService.GetLaunchPlan(flightNumber);
+                var launchPlan = await _dataService.GetLaunchPlan(flightNumber);
 
                 return View(launchPlan);
             }
