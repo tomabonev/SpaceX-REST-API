@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of rocket core data
+    /// </summary>
     public class Core
     {
-        #region Core Properties
+        #region Properties
 
         [JsonProperty("core_serial")]
         public string CoreSerial { get; set; }

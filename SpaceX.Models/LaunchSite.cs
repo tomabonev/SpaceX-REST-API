@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of the launch site
+    /// </summary>
     public class LaunchSite
     {
-        #region Launch Site Properties
+        #region Properties
 
         [JsonProperty("site_id")]
         public string SiteId { get; set; }

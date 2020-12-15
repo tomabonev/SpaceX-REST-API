@@ -1,10 +1,11 @@
 ﻿using SpaceX.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SpaceX.Services.IO
 {
+    /// <summary>
+    /// Defines functionality for exporting data to an excel file
+    /// </summary>
     public interface IExcelExportService
     {
         byte[] Export(List<LaunchPlan> launchPlans);

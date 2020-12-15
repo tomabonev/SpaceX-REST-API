@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of the rocket launch failure info
+    /// </summary>
     public class LaunchFailureInfo
     {
-        #region Launch Failure Info Properties
+        #region Properties
 
         [JsonProperty("time")]
         public string Time { get; set; }

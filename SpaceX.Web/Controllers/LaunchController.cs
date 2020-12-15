@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
 {
+    /// <summary>
+    /// A controller class that contains the flow control launch logic for our application and return it as a view
+    /// </summary>
     public class LaunchController : Controller
     {
         private readonly IPdfExportService _exportService;

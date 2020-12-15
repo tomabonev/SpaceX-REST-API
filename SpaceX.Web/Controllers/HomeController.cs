@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SpaceX.Services.Contracts;
-using SpaceX.Web.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SpaceX.Web.Controllers
 {
+    /// <summary>
+    /// A controller class that will return the default view for our application
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDataService _spacexApiService;
+        private readonly IDataService _dataService;
 
-        public HomeController(ILogger<HomeController> logger, IDataService spacexApiService)
+        public HomeController(ILogger<HomeController> logger, IDataService dataService)
         {
             _logger = logger;
-            _spacexApiService = spacexApiService;
+            _dataService = dataService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }

@@ -3,9 +3,12 @@ using System;
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of the launch plan
+    /// </summary>
     public class LaunchPlan
     {
-        #region Launch Plan Properties
+        #region Properties
 
         [JsonProperty("flight_number")]
         public string FlightNumber { get; set; }

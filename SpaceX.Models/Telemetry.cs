@@ -2,9 +2,12 @@
 
 namespace SpaceX.Models
 {
+    /// <summary>
+    /// A dto class which contains properties of the telemetry flight club
+    /// </summary>
     public class Telemetry
     {
-        #region Telemetry Properties
+        #region Properties
 
         [JsonProperty("flight_club")]
         public object FlightClub { get; set; }
