@@ -4,7 +4,7 @@ using System;
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// A dto class which contains properties of the launch plan
+    /// The class provide properties of the launch plan
     /// </summary>
     public class LaunchPlan
     {

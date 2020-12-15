@@ -5,7 +5,7 @@ using SpaceX.Services.Data;
 namespace SpaceX.Web.Controllers
 {
     /// <summary>
-    /// A controller class that will return the default view for our application
+    /// The class handles the visualization of the home page
     /// </summary>
     public class HomeController : Controller
     {
