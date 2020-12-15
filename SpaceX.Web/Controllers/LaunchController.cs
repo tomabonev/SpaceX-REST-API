@@ -59,7 +59,7 @@ namespace SpaceX.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> PopulateDataToPdf(string fileType)
+        public async Task<IActionResult> PopulateDataToPdf()
         {
             try
             {
