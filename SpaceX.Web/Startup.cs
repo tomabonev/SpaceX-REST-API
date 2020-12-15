@@ -4,9 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpaceX.Services;
-using SpaceX.Services.Contracts;
+using SpaceX.Services.Data;
 using SpaceX.Services.IO;
-using SpaceX.Services.Services;
 using SpaceX.Web.Middleware;
 
 namespace SpaceX.Web

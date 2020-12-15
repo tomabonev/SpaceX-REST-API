@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SpaceX.Models
+namespace SpaceX.Services.DTO
 {
     /// <summary>
     /// A dto class which contains properties with links for each rocket launch

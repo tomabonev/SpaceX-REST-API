@@ -1,5 +1,4 @@
-﻿using SpaceX.Models;
-using SpaceX.Services.Contracts;
+﻿using SpaceX.Services.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace SpaceX.Services.Services
+namespace SpaceX.Services.Data
 {
     /// <summary>
     /// A service class which contains methods for extracting data from SpaceX API
