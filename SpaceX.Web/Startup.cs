@@ -24,8 +24,8 @@ namespace SpaceX.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddScoped<IExcelExportService, ExcelExportService>();
-            services.AddScoped<IPdfExportService, PdfExportService>();
+            services.AddScoped<IExportService, ExcelExportService>();
+            services.AddScoped<IExportService, PdfExportService>();
             services.AddScoped<IDataService, DataService>();
         }
 
