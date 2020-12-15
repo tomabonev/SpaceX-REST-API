@@ -11,7 +11,6 @@ Project Links:
 - ASP.NET Core
 - ClosedXML
 - EPPlus
-- Bootstrap
 - HTML 5
 - CSS 3
 
