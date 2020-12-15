@@ -2,6 +2,7 @@
 using iTextSharp.text.pdf;
 using SpaceX.Models;
 using SpaceX.Services.Contracts;
+using SpaceX.Services.IO;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,7 +11,7 @@ namespace SpaceX.Services
     /// <summary>
     /// A service class which contains methods for populating data into an Pdf file
     /// </summary>
-    public class PdfExportService : IPdfExportService
+    public class PdfExportService : IExportService
     {
         #region Public Methods
 
