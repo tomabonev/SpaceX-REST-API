@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace SpaceX.Models
+namespace SpaceX.Services.DTO
 {
     /// <summary>
     /// A dto class which contains properties of the launch plan

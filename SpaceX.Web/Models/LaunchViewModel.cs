@@ -1,4 +1,4 @@
-﻿using SpaceX.Models;
+﻿using SpaceX.Services.DTO;
 using System.Collections.Generic;
 
 namespace SpaceX.Web.Models

@@ -1,8 +1,8 @@
-﻿using SpaceX.Models;
+﻿using SpaceX.Services.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SpaceX.Services.Contracts
+namespace SpaceX.Services.Data
 {
     /// <summary>
     /// Defines functionality for extrcting data from SpaceX API

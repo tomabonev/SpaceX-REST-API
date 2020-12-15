@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SpaceX.Models
+namespace SpaceX.Services.DTO
 {
     /// <summary>
     /// A dto class which contains a collection of the rocket payload data during the second stage

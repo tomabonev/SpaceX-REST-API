@@ -1,11 +1,10 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-using SpaceX.Models;
-using SpaceX.Services.IO;
+using SpaceX.Services.DTO;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SpaceX.Services
+namespace SpaceX.Services.IO
 {
     /// <summary>
     /// A service class which contains methods for populating data into an Pdf file
