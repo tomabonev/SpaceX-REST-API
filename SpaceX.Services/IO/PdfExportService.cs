@@ -7,7 +7,7 @@ using System.IO;
 namespace SpaceX.Services.IO
 {
     /// <summary>
-    /// A service class which contains methods for populating data into an Pdf file
+    /// This class expose functionality for exporting data into .pdf format
     /// </summary>
     public class PdfExportService : IExportService
     {
@@ -17,102 +17,45 @@ namespace SpaceX.Services.IO
         {
             Document document = new Document();
             PdfPTable pdfTable = new PdfPTable(8);
-            MemoryStream memoryStream = new MemoryStream();
 
-            document.SetPageSize(PageSize.A4);
-            document.SetMargins(5f, 5f, 20f, 5f);
+            using (MemoryStream stream = new MemoryStream())
+            {
 
-            SetAlignment(pdfTable);
+                document.SetPageSize(PageSize.A4);
+                document.SetMargins(5f, 5f, 20f, 5f);
 
-            Font fontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
-            PdfWriter docWrite = PdfWriter.GetInstance(document, memoryStream);
+                SetAlignment(pdfTable);
 
-            document.Open();
+                Font fontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
 
-            pdfTable.SetWidths(this.ChangeColumnSize(8));
+                PdfWriter docWrite = PdfWriter.GetInstance(document, stream);
 
-            RenderHeaders(pdfTable);
-            AddSpaceBetweenTables(2, pdfTable);
-            RenderPdfDocument(launchPlans, pdfTable, fontStyle);
+                try
+                {
+                    document.Open();
 
-            AddTableHeader(pdfTable);
+                    pdfTable.SetWidths(this.ChangeColumnSize(8));
 
-            document.Add(pdfTable);
+                    RenderData(launchPlans, pdfTable, fontStyle);
 
-            document.Close();
+                    document.Add(pdfTable);
 
-            return memoryStream.ToArray();
+                    document.Close();
+                }
+                finally
+                {
+                    document.Close();
+                }
+
+                return stream.ToArray();
+            }
         }
 
         #endregion
 
         #region Private Methods
 
-        private void RenderHeaders(PdfPTable pdfTable)
-        {
-            AddHeader(pdfTable);
-        }
-
-        private void AddTableHeader(PdfPTable pdfTable)
-        {
-            pdfTable.HeaderRows = 2;
-            this.AddSpaceBetweenTables(2, pdfTable);
-        }
-
-        private PdfPTable AddLogo()
-        {
-            int maxColumn = 1;
-            PdfPTable pdfPTable = new PdfPTable(maxColumn);
-            PdfPCell pdfCell = new PdfPCell();
-
-            string path = "https://res.cloudinary.com/dpc0sub89/image/upload/v1607747243/SpaceX/Space-X_owyf13.png";
-
-            string imgCombine = Path.Combine(path);
-            Image img = Image.GetInstance(imgCombine);
-
-            pdfCell = new PdfPCell(img);
-            pdfCell.Colspan = maxColumn;
-            pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            pdfCell.Border = 0;
-            pdfCell.ExtraParagraphSpace = 0;
-
-            pdfPTable.AddCell(pdfCell);
-
-            pdfPTable.CompleteRow();
-
-            return pdfPTable;
-        }
-
-        private PdfPTable SetPageTitle()
-        {
-            int maxColumn = 8;
-            PdfPTable pdfPTable = new PdfPTable(maxColumn);
-            Font fontStyle = new Font();
-            PdfPCell pdfCell = new PdfPCell();
-
-            fontStyle = FontFactory.GetFont("Tahoma", 18f, 1);
-            pdfCell = new PdfPCell(new Phrase("SpaceX Launch data", fontStyle));
-            pdfCell.Colspan = maxColumn;
-            pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            pdfCell.Border = 0;
-            pdfCell.ExtraParagraphSpace = 0;
-            pdfPTable.AddCell(pdfCell);
-            pdfPTable.CompleteRow();
-
-            return pdfPTable;
-        }
-
-        private void AddSpaceBetweenTables(int numCount, PdfPTable pdfTable)
-        {
-            Font fontStyle = new Font();
-
-            for (int i = 1; i < numCount; i++)
-            {
-                AddEmptyRow(pdfTable, string.Empty, fontStyle, 8);
-            }
-        }
-
-        private void RenderPdfDocument(List<LaunchPlan> launchPlans, PdfPTable pdfTable, Font fontStyle)
+        private void RenderData(List<LaunchPlan> launchPlans, PdfPTable pdfTable, Font fontStyle)
         {
             this.RenderHeader(pdfTable, fontStyle);
             this.RenderBody(launchPlans, pdfTable, fontStyle);
@@ -134,10 +77,6 @@ namespace SpaceX.Services.IO
 
             pdfTable.CompleteRow();
         }
-
-        #endregion
-
-        #region Private Methods
 
         private void SetAlignment(PdfPTable pdfTable)
         {
@@ -182,35 +121,6 @@ namespace SpaceX.Services.IO
             }
 
             return sizes;
-        }
-
-        private void AddHeader(PdfPTable pdfTable)
-        {
-            pdfTable.AddCell(new PdfPCell(this.AddLogo())
-            {
-                Colspan = 1,
-                Border = 0
-            });
-
-            pdfTable.AddCell(new PdfPCell(this.SetPageTitle())
-            {
-                Colspan = 10,
-                Border = 0
-            });
-
-            pdfTable.CompleteRow();
-        }
-
-        private void AddEmptyRow(PdfPTable pdfTable, string cellText, Font _fontStyle, int _maxColumn)
-        {
-            pdfTable.AddCell(new PdfPCell(new Phrase(cellText, _fontStyle))
-            {
-                Colspan = _maxColumn,
-                Border = 0,
-                ExtraParagraphSpace = 10,
-            });
-
-            pdfTable.CompleteRow();
         }
 
         private void StyleTableHeader(PdfPTable pdfTable, string cellText, Font fontStyleBold)
