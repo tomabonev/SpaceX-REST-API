@@ -1,7 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using SpaceX.Models;
-using SpaceX.Services.Contracts;
 using SpaceX.Services.IO;
 using System.Collections.Generic;
 using System.IO;
@@ -19,8 +18,6 @@ namespace SpaceX.Services
         {
             Document document = new Document();
             PdfPTable pdfTable = new PdfPTable(8);
-            PdfPCell pdfCell = new PdfPCell();
-            Font fontStyle = new Font();
             MemoryStream memoryStream = new MemoryStream();
 
             document.SetPageSize(PageSize.A4);
@@ -28,7 +25,7 @@ namespace SpaceX.Services
 
             SetAlignment(pdfTable);
 
-            fontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
+            Font fontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
             PdfWriter docWrite = PdfWriter.GetInstance(document, memoryStream);
 
             document.Open();
