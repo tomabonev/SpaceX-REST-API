@@ -4,6 +4,14 @@
     ViewData["Title"] = "Launch";
 }
 
+<div class="row">
+    <h3>Extract the data to:</h3> &nbsp
+    <div>
+        <a asp-action="PopulateDataToExcel" class="btn btn-dark" asp-controller="Launch">Excel</a>
+        <a asp-action="PopulateDataToPdf" class="btn btn-dark" asp-controller="Launch">PDF</a>
+    </div>
+</div>
+<br />
 <table class="table">
     <thead>
         <tr>
@@ -24,7 +32,7 @@
                 <td>@item.LaunchYear</td>
                 <td>@item.LaunchDateUtc</td>
                 <td>@item.LaunchSuccess</td>
-                <td><a asp-controller="Launch" asp-action="LaunchDetail" asp-route-flightNumber="@item.FlightNumber">Details</a></td>
+                <td><a class="btn btn-dark" asp-controller="Launch" asp-action="LaunchDetail" asp-route-flightNumber="@item.FlightNumber">Details</a></td>
             </tr>
         </tbody>
     }
@@ -38,6 +46,6 @@
 
 @if (Model.Page > 1)
 {
-    <a asp-action="Launch" class="btn btn-default" asp-controller="Launch" asp-route-page="@previosPage">Previous</a>
+    <a asp-action="Launch" class="btn btn-dark" asp-controller="Launch" asp-route-page="@previosPage">Previous</a>
 }
-<a asp-action="Launch" class="btn btn-default" asp-controller="Launch" asp-route-page="@nextPage">Next</a>
+<a asp-action="Launch" class="btn btn-dark" asp-controller="Launch" asp-route-page="@nextPage">Next</a>
