@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace SpaceX.Web.Middleware
 {
     /// <summary>
-    /// An eror handling class which redirects the http response
+    /// The class handles the visualization of error messages in an user friendly way
     /// </summary>
     public class ErrorHandlingMiddleware
     {
