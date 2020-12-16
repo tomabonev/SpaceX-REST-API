@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// The class provide properties of the telemetry flight club
+    /// The class handles the telemetry flight club
     /// </summary>
     public class Telemetry
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SpaceX.Web.Models
 {
     /// <summary>
-    /// The class provides a collection of launch plan data
+    /// The class handles a collection of launch plan data
     /// </summary>
     public class LaunchListVM
     {

@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// The class provide properties of the launch site
+    /// The class handles the launch site
     /// </summary>
     public class LaunchSite
     {

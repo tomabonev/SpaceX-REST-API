@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// The class provide properties of the timeline
+    /// The class handles the timeline
     /// </summary>
     public class Timeline
     {
