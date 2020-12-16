@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// The class provide properties of the rocket core data during the first stage
+    /// The class handles the rocket core data during the first stage
     /// </summary>
     public class FirstStage
     {

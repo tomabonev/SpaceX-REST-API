@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// The class provide properties of the rocket launch failure info
+    /// The class handles the rocket launch failure info
     /// </summary>
     public class LaunchFailureInfo
     {

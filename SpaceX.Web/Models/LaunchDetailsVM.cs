@@ -3,7 +3,7 @@
 namespace SpaceX.Web.Models
 {
     /// <summary>
-    /// The class provides of launch plan data
+    /// The class handles launch plan data
     /// </summary>
     public class LaunchDetailsVM
     {

@@ -3,7 +3,7 @@
 namespace SpaceX.Services.DTO
 {
     /// <summary>
-    /// The class provide a collection of the rocket payload data during the second stage
+    /// The class handles the rocket payload data during the second stage
     /// </summary>
     public class SecondStage
     {
