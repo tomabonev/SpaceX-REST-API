@@ -46,6 +46,6 @@
 
 @if (Model.Page > 1)
 {
-    <a asp-action="Launch" class="btn btn-dark" asp-controller="Launch" asp-route-page="@previosPage">Previous</a>
+    <a asp-action="LaunchList" class="btn btn-dark" asp-controller="Launch" asp-route-page="@previosPage">Previous</a>
 }
-<a asp-action="Launch" class="btn btn-dark" asp-controller="Launch" asp-route-page="@nextPage">Next</a>
+<a asp-action="LaunchList" class="btn btn-dark" asp-controller="Launch" asp-route-page="@nextPage">Next</a>
